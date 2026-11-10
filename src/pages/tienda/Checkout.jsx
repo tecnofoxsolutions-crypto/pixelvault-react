@@ -1,6 +1,6 @@
 // DUEÑO: Emanuel (HU-37). Página /checkout: datos del cliente, dirección, tipo de entrega y resumen a pagar.
 import { useEffect, useState } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
 import AlertMessage from '../../components/common/AlertMessage.jsx'
@@ -9,12 +9,13 @@ import AddressForm from '../../components/compra/AddressForm.jsx'
 import DeliveryOptions from '../../components/compra/DeliveryOptions.jsx'
 import OrderSummaryTable from '../../components/compra/OrderSummaryTable.jsx'
 import { calcularDespacho } from '../../components/compra/despacho.js'
+import { CLAVE_BORRADOR_CHECKOUT, procesarPago } from '../../components/compra/pago.js'
 import { formatoCLP } from '../../utils/formatoCLP.js'
 import { requerido, validarCorreo, validarLargo } from '../../utils/validaciones.js'
 import '../../components/carrito/carrito.css'
 
 // El formulario se guarda en sessionStorage para no perderlo si el pago falla o el cliente vuelve al carrito
-const CLAVE_BORRADOR = 'pixelvault_checkout'
+const CLAVE_BORRADOR = CLAVE_BORRADOR_CHECKOUT
 
 const formularioVacio = {
   nombre: '',
@@ -64,7 +65,8 @@ function validar(form) {
 
 export default function Checkout() {
   const { usuario } = useAuth()
-  const { items, total: subtotal } = useCart()
+  const { items, total: subtotal, vaciar } = useCart()
+  const navigate = useNavigate()
 
   const [form, setForm] = useState(() => formularioInicial(usuario))
   const [tocados, setTocados] = useState({})
@@ -113,8 +115,17 @@ export default function Checkout() {
       document.getElementById(primerError)?.focus()
       return
     }
-    // El pago simulado (crear la orden o rechazarla) se conecta en HU-38/39
-    setAviso({ tipo: 'info', mensaje: 'Datos completos. El pago se conecta en HU-38/39.' })
+
+    const resultado = procesarPago({ form, items, usuario, simularRechazo })
+    if (!resultado.ok) {
+      // Rechazado: el carrito y el borrador se mantienen para poder reintentar
+      navigate('/compra/error', { state: { motivo: resultado.motivo, detalle: resultado.detalle } })
+      return
+    }
+    // Aprobado: se navega a la boleta y se limpian el carrito y el borrador
+    navigate(`/compra/exito/${resultado.orden.numero}`, { replace: true })
+    sessionStorage.removeItem(CLAVE_BORRADOR)
+    vaciar()
   }
 
   return (
