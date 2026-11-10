@@ -1,6 +1,6 @@
 // Carrusel "⭐ Títulos Destacados" de la portada. Creado por Maximiliano (HU-31), rediseñado en CF-01:
 // - Cada juego va en una tarjeta con borde dorado animado y estrella, como en la Evaluación 1.
-// - Las flechas van FUERA de la tarjeta (antes la izquierda tapaba el botón "Ver juego") y son más visibles.
+// - Ocupa todo el ancho; las flechas van dentro de la tarjeta, a los costados, con margen para no tapar el contenido.
 // La diapositiva visible se controla con estado de React (indice) y avanza sola cada 6 segundos.
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -35,12 +35,13 @@ export default function CarruselDestacados({ productos }) {
         <Link className="small" to="/productos">Ver catálogo completo →</Link>
       </div>
 
-      <div className="carrusel-destacados" onMouseEnter={() => setPausado(true)} onMouseLeave={() => setPausado(false)}>
-        <button type="button" className="btn-carrusel" onClick={() => irA(indice - 1)} aria-label="Juego anterior">‹</button>
-
-        <article className="card card-juego card-destacado-estrella flex-grow-1" aria-live="polite">
+      <div onMouseEnter={() => setPausado(true)} onMouseLeave={() => setPausado(false)}>
+        {/* Las flechas van dentro de la tarjeta, a los costados; el contenido tiene margen lateral para que no lo tapen */}
+        <article className="card card-juego card-destacado-estrella carrusel-destacados" aria-live="polite">
           <span className="badge-estrella-mario" aria-hidden="true">⭐</span>
-          <div className="row g-0 align-items-center p-3 p-md-4">
+          <button type="button" className="btn-carrusel btn-carrusel-anterior" onClick={() => irA(indice - 1)} aria-label="Juego anterior">‹</button>
+          <button type="button" className="btn-carrusel btn-carrusel-siguiente" onClick={() => irA(indice + 1)} aria-label="Juego siguiente">›</button>
+          <div className="row g-0 align-items-center carrusel-contenido">
             <div className="col-12 col-md-5 text-center mb-3 mb-md-0">
               <Link to={`/productos/${p.id}`}>
                 <img src={p.imagen} alt={p.nombre} className="img-fluid rounded carrusel-img" />
@@ -54,13 +55,14 @@ export default function CarruselDestacados({ productos }) {
               </div>
               <h3 className="h2 text-light">{p.nombre}</h3>
               <p className="text-secondary d-none d-md-block">{p.descripcion}</p>
-              <PriceTag producto={p} grande />
-              <Link className="btn btn-warning fw-bold mt-3" to={`/productos/${p.id}`}>Ver juego</Link>
+              {/* Precio y botón en la misma fila, centrados en vertical */}
+              <div className="d-flex flex-wrap align-items-center gap-3">
+                <PriceTag producto={p} grande />
+                <Link className="btn btn-warning fw-bold" to={`/productos/${p.id}`}>Ver juego</Link>
+              </div>
             </div>
           </div>
         </article>
-
-        <button type="button" className="btn-carrusel" onClick={() => irA(indice + 1)} aria-label="Juego siguiente">›</button>
       </div>
 
       <div className="d-flex justify-content-center gap-2 mt-3">

@@ -515,15 +515,16 @@ body::before {
 .table-responsive { position: relative; }
 
 /* ==========================================================
-   CF-01: carrusel de destacados con flechas fuera de la tarjeta
+   CF-01: carrusel de destacados al ancho completo, con las flechas dentro de la tarjeta
    ========================================================== */
-.carrusel-destacados {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
+.carrusel-destacados { position: relative; }
+/* Margen lateral del contenido para dejar espacio a las flechas */
+.carrusel-contenido { padding: 1.5rem 4.5rem; }
 .btn-carrusel {
-  flex-shrink: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
   width: 46px;
   height: 46px;
   border-radius: 50%;
@@ -536,11 +537,13 @@ body::before {
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
+.btn-carrusel-anterior { left: 14px; }
+.btn-carrusel-siguiente { right: 14px; }
 .btn-carrusel:hover,
 .btn-carrusel:focus-visible {
   background: var(--pv-arcade-yellow);
   color: #071018;
-  transform: scale(1.08);
+  transform: translateY(-50%) scale(1.08);
 }
 .punto-carrusel {
   width: 12px;
@@ -552,8 +555,10 @@ body::before {
 }
 .punto-carrusel.activo { background: var(--pv-arcade-yellow); }
 @media (max-width: 575.98px) {
-  .carrusel-destacados { gap: 0.35rem; }
+  .carrusel-contenido { padding: 1rem 2.75rem; }
   .btn-carrusel { width: 34px; height: 34px; font-size: 1.3rem; }
+  .btn-carrusel-anterior { left: 6px; }
+  .btn-carrusel-siguiente { right: 6px; }
 }
 
 /* CF-01: características con borde RGB animado */
