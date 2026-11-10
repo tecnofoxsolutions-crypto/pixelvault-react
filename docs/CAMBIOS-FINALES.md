@@ -11,7 +11,7 @@ Jim arma la versión final del proyecto e implementa los cambios de este documen
 1. **Emanuel y Maximiliano: no editen código en `src/`.** Solo hagan `git pull`. Si encuentran un error, avísenle a Jim por el grupo en vez de corregirlo, para no generar conflictos de Git.
 2. Pueden seguir editando **solo documentación**: el ERS V2 (`docs/ERS_V2.*`) y sus guías de defensa (`docs/guia-defensa-<nombre>.md`).
 3. **Después de cada `pull`, limpien los datos del navegador:** consola → `localStorage.clear(); sessionStorage.clear()` → recargar. La forma de las órdenes cambia (ver CF-10) y se sube la versión de datos para que se recarguen solos, pero conviene limpiar igual.
-4. **Agentes:** lean este archivo completo antes de responder preguntas sobre el proyecto. Los cambios marcados **✅** ya están en `main`; los **⏳** todavía no.
+4. **Agentes:** lean este archivo completo antes de responder preguntas sobre el proyecto. **Los 16 cambios ya están en `main` (✅).** Después de hacer pull, limpien los datos del navegador (punto 3).
 
 ---
 
@@ -19,22 +19,22 @@ Jim arma la versión final del proyecto e implementa los cambios de este documen
 
 | ID | Cambio | Área (dueño original) | Estado |
 |---|---|---|---|
-| CF-01 | Home rediseñado como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
-| CF-02 | Desplegable "Productos" en el header con Ofertas y Categorías | Header (Maximiliano) | ⏳ |
-| CF-03 | Carrito oculto mientras está vacío y "Registrarse" | Header (Maximiliano) | ⏳ |
-| CF-04 | Categoría visible en las tarjetas y filtro "Solo ofertas" | Catálogo (Maximiliano) | ⏳ |
-| CF-05 | Categorías y Ofertas reutilizan el catálogo | Catálogo (Maximiliano) | ⏳ |
-| CF-06 | Nosotros como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
-| CF-07 | Contacto como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
-| CF-08 | Corrección: el checkout no autocompletaba los datos del cliente | Compra (Emanuel) | ⏳ |
-| CF-09 | Números de orden correlativos `PV-000001` | Órdenes (Emanuel) | ⏳ |
-| CF-10 | Flujo de estados de la orden con botón "siguiente estado" | Órdenes (Emanuel) | ⏳ |
-| CF-11 | Panel staff por rol: cada rol ve solo lo suyo | Admin (Jim) | ⏳ |
-| CF-12 | Panel del repartidor: sus entregas asignadas | Nuevo (Jim) | ⏳ |
-| CF-13 | Panel del editor: CRUD del blog | Nuevo (Jim) | ⏳ |
-| CF-14 | Historial de movimientos (solo administradores) | Nuevo (Jim) | ⏳ |
-| CF-15 | Usuarios divididos en Clientes y Staff | Admin (Jim) | ⏳ |
-| CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ⏳ |
+| CF-01 | Home rediseñado como en la Evaluación 1 | Tienda (Maximiliano) | ✅ |
+| CF-02 | Desplegable "Productos" en el header con Ofertas y Categorías | Header (Maximiliano) | ✅ |
+| CF-03 | Carrito oculto mientras está vacío y "Registrarse" | Header (Maximiliano) | ✅ |
+| CF-04 | Categoría visible en las tarjetas y filtro "Solo ofertas" | Catálogo (Maximiliano) | ✅ |
+| CF-05 | Categorías y Ofertas reutilizan el catálogo | Catálogo (Maximiliano) | ✅ |
+| CF-06 | Nosotros como en la Evaluación 1 | Tienda (Maximiliano) | ✅ |
+| CF-07 | Contacto como en la Evaluación 1 | Tienda (Maximiliano) | ✅ |
+| CF-08 | Corrección: el checkout no autocompletaba los datos del cliente | Compra (Emanuel) | ✅ |
+| CF-09 | Números de orden correlativos `PV-000001` | Órdenes (Emanuel) | ✅ |
+| CF-10 | Flujo de estados de la orden con botón "siguiente estado" | Órdenes (Emanuel) | ✅ |
+| CF-11 | Panel staff por rol: cada rol ve solo lo suyo | Admin (Jim) | ✅ |
+| CF-12 | Panel del repartidor: sus entregas asignadas | Nuevo (Jim) | ✅ |
+| CF-13 | Panel del editor: CRUD del blog | Nuevo (Jim) | ✅ |
+| CF-14 | Historial de movimientos (solo administradores) | Nuevo (Jim) | ✅ |
+| CF-15 | Usuarios divididos en Clientes y Staff | Admin (Jim) | ✅ |
+| CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ✅ |
 
 ---
 
@@ -59,7 +59,7 @@ Se propuso eliminarlas porque el catálogo ya tiene filtros, pero **el Anexo 1 d
 - **Se quitan** las secciones "Categorías" y "Destacados" de abajo, porque repetían el carrusel y el catálogo.
 
 **Por qué:** recuperar la identidad de la Evaluación 1 y evitar contenido repetido en la portada.
-**Archivos:** `pages/tienda/Home.jsx`, `components/productos/CarruselDestacados.jsx`, `styles/estilos.css`.
+**Archivos:** `pages/tienda/Home.jsx`, `components/productos/CarruselDestacados.jsx`, nuevo `components/info/CaracteristicaCard.jsx`, `styles/estilos.css`. Se eliminó `components/productos/useAgregarAlCarrito.js` porque ya nadie lo usaba.
 
 ### CF-02 · Desplegable "Productos" en el header
 **Qué cambia:** el enlace "Productos" pasa a ser un desplegable con:
@@ -69,7 +69,7 @@ Se propuso eliminarlas porque el catálogo ya tiene filtros, pero **el Anexo 1 d
 
 Se quitan "Categorías" y "Ofertas" como enlaces sueltos del menú.
 **Por qué:** dejar el menú más limpio sin perder las vistas que pide el Anexo 1.
-**Archivos:** `components/layout/Navbar.jsx`, `components/productos/MenuCategorias.jsx`.
+**Archivos:** `components/layout/Navbar.jsx` y el nuevo `components/productos/MenuProductos.jsx`, que reemplaza a `MenuCategorias.jsx` (se eliminó).
 
 ### CF-03 · Carrito oculto mientras está vacío y "Registrarse"
 **Qué cambia:**
@@ -202,12 +202,12 @@ Cancelar: botón aparte, solo Administrador, solo antes de "En camino".
 - **Marcar entregada** → pide **subir una foto del paquete entregado** (se guarda como base64 con `FileReader`, como en la Evaluación 1) → pasa la orden a "Entregada".
 
 Tiene dos pestañas: Pendientes y Entregadas. **Usuario de prueba:** `ilie` / `repartidor` (Ilie Flores, ya existe en los datos).
-**Archivos:** nuevo `pages/admin/Entregas.jsx`, `components/compra/ordenes.js`.
+**Archivos:** nuevo `pages/admin/Entregas.jsx`; nuevo `components/compra/AccionesOrden.jsx` (el botón del siguiente paso, que comparten la boleta del admin y esta página); `utils/imagen.js` (comprime la foto para que quepa en localStorage).
 
 ### CF-13 · Panel del editor (blog)
 **Qué cambia:** nueva sección **Blog** (`/admin/blog`) para Editor y Administrador: listado de artículos, **crear, editar y eliminar** (con confirmación). El formulario tiene título, categoría, resumen, contenido, imagen (URL o archivo del equipo, como en la Evaluación 1) y autor. El blog público (`/blog`) muestra los cambios al instante.
 **Usuario de prueba:** `adriana` / `editor` (Adriana Quispe, ya existe en los datos).
-**Archivos:** nuevos `pages/admin/BlogAdmin.jsx`, `pages/admin/ArticuloForm.jsx` y `components/admin/ArticuloForm.jsx`.
+**Archivos:** nuevos `pages/admin/BlogAdmin.jsx`, `pages/admin/ArticuloForm.jsx` (página), `components/admin/ArticleForm.jsx` (formulario), `data/categoriasBlog.js` y `utils/articulos.js`. Este último convierte el texto escrito a HTML **escapando las etiquetas**, para que nadie pueda inyectar código en el blog (que usa `dangerouslySetInnerHTML`).
 
 ### CF-14 · Historial de movimientos (solo administradores)
 **Qué cambia:** nueva sección **Historial** (`/admin/historial`) con la bitácora de todo lo que pasa en la página, como el `historial.html` de la Evaluación 1. Muestra fecha, usuario, rol, categoría, acción y detalle, con filtros por categoría y usuario, y búsqueda.
@@ -218,7 +218,7 @@ Tiene dos pestañas: Pendientes y Entregadas. **Usuario de prueba:** `ilie` / `r
 ```js
 { id, fecha, usuarioId, usuarioNombre, rol, categoria: 'Productos' | 'Órdenes' | 'Usuarios' | 'Blog' | 'Categorías' | 'Sesión', accion, detalle }
 ```
-**Archivos:** `data/db.js`, nuevos `pages/admin/Historial.jsx` y `utils/movimientos.js`.
+**Archivos:** `data/db.js` (nueva función `db.registrarMovimiento(categoria, accion, detalle)`), nuevos `pages/admin/Historial.jsx` y `utils/movimientos.js` (arma el texto legible de cada movimiento).
 
 ### CF-15 · Usuarios divididos en Clientes y Staff
 **Qué cambia:** la sección Usuarios tiene **dos pestañas**:
