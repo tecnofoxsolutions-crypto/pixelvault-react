@@ -499,3 +499,7 @@ body::before {
 
 /* HU-34: imagen de las tarjetas de categoría */
 .card-categoria-img { height: 140px; object-fit: cover; }
+
+/* HU-31: imagen del carrusel de la portada */
+.carrusel-img { max-height: 320px; box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6); }
+.hero-steam .carousel-indicators { margin-bottom: 0.5rem; }
