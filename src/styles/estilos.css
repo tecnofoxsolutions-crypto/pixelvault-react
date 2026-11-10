@@ -513,3 +513,117 @@ body::before {
 /* MEJ-01: los textos "visually-hidden" (position: absolute) dentro de una tabla
    escapaban del contenedor con scroll y ensanchaban la página en tablet */
 .table-responsive { position: relative; }
+
+/* ==========================================================
+   CF-01: carrusel de destacados con flechas fuera de la tarjeta
+   ========================================================== */
+.carrusel-destacados {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.btn-carrusel {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--pv-arcade-yellow);
+  background: rgba(7, 16, 24, 0.9);
+  color: var(--pv-arcade-yellow);
+  font-size: 1.8rem;
+  line-height: 1;
+  padding-bottom: 4px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.btn-carrusel:hover,
+.btn-carrusel:focus-visible {
+  background: var(--pv-arcade-yellow);
+  color: #071018;
+  transform: scale(1.08);
+}
+.punto-carrusel {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--pv-arcade-yellow);
+  background: transparent;
+  padding: 0;
+}
+.punto-carrusel.activo { background: var(--pv-arcade-yellow); }
+@media (max-width: 575.98px) {
+  .carrusel-destacados { gap: 0.35rem; }
+  .btn-carrusel { width: 34px; height: 34px; font-size: 1.3rem; }
+}
+
+/* CF-01: características con borde RGB animado */
+.card-rgb {
+  border: 2px solid transparent !important;
+  border-radius: 8px;
+  background:
+    linear-gradient(var(--pv-steam-card), var(--pv-steam-card)) padding-box,
+    linear-gradient(90deg, #ff0055, #ffe600, #00ff66, #00e5ff, #7a5cff, #ff0055) border-box;
+  background-size: 100% 100%, 300% 100%;
+  animation: bordeRgb 4s linear infinite;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-rgb:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 22px rgba(0, 229, 255, 0.35), 0 0 32px rgba(255, 0, 85, 0.25);
+}
+@keyframes bordeRgb {
+  to { background-position: 0 0, 300% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-rgb, .card-destacado-estrella { animation: none; }
+}
+
+/* ==========================================================
+   CF-06: chips gamer y misión/visión
+   ========================================================== */
+.chip-gamer {
+  display: inline-block;
+  font-family: var(--pv-pixel-font);
+  font-size: 0.7rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--pv-steam-accent);
+  background: rgba(0, 229, 255, 0.08);
+  border: 1px solid var(--pv-steam-accent);
+  border-radius: 999px;
+  padding: 0.4em 1em;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.35), inset 0 0 6px rgba(0, 229, 255, 0.15);
+}
+.card-pilar {
+  background: linear-gradient(135deg, #131c27 0%, #0b1118 100%);
+  border: 1px solid #23354a;
+  border-left-width: 5px;
+  border-radius: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card-pilar-info { border-left-color: var(--pv-steam-accent); }
+.card-pilar-success { border-left-color: var(--pv-arcade-green); }
+.card-pilar:hover { transform: translateY(-4px); }
+.card-pilar-info:hover { box-shadow: 0 0 22px rgba(0, 229, 255, 0.3); }
+.card-pilar-success:hover { box-shadow: 0 0 22px rgba(0, 255, 102, 0.25); }
+.icono-pilar {
+  font-size: 2rem;
+  width: 3.2rem;
+  height: 3.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #23354a;
+}
+
+/* CF-07: tarjetas de Contacto con borde de neón */
+.card-neon {
+  background-color: var(--pv-steam-card);
+  border: 1px solid rgba(0, 229, 255, 0.35);
+  border-radius: 8px;
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.12), 4px 4px 0 rgba(0, 0, 0, 0.6);
+}
+.card-neon .accordion-button { color: var(--bs-light); box-shadow: none; }
+.card-neon .accordion-item { border-color: #23354a; }

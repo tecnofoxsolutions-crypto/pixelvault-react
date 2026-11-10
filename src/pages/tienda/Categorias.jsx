@@ -1,15 +1,12 @@
-// DUEÑO: Maximiliano (HU-34). /categorias muestra todas; /categorias/:id muestra los juegos de una categoría.
+// Vista Categorías (exigida en el Anexo 1 de la Evaluación 2). Creada por Maximiliano (HU-34).
+// /categorias muestra las categorías para elegir; /categorias/:id reutiliza el catálogo con esa categoría ya filtrada (CF-05).
 import { Link, useParams } from 'react-router-dom'
 import db from '../../data/db.js'
-import AlertMessage from '../../components/common/AlertMessage.jsx'
 import CategoryList from '../../components/productos/CategoryList.jsx'
-import ProductList from '../../components/productos/ProductList.jsx'
-import EmptyState from '../../components/productos/EmptyState.jsx'
-import useAgregarAlCarrito from '../../components/productos/useAgregarAlCarrito.js'
+import Productos from './Productos.jsx'
 
 export default function Categorias() {
   const { id } = useParams()
-  const { aviso, cerrarAviso, agregarAlCarrito } = useAgregarAlCarrito()
   const categorias = db.getAll('categorias')
   const productos = db.getAll('productos').filter((p) => p.activo)
 
@@ -35,26 +32,24 @@ export default function Categorias() {
     )
   }
 
-  const deLaCategoria = productos.filter((p) => String(p.categoriaId) === id)
+  const migas = (
+    <nav aria-label="breadcrumb">
+      <ol className="breadcrumb">
+        <li className="breadcrumb-item"><Link to="/productos">Productos</Link></li>
+        <li className="breadcrumb-item"><Link to="/categorias">Categorías</Link></li>
+        <li className="breadcrumb-item active" aria-current="page">{categoria.nombre}</li>
+      </ol>
+    </nav>
+  )
 
+  // key={id}: al pasar de una categoría a otra, React crea el catálogo de nuevo con el filtro correcto
   return (
-    <div className="container py-4">
-      <nav aria-label="breadcrumb">
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item"><Link to="/categorias">Categorías</Link></li>
-          <li className="breadcrumb-item active" aria-current="page">{categoria.nombre}</li>
-        </ol>
-      </nav>
-      <h1 className="h2 font-arcade text-light mb-1">{categoria.nombre}</h1>
-      <p className="text-secondary">{deLaCategoria.length} juegos</p>
-
-      {aviso && <AlertMessage tipo={aviso.tipo} mensaje={aviso.mensaje} onCerrar={cerrarAviso} />}
-
-      {deLaCategoria.length > 0 ? (
-        <ProductList productos={deLaCategoria} onAgregar={agregarAlCarrito} />
-      ) : (
-        <EmptyState mensaje="Aún no hay juegos en esta categoría" />
-      )}
-    </div>
+    <Productos
+      key={id}
+      titulo={categoria.nombre}
+      descripcion={`Juegos físicos de ${categoria.nombre}.`}
+      filtroInicial={{ categoriaId: id }}
+      migas={migas}
+    />
   )
 }

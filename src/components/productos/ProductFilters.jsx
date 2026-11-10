@@ -2,8 +2,10 @@
 // este componente solo lo muestra y avisa los cambios con onCambiar (componente controlado).
 import plataformas from '../../data/plataformas.js'
 
+// 'ofertas' no es un rango: deja solo los productos en oferta (CF-04)
 export const rangosPrecio = [
   { valor: '', texto: 'Todos los precios', min: 0, max: Infinity },
+  { valor: 'ofertas', texto: '🔥 Solo ofertas', min: 0, max: Infinity, soloOfertas: true },
   { valor: 'hasta-30', texto: 'Hasta $30.000', min: 0, max: 30000 },
   { valor: '30-40', texto: '$30.000 a $40.000', min: 30000, max: 40000 },
   { valor: 'mas-40', texto: 'Más de $40.000', min: 40000, max: Infinity },
