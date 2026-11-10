@@ -8,10 +8,14 @@
 import { useState } from 'react'
 import FormField from '../common/FormField.jsx'
 import SelectField from '../common/SelectField.jsx'
+import EditorEncuadre from './EditorEncuadre.jsx'
+import { ENCUADRE_POR_DEFECTO } from '../productos/ImagenEncuadrada.jsx'
 import plataformas from '../../data/plataformas.js'
 import { requerido, validarLargo } from '../../utils/validaciones.js'
+import { comprimirImagen } from '../../utils/imagen.js'
 
 const productoVacio = {
+  encuadre: ENCUADRE_POR_DEFECTO,
   codigo: '',
   nombre: '',
   descripcion: '',
@@ -37,6 +41,7 @@ function aFormulario(producto) {
     stock: String(producto.stock),
     stockCritico: String(producto.stockCritico),
     categoriaId: String(producto.categoriaId),
+    encuadre: producto.encuadre ?? ENCUADRE_POR_DEFECTO,
   }
 }
 
@@ -55,7 +60,7 @@ function esEnteroNoNegativo(valor) {
   return /^\d+$/.test(String(valor).trim())
 }
 
-function validar(form, codigosExistentes) {
+function validar(form, codigosExistentes, modoImagen) {
   const precio = Number(form.precio)
   const oferta = form.precioOferta.trim() === '' ? null : Number(form.precioOferta)
 
@@ -84,7 +89,9 @@ function validar(form, codigosExistentes) {
       (!esEnteroNoNegativo(form.stockCritico) ? 'El stock crítico debe ser un número entero, 0 o mayor' : null),
     categoriaId: requerido(form.categoriaId, 'la categoría'),
     plataforma: requerido(form.plataforma, 'la plataforma'),
-    imagen: requerido(form.imagen, 'la imagen'),
+    imagen: form.imagen.trim()
+      ? null
+      : modoImagen === 'archivo' ? 'Sube una imagen desde tu equipo' : 'Completa la URL o ruta de la imagen',
   }
 }
 
@@ -93,8 +100,11 @@ export default function ProductForm({ producto, categorias, codigosExistentes, o
   const [form, setForm] = useState(() => aFormulario(producto))
   const [tocados, setTocados] = useState({})
   const [intentoEnviar, setIntentoEnviar] = useState(false)
+  // La imagen viene de UNA sola fuente: una URL/ruta o un archivo del equipo (guardado en base64)
+  const [modoImagen, setModoImagen] = useState(() => (producto?.imagen?.startsWith('data:') ? 'archivo' : 'url'))
+  const [errorArchivo, setErrorArchivo] = useState('')
 
-  const errores = validar(form, codigosExistentes)
+  const errores = validar(form, codigosExistentes, modoImagen)
   const hayErrores = Object.values(errores).some(Boolean)
 
   function errorDe(campo) {
@@ -116,6 +126,25 @@ export default function ProductForm({ producto, categorias, codigosExistentes, o
     setTocados((actual) => ({ ...actual, [name]: true }))
   }
 
+  // Al cambiar de URL a archivo (o al revés) se borra la imagen anterior: nunca quedan las dos
+  function cambiarModoImagen(nuevoModo) {
+    if (nuevoModo === modoImagen) return
+    setModoImagen(nuevoModo)
+    setErrorArchivo('')
+    setForm((actual) => ({ ...actual, imagen: '', encuadre: ENCUADRE_POR_DEFECTO }))
+  }
+
+  async function subirArchivo(evento) {
+    setErrorArchivo('')
+    try {
+      const dataUrl = await comprimirImagen(evento.target.files[0], 900)
+      setForm((actual) => ({ ...actual, imagen: dataUrl, encuadre: ENCUADRE_POR_DEFECTO }))
+      setTocados((actual) => ({ ...actual, imagen: true }))
+    } catch (e) {
+      setErrorArchivo(e.message)
+    }
+  }
+
   function manejarEnvio(evento) {
     evento.preventDefault()
     setIntentoEnviar(true)
@@ -132,6 +161,7 @@ export default function ProductForm({ producto, categorias, codigosExistentes, o
       categoriaId: Number(form.categoriaId),
       plataforma: form.plataforma,
       imagen: form.imagen.trim(),
+      encuadre: form.encuadre,
       activo: form.activo,
       destacado: form.destacado,
     })
@@ -200,14 +230,45 @@ export default function ProductForm({ producto, categorias, codigosExistentes, o
         </div>
 
         <div className="col-12 col-lg-4">
-          <FormField {...propsDeCampo('imagen')} label="Imagen (ruta o URL)" requerido placeholder="/img/witcher3.jpg" />
-          <div className="ratio ratio-4x3 bg-black rounded border border-secondary mb-3 overflow-hidden">
-            {form.imagen ? (
-              <img src={form.imagen} alt="Vista previa del producto" className="object-fit-contain" />
-            ) : (
-              <span className="d-flex align-items-center justify-content-center text-secondary small">Sin imagen</span>
-            )}
+          <span className="form-label d-block">Imagen <span className="text-danger">*</span></span>
+          <div className="btn-group w-100 mb-2" role="group" aria-label="Origen de la imagen">
+            <button type="button" className={`btn btn-sm ${modoImagen === 'url' ? 'btn-info' : 'btn-outline-info'}`} onClick={() => cambiarModoImagen('url')} aria-pressed={modoImagen === 'url'}>
+              🔗 URL o ruta
+            </button>
+            <button type="button" className={`btn btn-sm ${modoImagen === 'archivo' ? 'btn-info' : 'btn-outline-info'}`} onClick={() => cambiarModoImagen('archivo')} aria-pressed={modoImagen === 'archivo'}>
+              📁 Subir archivo
+            </button>
           </div>
+
+          {modoImagen === 'url' ? (
+            <FormField {...propsDeCampo('imagen')} label="URL o ruta de la imagen" placeholder="/img/witcher3.jpg o https://…" />
+          ) : (
+            <div className="mb-3">
+              <label htmlFor="archivoImagen" className="form-label small">
+                {form.imagen ? 'Imagen subida desde tu equipo. ¿Cambiarla?' : 'Elige una imagen de tu equipo'}
+              </label>
+              <input
+                id="archivoImagen"
+                type="file"
+                accept="image/*"
+                className={`form-control form-control-sm ${errorDe('imagen') || errorArchivo ? 'is-invalid' : ''}`}
+                onChange={subirArchivo}
+              />
+              {(errorArchivo || errorDe('imagen')) && <div className="invalid-feedback">{errorArchivo || errorDe('imagen')}</div>}
+            </div>
+          )}
+
+          {form.imagen ? (
+            <EditorEncuadre
+              src={form.imagen}
+              encuadre={form.encuadre}
+              onCambiar={(encuadre) => setForm((actual) => ({ ...actual, encuadre }))}
+            />
+          ) : (
+            <div className="editor-encuadre rounded border border-secondary bg-black d-flex align-items-center justify-content-center text-secondary small mb-3">
+              Sin imagen
+            </div>
+          )}
           <div className="form-check form-switch mb-2">
             <input className="form-check-input" type="checkbox" role="switch" id="activo" name="activo" checked={form.activo} onChange={cambiar} />
             <label className="form-check-label" htmlFor="activo">Visible en la tienda</label>

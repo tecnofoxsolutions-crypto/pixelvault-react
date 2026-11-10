@@ -36,6 +36,7 @@ Jim arma la versión final del proyecto e implementa los cambios de este documen
 | CF-15 | Usuarios divididos en Clientes y Staff | Admin (Jim) | ✅ |
 | CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ✅ |
 | CF-17 | Tipo de entrega en los listados, botón "Detalles" y comprobante de entrega para el cliente | Órdenes (Emanuel) | ✅ |
+| CF-18 | Imagen de producto: archivo o URL (no ambos) y encuadre para la tarjeta de la tienda | Admin (Jim) | ✅ |
 
 ---
 
@@ -168,6 +169,17 @@ Cancelar: botón aparte, solo Administrador, solo antes de "En camino".
 }
 ```
 **Archivos:** `components/compra/ordenes.js` (define el flujo: `siguientePaso(orden)`), `pages/admin/Ordenes.jsx`, `pages/admin/BoletaDetalle.jsx`, `components/compra/EstadoBadge.jsx`, `utils/reportes.js` (las canceladas se siguen excluyendo).
+
+### CF-18 · Imagen de producto: una sola fuente y encuadre
+**Qué cambia:**
+- En el formulario de producto se elige **🔗 URL o ruta** o **📁 Subir archivo**: se ve un solo campo a la vez, y al cambiar de modo se borra la imagen anterior, así nunca quedan las dos.
+- Debajo aparece el **editor de encuadre**: un recuadro con la misma proporción que la tarjeta de la tienda donde se **arrastra la imagen** para elegir qué parte se ve, con controles de zoom (100 % a 250 %) y de posición horizontal y vertical, más un botón "Centrar".
+- Las tarjetas de la tienda muestran la imagen con ese encuadre (por ejemplo, Red Dead ya puede mostrar el título en vez de solo la parte de arriba).
+
+**Por qué:** algunas carátulas se cortaban mal en la tarjeta y no había cómo corregirlo.
+**Contrato:** nuevo campo opcional del producto `encuadre: { x, y, zoom }` (x e y en % de 0 a 100). Si no existe, se centra la imagen.
+**Para la defensa:** `ImagenEncuadrada` es el mismo componente en el editor y en la tienda, así lo que se ve al editar es lo que se publica. El encuadre usa `object-position` y `transform: scale` de CSS.
+**Archivos:** nuevos `components/productos/ImagenEncuadrada.jsx` y `components/admin/EditorEncuadre.jsx`; `components/admin/ProductForm.jsx`, `components/productos/ProductCard.jsx`, `styles/estilos.css` y `utils/movimientos.js`.
 
 ### CF-17 · Tipo de entrega visible y comprobante para el cliente
 **Qué cambia:**

@@ -634,3 +634,27 @@ body::before {
 }
 .card-neon .accordion-button { color: var(--bs-light); box-shadow: none; }
 .card-neon .accordion-item { border-color: #23354a; }
+
+/* Encuadre de la imagen del producto (elegido en el editor, usado en las tarjetas de la tienda) */
+.imagen-encuadrada {
+  overflow: hidden;
+  position: relative;
+  background-color: #080c10;
+}
+.imagen-encuadrada img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+/* Vista previa del editor: misma proporción que la tarjeta de la tienda en escritorio (4:3) */
+.editor-encuadre {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4 / 3;
+  cursor: grab;
+  touch-action: none;
+}
+.editor-encuadre:active { cursor: grabbing; }

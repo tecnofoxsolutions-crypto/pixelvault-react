@@ -18,7 +18,7 @@ const nombresCampos = {
   nombre: 'nombre', apellidos: 'apellidos', precio: 'precio', precioOferta: 'precio oferta', stock: 'stock',
   stockCritico: 'stock crítico', descripcion: 'descripción', imagen: 'imagen', categoriaId: 'categoría',
   plataforma: 'plataforma', activo: 'visibilidad', destacado: 'destacado', codigo: 'código', correo: 'correo',
-  rut: 'RUT', clave: 'contraseña', region: 'región', comuna: 'comuna', direccion: 'dirección', titulo: 'título',
+  rut: 'RUT', clave: 'contraseña', encuadre: 'encuadre de la imagen', region: 'región', comuna: 'comuna', direccion: 'dirección', titulo: 'título',
   resumen: 'resumen', cuerpo: 'contenido', autor: 'autor', categoria: 'categoría',
 }
 

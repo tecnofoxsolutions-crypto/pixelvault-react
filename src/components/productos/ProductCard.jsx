@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import db from '../../data/db.js'
 import PriceTag from './PriceTag.jsx'
 import PlataformaBadge from './PlataformaBadge.jsx'
+import ImagenEncuadrada from './ImagenEncuadrada.jsx'
 
 export default function ProductCard({ producto, onAgregar }) {
   const agotado = producto.stock <= 0
@@ -12,7 +13,8 @@ export default function ProductCard({ producto, onAgregar }) {
   return (
     <div className="card card-juego h-100">
       <Link to={`/productos/${producto.id}`}>
-        <img src={producto.imagen} className="card-img-top card-juego-img" alt={producto.nombre} />
+        {/* Muestra la parte de la imagen elegida en el editor de productos */}
+        <ImagenEncuadrada src={producto.imagen} alt={producto.nombre} encuadre={producto.encuadre} className="card-img-top card-juego-img" />
       </Link>
       <div className="card-body d-flex flex-column">
         <div className="d-flex flex-wrap gap-1 mb-2">
