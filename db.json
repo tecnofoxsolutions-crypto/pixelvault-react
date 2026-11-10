@@ -1,0 +1,669 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "codigo": "PS5-0001",
+      "nombre": "The Witcher 3: Wild Hunt - Complete Edition",
+      "categoriaId": 1,
+      "plataforma": "PlayStation 5",
+      "precio": 34990,
+      "precioOferta": null,
+      "stock": 5,
+      "stockCritico": 2,
+      "descripcion": "Edición física completa con juego base, Hearts of Stone y Blood and Wine.",
+      "imagen": "/img/witcher3.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 2,
+      "codigo": "PC-0001",
+      "nombre": "Cyberpunk 2077: Ultimate Edition (Caja Física)",
+      "categoriaId": 2,
+      "plataforma": "PC",
+      "precio": 39990,
+      "precioOferta": 29990,
+      "stock": 8,
+      "stockCritico": 3,
+      "descripcion": "Edición física coleccionista con mapa, postales y expansión Phantom Liberty.",
+      "imagen": "/img/cyberpunk2077.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 3,
+      "codigo": "NSW-0001",
+      "nombre": "The Legend of Zelda: Tears of the Kingdom",
+      "categoriaId": 2,
+      "plataforma": "Nintendo Switch",
+      "precio": 49990,
+      "precioOferta": null,
+      "stock": 2,
+      "stockCritico": 2,
+      "descripcion": "Cartucho físico original. Una aventura épica por la tierra y los cielos de Hyrule.",
+      "imagen": "/img/zelda_totk.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 4,
+      "codigo": "XSX-0001",
+      "nombre": "Elden Ring - Shadow of the Erdtree Edition",
+      "categoriaId": 1,
+      "plataforma": "Xbox Series X",
+      "precio": 44990,
+      "precioOferta": null,
+      "stock": 4,
+      "stockCritico": 2,
+      "descripcion": "Disco físico con la obra maestra de FromSoftware y la expansión.",
+      "imagen": "/img/eldenring.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 5,
+      "codigo": "PS5-0002",
+      "nombre": "Resident Evil 4 Remake - Steelbook Edition",
+      "categoriaId": 3,
+      "plataforma": "PlayStation 5",
+      "precio": 42990,
+      "precioOferta": null,
+      "stock": 3,
+      "stockCritico": 2,
+      "descripcion": "Caja metálica coleccionable. La reimaginación del clásico de supervivencia.",
+      "imagen": "/img/re4remake.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 6,
+      "codigo": "XSX-0002",
+      "nombre": "Halo Infinite - Edición Limitada Física",
+      "categoriaId": 4,
+      "plataforma": "Xbox Series X",
+      "precio": 29990,
+      "precioOferta": null,
+      "stock": 0,
+      "stockCritico": 2,
+      "descripcion": "Campaña del Jefe Maestro con estuche coleccionable.",
+      "imagen": "/img/haloinfinite.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 7,
+      "codigo": "NSW-0002",
+      "nombre": "Super Mario Bros. Wonder",
+      "categoriaId": 5,
+      "plataforma": "Nintendo Switch",
+      "precio": 45990,
+      "precioOferta": 39990,
+      "stock": 12,
+      "stockCritico": 3,
+      "descripcion": "Cartucho físico oficial Nintendo con efectos maravilla.",
+      "imagen": "/img/mariowonder.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 8,
+      "codigo": "PC-0002",
+      "nombre": "Red Dead Redemption 2 - Special Box Edition",
+      "categoriaId": 2,
+      "plataforma": "PC",
+      "precio": 36990,
+      "precioOferta": 24990,
+      "stock": 7,
+      "stockCritico": 2,
+      "descripcion": "Caja de colección con mapa físico detallado y libro de arte.",
+      "imagen": "/img/rdr2.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 9,
+      "codigo": "PS5-0003",
+      "nombre": "Street Fighter 6 - Arcade Deluxe Edition",
+      "categoriaId": 6,
+      "plataforma": "PlayStation 5",
+      "precio": 41990,
+      "precioOferta": null,
+      "stock": 6,
+      "stockCritico": 2,
+      "descripcion": "La cúspide del género de lucha arcade con steelbook coleccionable.",
+      "imagen": "/img/sf6.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 10,
+      "codigo": "NSW-0003",
+      "nombre": "TMNT: Shredder's Revenge - 16-Bit Retro Edition",
+      "categoriaId": 6,
+      "plataforma": "Nintendo Switch",
+      "precio": 32990,
+      "precioOferta": null,
+      "stock": 9,
+      "stockCritico": 3,
+      "descripcion": "Homenaje total a los salones arcade de los 90 en glorioso pixel-art.",
+      "imagen": "/img/tmnt.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 11,
+      "codigo": "XSX-0003",
+      "nombre": "Cuphead - Physical Collector's Edition",
+      "categoriaId": 6,
+      "plataforma": "Xbox Series X",
+      "precio": 35990,
+      "precioOferta": null,
+      "stock": 4,
+      "stockCritico": 2,
+      "descripcion": "Juego físico, DLC Delicious Last Course y arte interior exclusivo.",
+      "imagen": "/img/cuphead.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 12,
+      "codigo": "PC-0003",
+      "nombre": "Metal Slug Tactics - Big Box Edition",
+      "categoriaId": 6,
+      "plataforma": "PC",
+      "precio": 28990,
+      "precioOferta": 22990,
+      "stock": 5,
+      "stockCritico": 2,
+      "descripcion": "Edición nostálgica en caja grande estilo PC clásico con pixel-art SNK.",
+      "imagen": "/img/metalslug.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 13,
+      "codigo": "NSW-0004",
+      "nombre": "Metroid Prime Remastered - Cartucho Físico",
+      "categoriaId": 2,
+      "plataforma": "Nintendo Switch",
+      "precio": 38990,
+      "precioOferta": null,
+      "stock": 3,
+      "stockCritico": 2,
+      "descripcion": "Obra maestra remasterizada con carátula reversible.",
+      "imagen": "/img/metroidprime.jpg",
+      "activo": true,
+      "destacado": true
+    },
+    {
+      "id": 14,
+      "codigo": "PS5-0004",
+      "nombre": "Hollow Knight - Edición Coleccionista Física",
+      "categoriaId": 5,
+      "plataforma": "PlayStation 5",
+      "precio": 29990,
+      "precioOferta": null,
+      "stock": 6,
+      "stockCritico": 2,
+      "descripcion": "Caja física con mapa desplegable de Hallownest y expansiones.",
+      "imagen": "/img/hollowknight.jpg",
+      "activo": true,
+      "destacado": false
+    },
+    {
+      "id": 15,
+      "codigo": "XSX-0004",
+      "nombre": "Sonic Superstars - Retro Launch Edition",
+      "categoriaId": 5,
+      "plataforma": "Xbox Series X",
+      "precio": 36990,
+      "precioOferta": null,
+      "stock": 8,
+      "stockCritico": 3,
+      "descripcion": "Velocidad 2D clásica con carátula lenticular y póster.",
+      "imagen": "/img/sonicsuperstars.jpg",
+      "activo": true,
+      "destacado": false
+    }
+  ],
+  "categorias": [
+    {
+      "id": 1,
+      "nombre": "RPG",
+      "imagen": "/img/categorias/rpg.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "Acción y Aventura",
+      "imagen": "/img/categorias/accion-aventura.jpg"
+    },
+    {
+      "id": 3,
+      "nombre": "Terror",
+      "imagen": "/img/categorias/terror.jpg"
+    },
+    {
+      "id": 4,
+      "nombre": "Shooter",
+      "imagen": "/img/categorias/shooter.jpg"
+    },
+    {
+      "id": 5,
+      "nombre": "Plataformas",
+      "imagen": "/img/categorias/plataformas.jpg"
+    },
+    {
+      "id": 6,
+      "nombre": "Arcade y Peleas",
+      "imagen": "/img/categorias/arcade-peleas.jpg"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "usuario": "Jim",
+      "rut": "11111111-1",
+      "nombre": "Jim",
+      "apellidos": "Charles",
+      "correo": "j.charles@duoc.cl",
+      "clave": "admin",
+      "rol": "Administrador",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Santiago",
+      "direccion": "Av. Libertador Bernardo O'Higgins 1234",
+      "activo": true
+    },
+    {
+      "id": 2,
+      "usuario": "Emanuel",
+      "rut": "22222222-2",
+      "nombre": "Emanuel",
+      "apellidos": "Reyes",
+      "correo": "e.reyes@duoc.cl",
+      "clave": "admin",
+      "rol": "Administrador",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Providencia",
+      "direccion": "Av. Providencia 2020",
+      "activo": true
+    },
+    {
+      "id": 3,
+      "usuario": "Maximiliano",
+      "rut": "33333333-3",
+      "nombre": "Maximiliano",
+      "apellidos": "Peral",
+      "correo": "m.peral@duoc.cl",
+      "clave": "admin",
+      "rol": "Administrador",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Ñuñoa",
+      "direccion": "Irarrázaval 3030",
+      "activo": true
+    },
+    {
+      "id": 4,
+      "usuario": "fernando",
+      "rut": "44444444-4",
+      "nombre": "Fernando",
+      "apellidos": "Sierra",
+      "correo": "f.sierra@pixelvault.cl",
+      "clave": "operador",
+      "rol": "Operador",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Maipú",
+      "direccion": "Pajaritos 4040",
+      "activo": true
+    },
+    {
+      "id": 5,
+      "usuario": "adriana",
+      "rut": "55555555-5",
+      "nombre": "Adriana",
+      "apellidos": "Quispe",
+      "correo": "a.quispe@pixelvault.cl",
+      "clave": "editor",
+      "rol": "Editor",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "La Florida",
+      "direccion": "Vicuña Mackenna 5050",
+      "activo": true
+    },
+    {
+      "id": 6,
+      "usuario": "ilie",
+      "rut": "66666666-6",
+      "nombre": "Ilie",
+      "apellidos": "Flores",
+      "correo": "i.flores@pixelvault.cl",
+      "clave": "repartidor",
+      "rol": "Repartidor",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Puente Alto",
+      "direccion": "Concha y Toro 6060",
+      "activo": true
+    },
+    {
+      "id": 7,
+      "usuario": "francisco",
+      "rut": "77777777-7",
+      "nombre": "Francisco",
+      "apellidos": "Calabran",
+      "correo": "f.calabran@gmail.com",
+      "clave": "cliente",
+      "rol": "Cliente",
+      "region": "Región Metropolitana de Santiago",
+      "comuna": "Cerrillos",
+      "direccion": "Los Crisantemos 777, depto 603",
+      "activo": true
+    }
+  ],
+  "ordenes": [
+    {
+      "id": 1,
+      "numero": "PV-000001",
+      "fecha": "2026-10-28T15:20:00.000Z",
+      "usuarioId": 7,
+      "cliente": {
+        "nombre": "Francisco",
+        "apellidos": "Calabran",
+        "correo": "f.calabran@gmail.com"
+      },
+      "direccion": {
+        "calle": "Los Crisantemos 777",
+        "depto": "603",
+        "region": "Región Metropolitana de Santiago",
+        "comuna": "Cerrillos",
+        "indicaciones": "Dejar con el conserje."
+      },
+      "tipoEntrega": "despacho",
+      "items": [
+        {
+          "productoId": 7,
+          "nombre": "Super Mario Bros. Wonder",
+          "precio": 39990,
+          "cantidad": 1,
+          "imagen": "/img/mariowonder.jpg"
+        },
+        {
+          "productoId": 9,
+          "nombre": "Street Fighter 6 - Arcade Deluxe Edition",
+          "precio": 41990,
+          "cantidad": 1,
+          "imagen": "/img/sf6.jpg"
+        }
+      ],
+      "subtotal": 81980,
+      "despacho": 4000,
+      "total": 85980,
+      "estado": "Entregada",
+      "repartidorId": 6,
+      "fotoEntrega": null,
+      "comentarioEntrega": "Recibido por el conserje del edificio, el Sr. Pérez.",
+      "historialEstados": [
+        {
+          "estado": "En preparación",
+          "fecha": "2026-10-28T15:20:00.000Z",
+          "usuarioId": 7,
+          "usuarioNombre": "Francisco Calabran (compra)"
+        },
+        {
+          "estado": "Asignado a repartidor",
+          "fecha": "2026-10-28T18:00:00.000Z",
+          "usuarioId": 4,
+          "usuarioNombre": "Fernando Sierra"
+        },
+        {
+          "estado": "En camino",
+          "fecha": "2026-10-29T13:10:00.000Z",
+          "usuarioId": 6,
+          "usuarioNombre": "Ilie Flores"
+        },
+        {
+          "estado": "Entregada",
+          "fecha": "2026-10-29T15:45:00.000Z",
+          "usuarioId": 6,
+          "usuarioNombre": "Ilie Flores"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "numero": "PV-000002",
+      "fecha": "2026-11-05T19:45:00.000Z",
+      "usuarioId": 7,
+      "cliente": {
+        "nombre": "Francisco",
+        "apellidos": "Calabran",
+        "correo": "f.calabran@gmail.com"
+      },
+      "direccion": {
+        "calle": "Los Crisantemos 777",
+        "depto": "603",
+        "region": "Región Metropolitana de Santiago",
+        "comuna": "Cerrillos",
+        "indicaciones": ""
+      },
+      "tipoEntrega": "retiro",
+      "items": [
+        {
+          "productoId": 1,
+          "nombre": "The Witcher 3: Wild Hunt - Complete Edition",
+          "precio": 34990,
+          "cantidad": 2,
+          "imagen": "/img/witcher3.jpg"
+        }
+      ],
+      "subtotal": 69980,
+      "despacho": 0,
+      "total": 69980,
+      "estado": "En preparación",
+      "repartidorId": null,
+      "fotoEntrega": null,
+      "historialEstados": [
+        {
+          "estado": "En preparación",
+          "fecha": "2026-11-05T19:45:00.000Z",
+          "usuarioId": 7,
+          "usuarioNombre": "Francisco Calabran (compra)"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "numero": "PV-000003",
+      "fecha": "2026-11-08T14:30:00.000Z",
+      "usuarioId": 7,
+      "cliente": {
+        "nombre": "Francisco",
+        "apellidos": "Calabran",
+        "correo": "f.calabran@gmail.com"
+      },
+      "direccion": {
+        "calle": "Los Crisantemos 777",
+        "depto": "603",
+        "region": "Región Metropolitana de Santiago",
+        "comuna": "Cerrillos",
+        "indicaciones": "Dejar con el conserje."
+      },
+      "tipoEntrega": "despacho",
+      "items": [
+        {
+          "productoId": 3,
+          "nombre": "The Legend of Zelda: Tears of the Kingdom",
+          "precio": 49990,
+          "cantidad": 1,
+          "imagen": "/img/zelda_totk.jpg"
+        }
+      ],
+      "subtotal": 49990,
+      "despacho": 4000,
+      "total": 53990,
+      "estado": "Asignado a repartidor",
+      "repartidorId": 6,
+      "fotoEntrega": null,
+      "historialEstados": [
+        {
+          "estado": "En preparación",
+          "fecha": "2026-11-08T14:30:00.000Z",
+          "usuarioId": 7,
+          "usuarioNombre": "Francisco Calabran (compra)"
+        },
+        {
+          "estado": "Asignado a repartidor",
+          "fecha": "2026-11-09T12:00:00.000Z",
+          "usuarioId": 1,
+          "usuarioNombre": "Jim Charles"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "numero": "PV-000004",
+      "fecha": "2026-11-09T21:10:00.000Z",
+      "usuarioId": 7,
+      "cliente": {
+        "nombre": "Francisco",
+        "apellidos": "Calabran",
+        "correo": "f.calabran@gmail.com"
+      },
+      "direccion": {
+        "calle": "Los Crisantemos 777",
+        "depto": "603",
+        "region": "Región Metropolitana de Santiago",
+        "comuna": "Cerrillos",
+        "indicaciones": "Dejar con el conserje."
+      },
+      "tipoEntrega": "despacho",
+      "items": [
+        {
+          "productoId": 12,
+          "nombre": "Metal Slug Tactics - Big Box Edition",
+          "precio": 22990,
+          "cantidad": 1,
+          "imagen": "/img/metalslug.jpg"
+        },
+        {
+          "productoId": 10,
+          "nombre": "TMNT: Shredder's Revenge - 16-Bit Retro Edition",
+          "precio": 32990,
+          "cantidad": 1,
+          "imagen": "/img/tmnt.jpg"
+        }
+      ],
+      "subtotal": 55980,
+      "despacho": 4000,
+      "total": 59980,
+      "estado": "En preparación",
+      "repartidorId": null,
+      "fotoEntrega": null,
+      "historialEstados": [
+        {
+          "estado": "En preparación",
+          "fecha": "2026-11-09T21:10:00.000Z",
+          "usuarioId": 7,
+          "usuarioNombre": "Francisco Calabran (compra)"
+        }
+      ]
+    }
+  ],
+  "blog": [
+    {
+      "id": 1,
+      "slug": "resistencia-disco-cartucho",
+      "categoria": "preservacion",
+      "nombreCategoria": "Preservación Retro",
+      "badgeColor": "text-bg-success",
+      "titulo": "La Resistencia del Disco y el Cartucho: Por qué el formato físico jamás morirá",
+      "autor": "Jim Charles",
+      "fecha": "18 de Septiembre, 2026",
+      "tiempoLectura": "5 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Frente a las licencias digitales efímeras y los cierres de tiendas virtuales, el medio físico garantiza que el jugador sea el auténtico dueño de su software.",
+      "cuerpo": "\n          <p class=\"lead text-light\">En una era donde las tiendas digitales cierran servidores sin previo aviso y las compras virtuales son meras licencias revocables, el cartucho y el disco óptico cobran una trascendencia histórica ineludible.</p>\n          <p>Tener la caja en tus manos, apreciar el arte de la carátula, examinar el mapa plegado o el manual impreso es una experiencia multisensorial irreemplazable. Los coleccionistas no compran simplemente datos binarios; adquieren un testimonio palpable de la cultura digital.</p>\n          <h4 class=\"h5 text-info mt-4\">La seguridad del juego sin conexión</h4>\n          <p>Un cartucho de Nintendo Switch o un disco de PlayStation 5 sellado conserva la versión original del juego lista para ejecutarse en el hardware nativo, inmune a caídas de servidores, expiraciones de contratos de derechos de autor de bandas sonoras o cancelaciones de cuentas en plataformas comerciales.</p>\n          <p>En PixelVault reivindicamos este principio: preservar el formato físico es defender la memoria artística del videojuego.</p>\n        "
+    },
+    {
+      "id": 2,
+      "slug": "guia-conservacion-cajas-steelbooks",
+      "categoria": "coleccionismo",
+      "nombreCategoria": "Guías de Colección",
+      "badgeColor": "text-bg-warning text-dark",
+      "titulo": "Guía Definitiva para Conservar Cajas y Steelbooks sin Pérdida de Valor",
+      "autor": "Emanuel Reyes",
+      "fecha": "14 de Septiembre, 2026",
+      "tiempoLectura": "4 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Aprende a proteger tus cajas plásticas, fundas de cartón y steelbooks metálicos contra el sol, la humedad y el desgaste con fundas PET especiales.",
+      "cuerpo": "\n          <p class=\"lead text-light\">Cualquier coleccionista experimentado sabe que el estado cosmético de una edición física determina hasta el 80% de su valor comercial en el tiempo.</p>\n          <p>Los tres peores enemigos del coleccionista físico son:</p>\n          <ul class=\"text-secondary\">\n            <li><strong class=\"text-light\">Rayos UV directos:</strong> Decoloran rápidamente los lomos de las cajas plásticas (especialmente tonos rojos y azules de Nintendo y PlayStation).</li>\n            <li><strong class=\"text-light\">Humedad relativa superior al 60%:</strong> Oxida los bordes de los steelbooks metálicos y genera ondulaciones en las carátulas de papel.</li>\n            <li><strong class=\"text-light\">Micro-rayones por fricción:</strong> Ocurren al apilar cajas una sobre otra sin separadores protectores.</li>\n          </ul>\n          <h4 class=\"h5 text-warning mt-4\">Recomendación de bodega PixelVault</h4>\n          <p>Utiliza protectores de plástico PET libre de ácido (grosor de 0.35mm o 0.50mm) para tus cajas de mayor valor y mantén tu colección en estanterías ventiladas lejos del calor directo.</p>\n        "
+    },
+    {
+      "id": 3,
+      "slug": "top-juegos-fisicos-switch-chile",
+      "categoria": "analisis",
+      "nombreCategoria": "Análisis de Ediciones",
+      "badgeColor": "text-bg-info",
+      "titulo": "Los 5 Títulos Físicos más Buscados de Nintendo Switch en Chile este 2026",
+      "autor": "Maximiliano Peral",
+      "fecha": "10 de Septiembre, 2026",
+      "tiempoLectura": "6 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Analizamos las cifras de ventas y demanda de bodega en territorio nacional: Zelda, Metroid, Pokémon y las joyas indie con tiraje físico limitado.",
+      "cuerpo": "\n          <p class=\"lead text-light\">Nintendo Switch se ha consolidado como el paraíso del coleccionista moderno gracias al encanto universal de sus cartuchos pequeños y carátulas uniformes.</p>\n          <p>En el mercado chileno, ciertos títulos han alcanzado estatus de piezas de culto debido a su baja disponibilidad en tiendas de retail masivo:</p>\n          <ol class=\"text-secondary\">\n            <li><strong class=\"text-light\">The Legend of Zelda: Tears of the Kingdom:</strong> Obra cumbre de la consola, con altísima rotación en formato físico.</li>\n            <li><strong class=\"text-light\">Metroid Dread:</strong> Edición física emblemática con portada holográfica que no pierde vigencia.</li>\n            <li><strong class=\"text-light\">Super Mario RPG (Remake):</strong> La reinterpretación física de un clásico de 16-bit que agotó su primer lote en horas.</li>\n            <li><strong class=\"text-light\">Hollow Knight (Fangamer Edition):</strong> Incluye manual a todo color y mapa de Hallownest.</li>\n            <li><strong class=\"text-light\">Celeste (Edición Coleccionista):</strong> Joya de plataformas con tirada física reducida.</li>\n          </ol>\n        "
+    },
+    {
+      "id": 4,
+      "slug": "playstation-5-lector-extraible",
+      "categoria": "mercado",
+      "nombreCategoria": "Noticias & Mercado",
+      "badgeColor": "text-bg-primary",
+      "titulo": "PlayStation 5 y el Dilema del Lector Extraíble: Impacto en el Coleccionismo",
+      "autor": "Jim Charles",
+      "fecha": "05 de Septiembre, 2026",
+      "tiempoLectura": "5 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Examinamos las implicancias de hardware para los compradores de discos Blu-Ray Ultra HD y cómo la comunidad garantiza la preservación física.",
+      "cuerpo": "\n          <p class=\"lead text-light\">El rediseño de PlayStation 5 con unidad de disco desacoplable abrió un debate fundamental sobre la longevidad y el emparejamiento digital de periféricos.</p>\n          <p>A pesar de las tendencias de la industria hacia suscripciones y modelos de arriendo en la nube, el jugador tradicional continúa exigiendo discos con el instalador completo incluido. Estudios recientes demuestran que más del 65% de los jugadores en Latinoamérica prefieren adquirir sus aventuras principales en formato físico para reventa, intercambio o preservación en vitrina.</p>\n        "
+    },
+    {
+      "id": 5,
+      "slug": "secretos-manuales-impresos-16bit",
+      "categoria": "preservacion",
+      "nombreCategoria": "Preservación Retro",
+      "badgeColor": "text-bg-success",
+      "titulo": "Secretos Ocultos en los Manuales Impresos de la Era 16-Bit (SNES y Genesis)",
+      "autor": "Emanuel Reyes",
+      "fecha": "28 de Agosto, 2026",
+      "tiempoLectura": "7 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Un homenaje a aquellos libretos a todo color con ilustraciones exclusivas, notas de los desarrolladores e historias de trasfondo que se perdieron en la era digital.",
+      "cuerpo": "\n          <p class=\"lead text-light\">Hubo un tiempo donde el viaje de regreso a casa tras comprar un videojuego era tan emocionante como encender la consola: era el momento de leer el manual.</p>\n          <p>Durante los años dorados de Super Nintendo y Sega Genesis, los manuales no eran meros panfletos legales. Contenían biografías profundas de personajes, consejos estratégicos firmados por los diseñadores, arte conceptual no visto en pantalla y páginas dedicadas para anotar contraseñas (*passwords*).</p>\n          <p>En PixelVault mantenemos encendida esa llama retro ofreciendo ediciones contemporáneas que rinden tributo a esa magia tangible.</p>\n        "
+    },
+    {
+      "id": 6,
+      "slug": "guia-autenticacion-cartuchos-sellos",
+      "categoria": "coleccionismo",
+      "nombreCategoria": "Guías de Colección",
+      "badgeColor": "text-bg-warning text-dark",
+      "titulo": "Guía de Autenticación de Cartuchos y Sellos Holográficos Originales",
+      "autor": "Maximiliano Peral",
+      "fecha": "20 de Agosto, 2026",
+      "tiempoLectura": "6 min de lectura",
+      "imagen": "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?auto=format&fit=crop&w=700&q=80",
+      "resumen": "Aprende a identificar copias repro y reproducciones no oficiales frente a cartuchos originales inspeccionando la placa madre, tornillos gamebit y serigrafía.",
+      "cuerpo": "\n          <p class=\"lead text-light\">Con el aumento del coleccionismo, el mercado se ha inundado de reproducciones no autorizadas. Te enseñamos los puntos de control clave antes de invertir en una pieza histórica.</p>\n          <p>Puntos de chequeo obligatorios:</p>\n          <ul class=\"text-secondary\">\n            <li><strong class=\"text-light\">Tornillos de seguridad:</strong> Los cartuchos genuinos utilizan tornillos Gamebit propietarios, no tornillos de cruz ni remaches plásticos.</li>\n            <li><strong class=\"text-light\">Sello dorado de calidad:</strong> El sello de Nintendo posee un brillo metalizado nítido; las repro suelen tener sellos pixelados o con tipografía desalineada.</li>\n            <li><strong class=\"text-light\">Estampado en bajorrelieve:</strong> En la etiqueta posterior, los cartuchos auténticos tienen un código de dos dígitos troquelado en la pegatina.</li>\n          </ul>\n        "
+    }
+  ],
+  "contactos": [],
+  "movimientos": [
+    {
+      "id": 1,
+      "fecha": "2026-10-28T12:00:00.000Z",
+      "usuarioId": null,
+      "usuarioNombre": "Sistema",
+      "rol": "Sistema",
+      "categoria": "Sistema",
+      "accion": "Inicialización",
+      "detalle": "Se cargaron los datos iniciales: productos, categorías, usuarios, órdenes y blog."
+    }
+  ]
+}

@@ -294,3 +294,19 @@ Como cambia la forma de las órdenes y se agrega la colección `movimientos`, en
 - **Perfil del cliente:** el botón "👤 nombre" de la barra lleva a `/perfil` (cliente) o `/admin/perfil` (staff). `/perfil` reutiliza `pages/admin/Perfil.jsx` y exige sesión. "Mis compras" sigue en el menú.
 - **Checkout sin sesión = crear cuenta:** si no hay sesión, el checkout pide además RUT, contraseña y su confirmación (`components/compra/CuentaNuevaForm.jsx`). Al pagar se llama a `registrar(...)`, la cuenta queda con la sesión iniciada y la orden se asocia a ese `usuarioId`. Se valida que el correo y el RUT no existan. Las contraseñas no se guardan en el borrador del checkout.
 - **Títulos del Panel Staff:** la clase `.encabezado-panel` (en `estilos.css`) pone los títulos de cada sección en una tarjeta oscura con borde celeste para que no se pierdan con el fondo. Las migas de pan y "Accesos rápidos" también van en un recuadro.
+
+## CF-21 ✅ API REST con json-server
+
+El profesor pidió que la app funcione con **json-server** y tenga una API. Los datos ya no viven en `localStorage`:
+
+- **`db.json`** es la base de datos. Se genera desde `src/data/seed.js` con `npm run db:reset`.
+- **`npm run api`** levanta json-server en `http://localhost:3001`: `GET /productos`, `GET /productos/3`, `POST`, `PUT` y `DELETE`, igual para cada colección.
+- **`src/data/api.js`** hace las llamadas con `fetch`. La URL se puede cambiar con `VITE_API_URL`.
+- **`src/data/db.js`** mantiene **la misma API para las páginas** (`getAll`, `getById`, `create`, `update`, `remove`):
+  - Al abrir la app, `inicializar()` pide todas las colecciones a la API (`main.jsx` espera antes de mostrar la tienda).
+  - Las lecturas salen de esa copia en memoria.
+  - Cada cambio se envía a la API (POST / PUT / DELETE), en cola para respetar el orden.
+- Si la API está apagada, la app muestra "No se pudo conectar con la API" con el comando para encenderla.
+- El carrito y la sesión siguen en el navegador (`localStorage` / `sessionStorage`), porque son de cada visitante.
+
+**Para la defensa:** "db.js es nuestra capa de datos: al iniciar hace GET a cada recurso de la API y cada create/update/remove hace POST/PUT/DELETE con fetch. Las páginas no saben de HTTP: llaman a db.getAll o db.update, y db.js habla con json-server."

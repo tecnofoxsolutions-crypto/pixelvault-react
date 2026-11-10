@@ -13,7 +13,7 @@
 | 1.5 | 2026-09-18 | Equipo PixelVault | Roles Operador, Repartidor y Editor; blog; trazabilidad de pedidos |
 | 1.9 | 2026-09-21 | Equipo PixelVault | Versión final de la Evaluación 1 (HU-01 a HU-30): despacho $4.000, códigos por consola, tickets `PVT-000001`, logística en etapas, panel de Staff |
 | 2.0 (borrador) | 2026-11-10 | Emanuel Reyes | Migración a React, nuevas vistas de tienda y administración (HU-31 a HU-52), modelo de datos con CRUD |
-| 2.0 | 2026-11-10 | Equipo PixelVault | Cambios finales CF-01 a CF-20: permisos por rol en el Panel Staff, flujo de órdenes `PV-000001` con repartidor y foto de entrega, historial de movimientos, compra con creación de cuenta, encuadre de imágenes y trazabilidad con el ERS V1 |
+| 2.0 | 2026-11-10 | Equipo PixelVault | API REST con json-server (CF-21) y cambios finales CF-01 a CF-20: permisos por rol en el Panel Staff, flujo de órdenes `PV-000001` con repartidor y foto de entrega, historial de movimientos, compra con creación de cuenta, encuadre de imágenes y trazabilidad con el ERS V1 |
 
 ---
 
@@ -37,7 +37,7 @@ PixelVault es una aplicación web de una sola página (SPA), **solo frontend**, 
   - **Editor:** blog.
   - **Repartidor:** sus entregas, con foto y comentario.
 
-No hay backend ni pagos reales: los datos se guardan en el navegador (`localStorage`) y el pago es simulado.
+Los datos se sirven desde una **API REST con json-server** (archivo `db.json`) que la aplicación consume con `fetch`. No hay pagos reales: el pago es simulado.
 
 ### 1.3 Definiciones, siglas y abreviaturas
 
@@ -48,7 +48,9 @@ No hay backend ni pagos reales: los datos se guardan en el navegador (`localStor
 | Props | Datos que un componente recibe de su componente padre |
 | State | Datos propios de un componente que, al cambiar, vuelven a dibujarlo (`useState`) |
 | Context | Estado global compartido por varios componentes (`AuthContext`, `CartContext`) |
-| `db.js` | Módulo que simula una base de datos con funciones CRUD sobre `localStorage` |
+| `db.js` | Capa de datos con funciones CRUD conectada a la API REST |
+| API REST | Interfaz HTTP para leer y modificar recursos: `GET`, `POST`, `PUT`, `DELETE` |
+| json-server | Herramienta que publica `db.json` como API REST en `http://localhost:3001` |
 | CRUD | Crear, leer, actualizar y eliminar (create, read, update, delete) |
 | Panel Staff | Panel `/admin` para el personal; cada rol ve solo sus secciones |
 | HU | Historia de usuario · **RF** requisito funcional · **RNF** requisito no funcional |
@@ -86,7 +88,7 @@ La versión 1 era un sitio de 8 páginas HTML con Bootstrap 5.3.3 y JavaScript n
 | Tecnología | HTML + Bootstrap + JS nativo | React 18 + Vite 5 + React Router 6 + Bootstrap 5.3.3 |
 | Navegación | Un archivo `.html` por página | Rutas de React Router, sin recargar la página |
 | Detalle de producto y de blog | Ventana emergente | Ruta propia (`/productos/:id`, `/blog/:id`) |
-| Datos | `<script>` dentro de cada página + `localStorage` | `src/data/db.js` con CRUD genérico sobre `localStorage` |
+| Datos | `<script>` dentro de cada página + `localStorage` | API REST con json-server (`db.json`), consumida con `fetch` desde `api.js` y `db.js` |
 | Estado compartido | Variables globales | `AuthContext` (sesión) y `CartContext` (carrito) |
 | Compra | Carrito con registro obligatorio y despacho $4.000 | Checkout con región/comuna, tipo de entrega, creación de cuenta y pago simulado con éxito o error |
 | Administración | Panel de Staff en `catalogo.html` y `blog.html`: CRUD de juegos, destacados, usuarios, blog, pedidos y auditoría | Panel Staff en `/admin` con una vista por sección y permisos por rol |
@@ -139,16 +141,16 @@ Todo el staff entra directo al Panel Staff al iniciar sesión, y cada uno tiene 
 ### 2.4 Restricciones
 - Debe usar **React** y **Bootstrap**, y ser responsivo (móvil, tablet y escritorio).
 - Los datos deben venir de **un archivo JavaScript con funciones CRUD** conectado a la interfaz.
-- Sin backend: la persistencia es `localStorage` y la sesión, `sessionStorage`.
+- La aplicación debe funcionar con **json-server** como API y enrutar sus componentes con **React Router** (indicación del docente). La sesión queda en `sessionStorage` y el carrito en `localStorage`.
 - Plazo de una semana, 3 desarrolladores, repositorio público en GitHub.
 - Presentación de 15 minutos con defensa individual del código.
 
 ### 2.5 Suposiciones y dependencias
-- El navegador tiene JavaScript y `localStorage` habilitados.
-- Los datos semilla se cargan la primera vez y se pueden restaurar con `localStorage.clear()`.
+- El navegador tiene JavaScript habilitado y la API (`npm run api`) está encendida en `http://localhost:3001` mientras se usa la tienda.
+- Los datos semilla están en `db.json` y se restauran con `npm run db:reset`.
 - El pago es simulado: no hay pasarela real ni cobros.
 - Los datos de cada navegador son independientes (no se comparten entre equipos).
-- Las imágenes subidas desde el equipo se comprimen y se guardan dentro de `localStorage`, que tiene un límite de unos 5 MB.
+- Las imágenes subidas desde el equipo se comprimen a JPEG antes de enviarse a la API, para que `db.json` no crezca demasiado.
 
 ---
 
@@ -235,7 +237,8 @@ Todas las rutas `/admin/*` exigen sesión con un rol del staff, y cada sección 
 | ID | Requisito | Prior. | Resp. |
 |---|---|---|---|
 | TEC-01 | Proyecto React con Vite y repositorio público en GitHub | Must | Jim |
-| TEC-02 | Base de datos simulada `db.js` con CRUD sobre `localStorage` y datos semilla de la Eval 1 | Must | Jim |
+| TEC-02 | Capa de datos `db.js` con CRUD y datos semilla de la Eval 1 | Must | Jim |
+| TEC-10 | API REST con json-server (`db.json`, `npm run api`) consumida con `fetch` (`api.js`); la app avisa si la API no responde | Must | Jim (CF-21) |
 | TEC-03 | Layouts de tienda y del Panel Staff, barra de navegación (buscador, desplegable "Productos", menú móvil) y rutas | Must | Maximiliano |
 | TEC-04 | Sesión simulada y rutas protegidas por rol (`ProtectedRoute`) | Must | Jim |
 | TEC-05 | Estado global del carrito (`CartContext`): stock, ofertas y persistencia | Must | Emanuel |
@@ -251,8 +254,8 @@ Todas las rutas `/admin/*` exigen sesión con un rol del staff, y cada sección 
 |---|---|---|
 | RNF-01 | Usabilidad / responsivo | Todas las vistas se usan sin scroll horizontal en 375, 768 y 1280 px. Grillas con `row` / `col-*`, tablas con `table-responsive` y barra con `navbar-expand-lg` |
 | RNF-02 | Rendimiento | La navegación entre rutas no recarga la página (React Router). Las listas y los filtros se actualizan al instante con el estado de React. Las fotos se comprimen antes de guardarse |
-| RNF-03 | Persistencia | Catálogo, usuarios, órdenes, movimientos y carrito se mantienen al recargar (`localStorage`). La sesión dura mientras la pestaña esté abierta (`sessionStorage`) |
-| RNF-04 | Seguridad (simulada) | Las rutas `/admin/*` exigen un rol del staff y cada sección, sus roles. `/mis-compras` y `/perfil` exigen sesión. Un cliente solo ve sus propias órdenes y un repartidor solo las suyas. Cambiar la contraseña exige la actual. *Al no haber backend, las contraseñas quedan en `localStorage`: no apto para producción* |
+| RNF-03 | Persistencia | Catálogo, usuarios, órdenes y movimientos se guardan en la API (`db.json`) y se mantienen al recargar; el carrito queda en `localStorage`. La sesión dura mientras la pestaña esté abierta (`sessionStorage`) |
+| RNF-04 | Seguridad (simulada) | Las rutas `/admin/*` exigen un rol del staff y cada sección, sus roles. `/mis-compras` y `/perfil` exigen sesión. Un cliente solo ve sus propias órdenes y un repartidor solo las suyas. Cambiar la contraseña exige la actual. *json-server no autentica las peticiones y las contraseñas quedan en `db.json` sin cifrar: no apto para producción* |
 | RNF-05 | Integridad de datos | El pago verifica el stock contra `db.js` antes de crear la orden; un pago rechazado no modifica datos. RUT (dígito verificador) y correo se validan, y no se repiten entre usuarios |
 | RNF-06 | Mantenibilidad | Componentes funcionales con hooks y una sola responsabilidad. Los datos llegan por props o Context; no hay listas escritas dentro de los componentes. Nombres en español |
 | RNF-07 | Accesibilidad | Cada campo de formulario tiene su `label`, los errores se muestran bajo el campo y los botones que solo tienen ícono llevan `aria-label` |
@@ -275,10 +278,11 @@ Todas las rutas `/admin/*` exigen sesión con un rol del staff, y cada sección 
 pages/        Vistas por ruta (tienda/ y admin/)
   └─ components/  Piezas reutilizables (layout, productos, carrito, compra, perfil, info, admin, auth, common)
        └─ context/   Estado global: AuthContext (sesión) y CartContext (carrito)
-            └─ data/      db.js (CRUD sobre localStorage + historial), seed.js, permisos.js, regiones.js
+            └─ data/      db.js (CRUD + historial), api.js (fetch), seed.js, permisos.js, regiones.js
+                 └─ API REST: json-server sobre db.json (http://localhost:3001)
 ```
 
-Bootstrap 5.3.3 (CSS y JS) se importa una vez en `src/main.jsx`. Los datos semilla se cargan en `localStorage` la primera vez y cada vez que cambia `VERSION_DATOS` en `db.js`.
+Bootstrap 5.3.3 (CSS y JS) se importa una vez en `src/main.jsx`. Antes de mostrar la tienda, `main.jsx` espera a `inicializar()`, que hace `GET` a cada colección de la API. Si la API no responde, se muestra un aviso con el comando `npm run api`.
 
 ### 4.2 Mapa de rutas
 
@@ -329,7 +333,14 @@ Bootstrap 5.3.3 (CSS y JS) se importa una vez en `src/main.jsx`. Los datos semil
 
 ### 4.5 Modelo de datos (`db.js`)
 
-`db.js` ofrece `getAll`, `getById`, `create` (asigna el id), `update`, `remove` y `registrarMovimiento` sobre siete colecciones guardadas en `localStorage` con el prefijo `pixelvault_`. Cada cambio queda registrado automáticamente en `movimientos`.
+`db.js` ofrece `getAll`, `getById`, `create` (asigna el id), `update`, `remove` y `registrarMovimiento` sobre siete colecciones de la API. Las lecturas salen de la copia cargada al inicio y cada cambio se envía con `POST`, `PUT` o `DELETE` (en cola, para respetar el orden). Cada cambio queda registrado automáticamente en `movimientos`.
+
+| Método | Ruta | Uso en `db.js` |
+|---|---|---|
+| GET | `/{coleccion}` | `inicializar()` carga cada colección |
+| POST | `/{coleccion}` | `create` |
+| PUT | `/{coleccion}/{id}` | `update` |
+| DELETE | `/{coleccion}/{id}` | `remove` |
 
 | Colección | Campos |
 |---|---|
@@ -402,6 +413,8 @@ En su lugar, cada historia se verifica **a mano** contra sus criterios de acepta
 | CP-13 | Stock crítico | Abrir Productos → Stock crítico | Aparecen los ids 3 (en el límite) y 6 (agotado) | OK |
 | CP-14 | Historial | Editar un producto y abrir Historial | El movimiento aparece con usuario, rol y detalle | OK |
 | CP-15 | Perfil | Cambiar el nombre desde el botón del usuario | La barra muestra el nombre nuevo; la contraseña exige la actual | OK |
+| CP-17 | API REST | Crear un producto en el panel y consultar `GET http://localhost:3001/productos` | El producto aparece en la respuesta de la API y en `db.json`; sigue ahí al recargar | OK |
+| CP-18 | API apagada | Detener `npm run api` y recargar la tienda | Aviso "No se pudo conectar con la API" con el comando para encenderla | OK |
 | CP-16 | Responsivo | Revisar Home, Catálogo, Checkout y Panel Staff en 375, 768 y 1280 px | Sin scroll horizontal; menú hamburguesa en móvil | OK |
 
 ---
@@ -410,6 +423,7 @@ En su lugar, cada historia se verifica **a mano** contra sus criterios de acepta
 
 | Necesidad del enunciado | Requisitos |
 |---|---|
+| App funcional con json-server y una API (indicación del docente) | TEC-10, TEC-02 |
 | Migrar HTML a React con componentes reutilizables | TEC-01, TEC-03, TEC-06, HU-31 a HU-43 |
 | Props y estado bien gestionados | TEC-04, TEC-05, HU-32, HU-36, HU-37, HU-40, HU-46 |
 | Archivo JS de datos con CRUD | TEC-02, HU-46, HU-48, HU-49, HU-53 |

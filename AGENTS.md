@@ -1,7 +1,7 @@
 # Guía para agentes y desarrolladores — PixelVault React
 
 > ## ⚠️ ETAPA FINAL — LEER PRIMERO [`docs/CAMBIOS-FINALES.md`](docs/CAMBIOS-FINALES.md)
-> Todas las páginas están terminadas. **Jim arma la versión final** y aplica los cambios CF-01 a CF-16 en cualquier archivo, incluidos los de Emanuel y Maximiliano.
+> Todas las páginas están terminadas. **Jim arma la versión final** y aplica los cambios CF-01 a CF-21 en cualquier archivo, incluidos los de Emanuel y Maximiliano.
 > - **Emanuel y Maximiliano: no editen código en `src/`**, solo hagan `git pull`. Si encuentran un error, avísenle a Jim. Pueden editar solo documentación (`docs/ERS_V2.*` y su `docs/guia-defensa-<nombre>.md`).
 > - Ese documento explica qué cambió, por qué, los campos nuevos del contrato (órdenes `PV-000001`, flujo de estados, colección `movimientos`, permisos por rol) y qué preparar para la defensa.
 > - La tabla de dueños de abajo ya no restringe a Jim; sirve para saber quién hizo originalmente cada parte.
@@ -25,13 +25,14 @@ Proyecto de la **Evaluación Parcial 2 de DSY1104 Desarrollo Fullstack II (Duoc 
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run api      # terminal 1: API json-server en http://localhost:3001 (datos en db.json)
+npm run dev      # terminal 2: http://localhost:5173
 npm run build    # verificar que compila antes de pushear
 ```
 
-Stack: React 18 + Vite 5 + React Router 6 + Bootstrap 5.3.3 (CSS y JS importados en `src/main.jsx`). Sin backend: los datos viven en `localStorage` a través de `src/data/db.js`.
+Stack: React 18 + Vite 5 + React Router 6 + Bootstrap 5.3.3 (CSS y JS importados en `src/main.jsx`). Los datos viven en `db.json`, servidos por **json-server** como API REST (`src/data/api.js`); las páginas los usan a través de `src/data/db.js` (CF-21).
 
-Para volver a los datos iniciales: en la consola del navegador, `localStorage.clear()` y recargar.
+Para volver a los datos iniciales: detener la API, `npm run db:reset` y volver a encenderla.
 
 ## Dueños de archivos (no editar archivos ajenos)
 
@@ -52,7 +53,7 @@ Cada página ya existe como marcador (`PaginaPendiente`) con su ruta registrada 
 ```js
 import db from '../../data/db.js'
 
-db.getAll('productos')               // arreglo (copia leída de localStorage)
+db.getAll('productos')               // arreglo (copia de lo cargado desde la API)
 db.getById('productos', id)          // objeto o null
 db.create('productos', objeto)       // asigna id y devuelve el creado
 db.update('productos', id, cambios)  // devuelve el actualizado o null

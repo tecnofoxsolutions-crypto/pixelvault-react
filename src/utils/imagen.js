@@ -1,5 +1,5 @@
 // Convierte una imagen elegida en un <input type="file"> a texto base64 (data URL) más liviano,
-// para poder guardarla en localStorage (que tiene poco espacio). La achica a maxLado píxeles y la pasa a JPEG.
+// para poder guardarla en la API (db.json) sin que pese demasiado. La achica a maxLado píxeles y la pasa a JPEG.
 export function comprimirImagen(archivo, maxLado = 800, calidad = 0.75) {
   return new Promise((resolver, rechazar) => {
     if (!archivo || !archivo.type.startsWith('image/')) {

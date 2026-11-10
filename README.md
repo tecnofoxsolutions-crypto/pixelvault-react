@@ -7,22 +7,24 @@ Tienda de videojuegos físicos migrada a React. Evaluación Parcial 2 de **DSY11
 
 ## Ejecutar
 
-Requiere Node.js 18 o superior.
+Requiere Node.js 18 o superior. La app necesita **dos terminales**: la API (json-server) y la tienda (Vite).
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
+npm run api      # terminal 1: API REST en http://localhost:3001 (json-server sobre db.json)
+npm run dev      # terminal 2: tienda en http://localhost:5173
 npm run build    # versión de producción en dist/
 ```
 
-Los datos viven en `localStorage`. Para volver a los datos iniciales, ejecuta `localStorage.clear()` en la consola del navegador y recarga.
+Los datos viven en `db.json` y se consultan por la API REST (`GET/POST/PUT/DELETE /productos`, `/usuarios`, `/ordenes`, etc.). Para volver a los datos iniciales: detén la API, ejecuta `npm run db:reset` y vuelve a encenderla. El carrito y la sesión quedan en el navegador (`localStorage` y `sessionStorage`).
 
 ## Tecnologías
 
 - React 18 + Vite 5
 - React Router 6 (rutas públicas, rutas protegidas por sesión y por rol)
 - Bootstrap 5.3.3 (diseño responsivo, tema oscuro)
-- `localStorage` como base de datos simulada (`src/data/db.js`, con funciones CRUD e historial de movimientos)
+- **json-server** como API REST (`db.json`), consumida con `fetch` desde `src/data/api.js`
+- `src/data/db.js`: funciones CRUD conectadas a la API e historial de movimientos
 - Context API: `AuthContext` (sesión y roles) y `CartContext` (carrito)
 
 ## Funcionalidades
@@ -60,7 +62,7 @@ Cada rol ve solo sus secciones:
 
 ```text
 src/
-├── data/          # db.js (CRUD), seed.js (datos iniciales), permisos.js, regiones.js
+├── data/          # api.js (fetch a json-server), db.js (CRUD), seed.js, permisos.js, regiones.js
 ├── context/       # AuthContext (sesión) y CartContext (carrito)
 ├── routes/        # AppRouter y ProtectedRoute
 ├── components/    # layout, common, productos, carrito, compra, admin, perfil, auth

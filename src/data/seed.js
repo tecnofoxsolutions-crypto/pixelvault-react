@@ -1,4 +1,4 @@
-// Datos iniciales de la tienda. Se copian a localStorage la primera vez (ver db.js).
+// Datos iniciales de la tienda. "npm run db:reset" los copia a db.json, que sirve json-server (ver db.js y api.js).
 // Productos y usuarios vienen de la Evaluación 1; se agregaron categorías, precioOferta y órdenes de ejemplo.
 import blogSeed from './blogSeed.js'
 
