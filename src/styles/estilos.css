@@ -493,3 +493,6 @@ body::before {
 @media (min-width: 992px) {
   .buscador-navbar { width: 14rem; }
 }
+
+/* HU-33: imagen del detalle sin ocupar toda la pantalla en móvil */
+.imagen-detalle { max-height: 28rem; width: auto; }
