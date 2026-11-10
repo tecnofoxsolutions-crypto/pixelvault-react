@@ -18,8 +18,10 @@ const enlacesDespues = [
 ]
 
 // Buscador + botón Carrito + botones de sesión. Se usa dos veces: en escritorio y dentro del menú móvil.
+// Todo va en altura "sm" y alineado al centro para que se vea como un solo bloque:
+// [buscador] | [carrito] [👤 nombre ⏻]   o, sin sesión,   [buscador] | [Iniciar sesión] [Registrarse]
 function AccionesNavbar({ alNavegar }) {
-  const { usuario, logout } = useAuth()
+  const { usuario, logout, esStaff } = useAuth()
   const { total, cantidadItems } = useCart()
   const navigate = useNavigate()
 
@@ -30,20 +32,31 @@ function AccionesNavbar({ alNavegar }) {
   }
 
   return (
-    <div className="d-flex flex-column flex-lg-row gap-2 align-items-lg-center">
+    <div className="acciones-navbar">
       <BuscadorProductos onBuscar={alNavegar} />
+      <span className="separador-navbar d-none d-lg-block" aria-hidden="true" />
       <div className="d-flex flex-wrap gap-2 align-items-center text-nowrap">
         {cantidadItems > 0 && (
-          <Link className="btn btn-success btn-sm" to="/carrito" onClick={alNavegar}>
-            🛒 Carrito {formatoCLP(total)}
-            <span className="badge bg-light text-dark ms-1">{cantidadItems}</span>
+          <Link className="btn btn-success btn-sm d-inline-flex align-items-center gap-1" to="/carrito" onClick={alNavegar}>
+            🛒 {formatoCLP(total)}
+            <span className="badge bg-light text-dark">{cantidadItems}</span>
           </Link>
         )}
         {usuario ? (
-          <>
-            <span className="text-secondary small">Hola, {usuario.nombre}</span>
-            <button className="btn btn-outline-light btn-sm" onClick={cerrarSesion}>Cerrar sesión</button>
-          </>
+          // Nombre y cerrar sesión unidos en un solo grupo de botones
+          <div className="btn-group btn-group-sm" role="group" aria-label="Tu cuenta">
+            <Link
+              className="btn btn-outline-light chip-usuario"
+              to={esStaff ? '/admin/perfil' : '/mis-compras'}
+              onClick={alNavegar}
+              title={esStaff ? 'Mi perfil' : 'Mis compras'}
+            >
+              👤 {usuario.nombre}
+            </Link>
+            <button type="button" className="btn btn-outline-danger" onClick={cerrarSesion} title="Cerrar sesión">
+              Salir
+            </button>
+          </div>
         ) : (
           <>
             <Link className="btn btn-outline-info btn-sm" to="/login" onClick={alNavegar}>Iniciar sesión</Link>
