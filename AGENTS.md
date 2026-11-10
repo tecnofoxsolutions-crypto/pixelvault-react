@@ -179,7 +179,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 3. ✅ MUST · HU-44 Dashboard admin
 4. ✅ MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. ✅ MUST · HU-47 Stock crítico
-6. SHOULD · HU-51 Reportes
+6. ✅ SHOULD · HU-51 Reportes
 7. MUST · TEC-08 README final, .zip y entrega en AVA
 
 ## Reglas de código
