@@ -160,7 +160,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 **Jim**
 1. ✅ Esqueleto del proyecto (este repo)
 2. ✅ MUST · HU-40 Login (con panel de cuentas demo) y registro
-3. MUST · HU-44 Dashboard admin
+3. ✅ MUST · HU-44 Dashboard admin
 4. MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. MUST · HU-47 Stock crítico
 6. SHOULD · HU-51 Reportes
