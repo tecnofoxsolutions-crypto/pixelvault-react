@@ -39,7 +39,7 @@ export default function BoletaDetalle() {
 
   return (
     <>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 no-imprimir">
+      <div className="encabezado-panel d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 no-imprimir">
         <div>
           <h1 className="h3 text-light mb-0">Orden {orden.numero}</h1>
           <Link to="/admin/ordenes" className="small">← Volver a órdenes</Link>

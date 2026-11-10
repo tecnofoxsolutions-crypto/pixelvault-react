@@ -22,10 +22,12 @@ export default function StockCritico() {
         </ol>
       </nav>
 
-      <h1 className="h3 text-light mb-1">Productos con stock crítico</h1>
-      <p className="text-secondary mb-3">
-        Productos cuyo stock es igual o menor al mínimo definido. Repón primero los agotados.
-      </p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">Productos con stock crítico</h1>
+        <p className="text-secondary mb-0">
+          Productos cuyo stock es igual o menor al mínimo definido. Repón primero los agotados.
+        </p>
+      </div>
 
       {criticos.length === 0 ? (
         <div className="alert alert-success">✅ Todo el inventario está sobre su stock crítico.</div>

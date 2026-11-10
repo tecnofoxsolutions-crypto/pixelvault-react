@@ -5,13 +5,15 @@ import { useAuth } from '../../context/AuthContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
 import AlertMessage from '../../components/common/AlertMessage.jsx'
 import CustomerForm from '../../components/compra/CustomerForm.jsx'
+import CuentaNuevaForm from '../../components/compra/CuentaNuevaForm.jsx'
 import AddressForm from '../../components/compra/AddressForm.jsx'
 import DeliveryOptions from '../../components/compra/DeliveryOptions.jsx'
 import OrderSummaryTable from '../../components/compra/OrderSummaryTable.jsx'
 import { calcularDespacho } from '../../components/compra/despacho.js'
 import { CLAVE_BORRADOR_CHECKOUT, procesarPago } from '../../components/compra/pago.js'
 import { formatoCLP } from '../../utils/formatoCLP.js'
-import { requerido, validarCorreo, validarLargo } from '../../utils/validaciones.js'
+import db from '../../data/db.js'
+import { formatearRut, requerido, validarCorreo, validarLargo, validarRut } from '../../utils/validaciones.js'
 import '../../components/carrito/carrito.css'
 
 // El formulario se guarda en sessionStorage para no perderlo si el pago falla o el cliente vuelve al carrito
@@ -27,7 +29,13 @@ const formularioVacio = {
   comuna: '',
   indicaciones: '',
   tipoEntrega: 'despacho',
+  // Solo sin sesión (CF-20): datos para crear la cuenta. Las contraseñas nunca se guardan en el borrador.
+  rut: '',
+  clave: '',
+  confirmacion: '',
 }
+
+const NO_GUARDAR = ['clave', 'confirmacion']
 
 // Se parte de los datos del usuario con sesión y encima se ponen SOLO los campos que el cliente ya escribió
 // (borrador). Antes el borrador completo tenía prioridad, y un borrador vacío borraba los datos del usuario (CF-08).
@@ -54,12 +62,26 @@ function formularioInicial(usuario) {
   return { ...base, ...escritos }
 }
 
-// Devuelve { campo: 'mensaje de error' | null } con todas las reglas del formulario
-function validar(form) {
+// Reglas extra cuando no hay sesión: la compra crea una cuenta de Cliente (CF-20)
+function validarCuentaNueva(form) {
+  const usuarios = db.getAll('usuarios')
+  const correo = form.correo.trim().toLowerCase()
   return {
+    correo: usuarios.some((u) => u.correo?.toLowerCase() === correo) ? 'Este correo ya tiene una cuenta: inicia sesión' : null,
+    rut: validarRut(form.rut) ?? (usuarios.some((u) => formatearRut(u.rut) === formatearRut(form.rut)) ? 'Este RUT ya está registrado' : null),
+    clave: requerido(form.clave, 'la contraseña') ?? validarLargo(form.clave, 6, 30, 'La contraseña'),
+    confirmacion: requerido(form.confirmacion, 'la confirmación') ?? (form.confirmacion !== form.clave ? 'Las contraseñas no coinciden' : null),
+  }
+}
+
+// Devuelve { campo: 'mensaje de error' | null } con todas las reglas del formulario
+function validar(form, conCuentaNueva) {
+  const cuenta = conCuentaNueva ? validarCuentaNueva(form) : {}
+  return {
+    ...cuenta,
     nombre: requerido(form.nombre, 'el nombre') ?? validarLargo(form.nombre, 2, 50, 'El nombre'),
     apellidos: requerido(form.apellidos, 'los apellidos') ?? validarLargo(form.apellidos, 2, 60, 'Los apellidos'),
-    correo: validarCorreo(form.correo),
+    correo: validarCorreo(form.correo) ?? cuenta.correo ?? null,
     calle: requerido(form.calle, 'la calle y número') ?? validarLargo(form.calle, 5, 100, 'La dirección'),
     depto: validarLargo(form.depto, 0, 30, 'El depto.'),
     region: requerido(form.region, 'la región'),
@@ -69,7 +91,7 @@ function validar(form) {
 }
 
 export default function Checkout() {
-  const { usuario } = useAuth()
+  const { usuario, registrar } = useAuth()
   const { items, total: subtotal, vaciar } = useCart()
   const navigate = useNavigate()
 
@@ -81,7 +103,10 @@ export default function Checkout() {
 
   // Guardar el borrador cada vez que cambia el formulario (no si el carrito está vacío: esa visita no escribió nada)
   useEffect(() => {
-    if (items.length > 0) sessionStorage.setItem(CLAVE_BORRADOR, JSON.stringify(form))
+    if (items.length > 0) {
+      const borrador = Object.fromEntries(Object.entries(form).filter(([campo]) => !NO_GUARDAR.includes(campo)))
+      sessionStorage.setItem(CLAVE_BORRADOR, JSON.stringify(borrador))
+    }
   }, [form, items.length])
 
   // Sin productos no hay nada que pagar
@@ -89,7 +114,7 @@ export default function Checkout() {
 
   const despacho = calcularDespacho(form.tipoEntrega)
   const total = subtotal + despacho
-  const errores = validar(form)
+  const errores = validar(form, !usuario)
   const hayErrores = Object.values(errores).some(Boolean)
 
   // Un error solo se muestra si el campo ya se tocó o si se intentó pagar
@@ -121,7 +146,27 @@ export default function Checkout() {
       return
     }
 
-    const resultado = procesarPago({ form, items, usuario, simularRechazo })
+    // Sin sesión: primero se crea la cuenta (queda con la sesión iniciada) y la orden se asocia a ella
+    let comprador = usuario
+    if (!comprador) {
+      const cuenta = registrar({
+        nombre: form.nombre.trim(),
+        apellidos: form.apellidos.trim(),
+        correo: form.correo,
+        rut: formatearRut(form.rut),
+        clave: form.clave,
+        region: form.region,
+        comuna: form.comuna,
+        direccion: form.calle.trim(),
+      })
+      if (!cuenta.ok) {
+        setAviso({ tipo: 'danger', mensaje: cuenta.error })
+        return
+      }
+      comprador = cuenta.usuario
+    }
+
+    const resultado = procesarPago({ form, items, usuario: comprador, simularRechazo })
     if (!resultado.ok) {
       // Rechazado: el carrito y el borrador se mantienen para poder reintentar
       navigate('/compra/error', { state: { motivo: resultado.motivo, detalle: resultado.detalle } })
@@ -143,12 +188,10 @@ export default function Checkout() {
         <div className="col-12 col-lg-7">
           <div className="card card-resumen">
             <div className="card-body d-grid gap-3">
-              {!usuario && (
-                <p className="small text-secondary mb-0">
-                  ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link> y completamos tus datos.
-                </p>
-              )}
               <CustomerForm datos={form} errores={erroresVisibles} onCambiar={cambiarCampo} onTocar={tocarCampo} />
+              {!usuario && (
+                <CuentaNuevaForm datos={form} errores={erroresVisibles} onCambiar={cambiarCampo} onTocar={tocarCampo} />
+              )}
               <AddressForm datos={form} errores={erroresVisibles} onCambiar={cambiarCampo} onTocar={tocarCampo} />
               <DeliveryOptions valor={form.tipoEntrega} onCambiar={(valor) => cambiarCampo('tipoEntrega', valor)} />
             </div>
@@ -181,7 +224,7 @@ export default function Checkout() {
 
               <div className="d-grid gap-2">
                 <button type="submit" className="btn btn-primary btn-arcade py-2">
-                  Pagar ahora
+                  {usuario ? 'Pagar ahora' : 'Crear cuenta y pagar'}
                 </button>
                 <Link to="/carrito" className="btn btn-link text-secondary">
                   Volver al carrito

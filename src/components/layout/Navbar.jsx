@@ -43,9 +43,9 @@ function BotonesCuenta({ alNavegar }) {
         <>
           <Link
             className="btn btn-outline-light btn-sm chip-usuario"
-            to={esStaff ? '/admin/perfil' : '/mis-compras'}
+            to={esStaff ? '/admin/perfil' : '/perfil'}
             onClick={alNavegar}
-            title={esStaff ? 'Mi perfil' : 'Mis compras'}
+            title="Mi perfil"
           >
             👤 {usuario.nombre}
           </Link>

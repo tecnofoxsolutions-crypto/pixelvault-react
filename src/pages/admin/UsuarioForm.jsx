@@ -45,7 +45,7 @@ export default function UsuarioForm() {
           <li className="breadcrumb-item active" aria-current="page">{esEdicion ? 'Editar' : 'Nuevo'}</li>
         </ol>
       </nav>
-      <h1 className="h3 text-light mb-4">
+      <h1 className="h3 text-light mb-4 encabezado-panel">
         {esEdicion ? `Editar: ${usuario.nombre} ${usuario.apellidos}` : 'Nuevo usuario'}
       </h1>
 

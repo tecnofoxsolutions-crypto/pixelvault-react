@@ -47,7 +47,7 @@ export default function ProductosAdmin() {
 
   return (
     <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div className="encabezado-panel d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div>
           <h1 className="h3 text-light mb-0">Productos</h1>
           <p className="text-secondary small mb-0">Mostrando {visibles.length} de {productos.length} productos</p>

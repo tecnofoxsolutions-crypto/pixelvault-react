@@ -36,10 +36,12 @@ export default function Historial() {
 
   return (
     <div>
-      <h1 className="h3 text-light mb-1">📜 Historial de movimientos</h1>
-      <p className="text-secondary small mb-3">
-        Bitácora de la plataforma: compras, cambios de estado, inventario, usuarios, blog y sesiones. {visibles.length} de {movimientos.length} movimientos.
-      </p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">📜 Historial de movimientos</h1>
+        <p className="text-secondary small mb-0">
+          Bitácora de la plataforma: compras, cambios de estado, inventario, usuarios, blog y sesiones. {visibles.length} de {movimientos.length} movimientos.
+        </p>
+      </div>
 
       <div className="row g-2 mb-3">
         <div className="col-12 col-md-5">

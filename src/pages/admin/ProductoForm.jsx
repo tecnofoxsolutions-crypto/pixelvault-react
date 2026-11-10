@@ -45,7 +45,7 @@ export default function ProductoForm() {
           <li className="breadcrumb-item active" aria-current="page">{esEdicion ? 'Editar' : 'Nuevo'}</li>
         </ol>
       </nav>
-      <h1 className="h3 text-light mb-4">{esEdicion ? `Editar: ${producto.nombre}` : 'Nuevo producto'}</h1>
+      <h1 className="h3 text-light mb-4 encabezado-panel">{esEdicion ? `Editar: ${producto.nombre}` : 'Nuevo producto'}</h1>
 
       <div className="card card-juego">
         <div className="card-body">

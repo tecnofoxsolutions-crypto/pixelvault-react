@@ -53,7 +53,7 @@ export default function UsuariosAdmin() {
 
   return (
     <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div className="encabezado-panel d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div>
           <h1 className="h3 text-light mb-0">Usuarios</h1>
           <p className="text-secondary small mb-0">Mostrando {visibles.length} de {grupo.length} {pestana === 'clientes' ? 'clientes' : 'miembros del staff'}</p>

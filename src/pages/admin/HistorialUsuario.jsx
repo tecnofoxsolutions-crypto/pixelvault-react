@@ -23,7 +23,7 @@ export default function HistorialUsuario() {
 
   return (
     <>
-      <div className="mb-3">
+      <div className="encabezado-panel mb-3">
         <Link to="/admin/usuarios" className="small">← Volver a usuarios</Link>
         <h1 className="h3 text-light mb-0 mt-1">
           Compras de {usuario.nombre} {usuario.apellidos}

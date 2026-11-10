@@ -30,7 +30,7 @@ export default function Ordenes() {
 
   return (
     <>
-      <div className="mb-3">
+      <div className="encabezado-panel mb-3">
         <h1 className="h3 text-light mb-0">Órdenes</h1>
         <p className="text-secondary small mb-0">
           Mostrando {visibles.length} de {ordenes.length} órdenes · Total {formatoCLP(totalVisibles)}

@@ -288,3 +288,9 @@ Como cambia la forma de las órdenes y se agrega la colección `movimientos`, en
 - **Maximiliano:** el Home, el header, el catálogo, Nosotros y Contacto cambiaron. Revisen juntos el nuevo `Productos.jsx`: ahora recibe `filtroInicial` y `titulo` por props y lo reutilizan Categorías y Ofertas (CF-05). Es un buen ejemplo de props.
 - **Emanuel:** tus órdenes ahora siguen un flujo con `siguientePaso(orden)` en `ordenes.js` (CF-10) y tienen códigos PV (CF-09). Revisa también la corrección del checkout (CF-08): es un buen ejemplo de cómo se combinan dos fuentes de datos para el estado inicial de un formulario.
 - **Jim:** permisos por rol (CF-11), historial central en `db.js` (CF-14) y los paneles de repartidor y editor (CF-12 y CF-13).
+
+## CF-20 ✅ Perfil del cliente, compra con creación de cuenta y títulos del Panel Staff
+
+- **Perfil del cliente:** el botón "👤 nombre" de la barra lleva a `/perfil` (cliente) o `/admin/perfil` (staff). `/perfil` reutiliza `pages/admin/Perfil.jsx` y exige sesión. "Mis compras" sigue en el menú.
+- **Checkout sin sesión = crear cuenta:** si no hay sesión, el checkout pide además RUT, contraseña y su confirmación (`components/compra/CuentaNuevaForm.jsx`). Al pagar se llama a `registrar(...)`, la cuenta queda con la sesión iniciada y la orden se asocia a ese `usuarioId`. Se valida que el correo y el RUT no existan. Las contraseñas no se guardan en el borrador del checkout.
+- **Títulos del Panel Staff:** la clase `.encabezado-panel` (en `estilos.css`) pone los títulos de cada sección en una tarjeta oscura con borde celeste para que no se pierdan con el fondo. Las migas de pan y "Accesos rápidos" también van en un recuadro.

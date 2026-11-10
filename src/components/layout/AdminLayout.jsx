@@ -9,7 +9,7 @@ export default function AdminLayout() {
         <aside className="col-12 col-md-3 col-lg-2 bg-dark border-end border-bottom border-secondary p-3">
           <AdminSidebar />
         </aside>
-        <main className="col-12 col-md-9 col-lg-10 p-3 p-md-4">
+        <main className="admin-main col-12 col-md-9 col-lg-10 p-3 p-md-4">
           <Outlet />
         </main>
       </div>

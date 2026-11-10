@@ -56,8 +56,10 @@ export default function CategoriasAdmin() {
 
   return (
     <div>
-      <h1 className="h3 text-light mb-1">Categorías</h1>
-      <p className="text-secondary small mb-3">Organizan el catálogo y aparecen en la página Categorías de la tienda.</p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">Categorías</h1>
+        <p className="text-secondary small mb-0">Organizan el catálogo y aparecen en la página Categorías de la tienda.</p>
+      </div>
 
       <AlertMessage tipo={aviso.tipo} mensaje={aviso.texto} onCerrar={() => setAviso({ ...aviso, texto: '' })} />
 

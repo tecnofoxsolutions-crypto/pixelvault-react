@@ -30,8 +30,10 @@ export default function Entregas() {
 
   return (
     <div>
-      <h1 className="h3 text-light mb-1">Mis entregas</h1>
-      <p className="text-secondary small mb-3">Pedidos que te asignaron. Inicia la ruta al salir y marca la entrega con una foto del paquete.</p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">Mis entregas</h1>
+        <p className="text-secondary small mb-0">Pedidos que te asignaron. Inicia la ruta al salir y marca la entrega con una foto del paquete.</p>
+      </div>
 
       <AlertMessage tipo="success" mensaje={aviso} onCerrar={() => setAviso('')} />
 

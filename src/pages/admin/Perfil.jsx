@@ -49,10 +49,12 @@ export default function Perfil() {
 
   return (
     <div className="container-fluid px-0">
-      <h1 className="h3 text-light mb-1">Mi perfil</h1>
-      <p className="text-secondary small mb-4">
-        Usuario <strong>{usuario.usuario}</strong> · {usuario.rol}
-      </p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">Mi perfil</h1>
+        <p className="text-secondary small mb-0">
+          Usuario <strong>{usuario.usuario}</strong> · {usuario.rol}
+        </p>
+      </div>
 
       <div className="row g-4">
         <div className="col-12 col-xl-7">

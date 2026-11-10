@@ -72,6 +72,8 @@ export default function AppRouter() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/mis-compras" element={<MisCompras />} />
+          {/* CF-20: el cliente edita su perfil desde el botón con su nombre en la barra */}
+          <Route path="/perfil" element={<div className="container py-4 py-md-5"><Perfil /></div>} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

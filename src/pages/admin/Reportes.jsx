@@ -25,7 +25,7 @@ export default function Reportes() {
 
   return (
     <div>
-      <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+      <div className="encabezado-panel d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
         <div>
           <h1 className="h3 text-light mb-0">Reportes</h1>
           <p className="text-secondary small mb-0">Ventas sin contar órdenes canceladas.</p>

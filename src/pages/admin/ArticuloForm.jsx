@@ -39,7 +39,7 @@ export default function ArticuloForm() {
           <li className="breadcrumb-item active" aria-current="page">{esEdicion ? 'Editar' : 'Nuevo'}</li>
         </ol>
       </nav>
-      <h1 className="h3 text-light mb-4">{esEdicion ? 'Editar artículo' : 'Nuevo artículo'}</h1>
+      <h1 className="h3 text-light mb-4 encabezado-panel">{esEdicion ? 'Editar artículo' : 'Nuevo artículo'}</h1>
 
       <div className="card card-juego">
         <div className="card-body">

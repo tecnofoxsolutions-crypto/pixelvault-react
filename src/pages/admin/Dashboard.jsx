@@ -64,10 +64,12 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="h3 text-light mb-1">Dashboard</h1>
-      <p className="text-secondary mb-4">
-        Hola {usuario.nombre}, estás en el Panel Staff como <strong className="text-info">{usuario.rol}</strong>.
-      </p>
+      <div className="encabezado-panel mb-4">
+        <h1 className="h3 text-light mb-1">Dashboard</h1>
+        <p className="text-secondary mb-0">
+          Hola {usuario.nombre}, estás en el Panel Staff como <strong className="text-info">{usuario.rol}</strong>.
+        </p>
+      </div>
 
       {veProductos && criticos.length > 0 && (
         <div className="alert alert-warning d-flex flex-wrap justify-content-between align-items-center gap-2" role="alert">
@@ -87,7 +89,7 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <h2 className="h5 text-light mb-3">Accesos rápidos</h2>
+      <h2 className="h5 text-light mb-3 titulo-seccion-panel">Accesos rápidos</h2>
       <div className="row g-3">
         {accesos.map((acceso) => (
           <div className="col-6 col-lg-4 col-xl-3" key={acceso.to}>
