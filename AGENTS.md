@@ -160,7 +160,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 4. MUST · HU-38/39 Pago exitoso (crea la orden, descuenta stock, vacía carrito, boleta con `window.print()`) y pago con error (no toca carrito ni stock, botón reintentar). El pago se rechaza si falta stock o si se marca la casilla de demo "Simular pago rechazado"
 5. MUST · HU-45 Admin: órdenes con filtro y detalle de boleta con cambio de estado
 6. SHOULD · HU-43/50 Mis compras e historial de compras por usuario
-7. COULD · HU-52 Perfil
+7. COULD · HU-52 Perfil — puedes reutilizar `components/admin/UserForm.jsx` con `esUsuarioActual={true}` (bloquea rol y estado) y `refrescarUsuario()` de `useAuth` después de guardar; ver `pages/admin/UsuarioForm.jsx`
 8. MUST · TEC-07 ERS V2
 
 **Maximiliano**
@@ -180,7 +180,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 4. ✅ MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. ✅ MUST · HU-47 Stock crítico
 6. ✅ SHOULD · HU-51 Reportes
-7. MUST · HU-48/49 Admin de categorías y usuarios (reasignada desde Maximiliano)
+7. ✅ MUST · HU-48/49 Admin de categorías y usuarios (reasignada desde Maximiliano)
 8. MUST · TEC-08 README final, .zip y entrega en AVA
 
 ## Reglas de código
