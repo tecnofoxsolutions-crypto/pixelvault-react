@@ -104,8 +104,24 @@ import { requerido, validarCorreo, validarRut, validarLargo, formatearRut } from
 
 import AlertMessage from '../../components/common/AlertMessage.jsx' // <AlertMessage tipo="danger" mensaje="..." onCerrar={fn} />
 import FormField from '../../components/common/FormField.jsx'       // input con label y error bajo el campo
-import SelectField from '../../components/common/SelectField.jsx'   // <select> con label y error; recibe opciones={['A', 'B']}
+import SelectField from '../../components/common/SelectField.jsx'   // <select> con label y error; opciones={['A', 'B']} o [{ valor, texto }]
+import ConfirmModal from '../../components/common/ConfirmModal.jsx' // confirmación antes de eliminar (ver uso abajo)
 ```
+
+```jsx
+// ConfirmModal: se abre cuando `abierto` es true. Ejemplo completo en pages/admin/ProductosAdmin.jsx
+const [aEliminar, setAEliminar] = useState(null)
+<ConfirmModal
+  abierto={aEliminar !== null}
+  titulo="Eliminar categoría"
+  mensaje={`¿Seguro que quieres eliminar ${aEliminar?.nombre}?`}
+  textoConfirmar="Eliminar"
+  onConfirmar={() => { db.remove('categorias', aEliminar.id); setCategorias(db.getAll('categorias')); setAEliminar(null) }}
+  onCancelar={() => setAEliminar(null)}
+/>
+```
+
+`src/pages/admin/ProductosAdmin.jsx` + `src/components/admin/ProductForm.jsx` son el ejemplo de CRUD completo (listado con búsqueda, un mismo formulario para crear y editar, eliminar con confirmación). Sirven de modelo para categorías y usuarios. `src/data/plataformas.js` tiene las plataformas que vende la tienda.
 
 `src/pages/tienda/Registro.jsx` es un ejemplo completo de formulario con validación en vivo (errores bajo el campo apenas se toca) y selector región → comuna. Úsalo como referencia para el checkout y el formulario de usuarios.
 
@@ -161,7 +177,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 1. ✅ Esqueleto del proyecto (este repo)
 2. ✅ MUST · HU-40 Login (con panel de cuentas demo) y registro
 3. ✅ MUST · HU-44 Dashboard admin
-4. MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
+4. ✅ MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. MUST · HU-47 Stock crítico
 6. SHOULD · HU-51 Reportes
 7. MUST · TEC-08 README final, .zip y entrega en AVA

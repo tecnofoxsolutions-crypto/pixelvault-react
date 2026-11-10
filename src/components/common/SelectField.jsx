@@ -1,5 +1,7 @@
 // Selector con etiqueta y mensaje de error bajo el campo.
-// <SelectField id="region" label="Región" value={region} onChange={...} opciones={['RM', 'Valparaíso']} error={errores.region} requerido />
+// Las opciones pueden ser textos o pares { valor, texto }:
+//   opciones={['RM', 'Valparaíso']}
+//   opciones={categorias.map(c => ({ valor: c.id, texto: c.nombre }))}
 export default function SelectField({ id, label, value, onChange, opciones, error, requerido, placeholder = 'Selecciona una opción', ...resto }) {
   return (
     <div className="mb-3">
@@ -16,9 +18,11 @@ export default function SelectField({ id, label, value, onChange, opciones, erro
         {...resto}
       >
         <option value="">{placeholder}</option>
-        {opciones.map((opcion) => (
-          <option key={opcion} value={opcion}>{opcion}</option>
-        ))}
+        {opciones.map((opcion) => {
+          const valor = typeof opcion === 'object' ? opcion.valor : opcion
+          const texto = typeof opcion === 'object' ? opcion.texto : opcion
+          return <option key={valor} value={valor}>{texto}</option>
+        })}
       </select>
       {error && <div className="invalid-feedback">{error}</div>}
     </div>
