@@ -14,7 +14,7 @@ export default function PagoExitoso() {
     return (
       <div className="container py-5 text-center">
         <h1 className="h3 text-light mb-3">Orden no encontrada</h1>
-        <p className="text-secondary">No existe una compra con el número #{numero}.</p>
+        <p className="text-secondary">No existe una compra con el código {numero}.</p>
         <Link to="/productos" className="btn btn-primary btn-arcade">Ir a productos</Link>
       </div>
     )
@@ -23,7 +23,7 @@ export default function PagoExitoso() {
   return (
     <div className="container py-4 py-md-5">
       <div className="alert alert-success no-imprimir" role="status">
-        <h1 className="h4 alert-heading mb-1">Se ha realizado la compra nro #{orden.numero}</h1>
+        <h1 className="h4 alert-heading mb-1">Se ha realizado la compra {orden.numero}</h1>
         <p className="mb-0">
           Código de orden: <strong>{orden.numero}</strong> · Total pagado: <strong>{formatoCLP(orden.total)}</strong>
         </p>

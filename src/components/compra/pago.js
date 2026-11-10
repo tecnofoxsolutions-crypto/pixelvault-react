@@ -1,6 +1,7 @@
 // DUEÑO: Emanuel (HU-38/39). Pago simulado: crea la orden o devuelve el motivo del rechazo.
 import db from '../../data/db.js'
 import { calcularDespacho } from './despacho.js'
+import { siguienteCodigo } from './ordenes.js'
 
 // Clave del formulario de checkout guardado en sessionStorage (para reintentar sin perder los datos)
 export const CLAVE_BORRADOR_CHECKOUT = 'pixelvault_checkout'
@@ -20,19 +21,14 @@ function revisarStock(items) {
   return null
 }
 
-// Número correlativo: el mayor número existente + 1
-function siguienteNumero() {
-  const numeros = db.getAll('ordenes').map((orden) => Number(orden.numero) || 0)
-  return numeros.length > 0 ? Math.max(...numeros) + 1 : 20261001
-}
-
-// Arma el objeto orden con la forma del contrato (ver AGENTS.md)
+// Arma el objeto orden con la forma del contrato (ver AGENTS.md y docs/CAMBIOS-FINALES.md, CF-09 y CF-10)
 function armarOrden({ form, items, usuario }) {
   const subtotal = items.reduce((suma, it) => suma + it.precio * it.cantidad, 0)
   const despacho = calcularDespacho(form.tipoEntrega)
+  const fecha = new Date().toISOString()
   return {
-    numero: siguienteNumero(),
-    fecha: new Date().toISOString(),
+    numero: siguienteCodigo(db.getAll('ordenes')),
+    fecha,
     usuarioId: usuario?.id ?? null,
     cliente: { nombre: form.nombre.trim(), apellidos: form.apellidos.trim(), correo: form.correo.trim() },
     direccion: {
@@ -48,6 +44,16 @@ function armarOrden({ form, items, usuario }) {
     despacho,
     total: subtotal + despacho,
     estado: 'En preparación',
+    repartidorId: null,
+    fotoEntrega: null,
+    historialEstados: [
+      {
+        estado: 'En preparación',
+        fecha,
+        usuarioId: usuario?.id ?? null,
+        usuarioNombre: `${form.nombre.trim()} ${form.apellidos.trim()} (compra)`,
+      },
+    ],
   }
 }
 

@@ -21,7 +21,7 @@ export default function Boleta({ orden }) {
             <div className="small text-secondary">Boleta electrónica · Tienda de videojuegos físicos</div>
           </div>
           <div className="text-md-end">
-            <div className="fw-bold">Orden #{orden.numero}</div>
+            <div className="fw-bold">Orden {orden.numero}</div>
             <div className="small text-secondary">{formatearFecha(orden.fecha)}</div>
             <EstadoBadge estado={orden.estado} />
           </div>

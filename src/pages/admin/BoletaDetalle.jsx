@@ -1,10 +1,13 @@
-// DUEÑO: Emanuel (HU-45). Página /admin/ordenes/:numero: boleta completa y cambio de estado.
+// Página /admin/ordenes/:numero: boleta completa y avance de la orden por su flujo de estados.
+// Creada por Emanuel (HU-45); el cambio de estado por lista se reemplazó por el botón "siguiente paso" (CF-10).
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import db from '../../data/db.js'
+import { useAuth } from '../../context/AuthContext.jsx'
 import AlertMessage from '../../components/common/AlertMessage.jsx'
 import Boleta from '../../components/compra/Boleta.jsx'
-import { ESTADOS_ORDEN } from '../../components/compra/ordenes.js'
+import AccionesOrden from '../../components/compra/AccionesOrden.jsx'
+import HistorialEstados from '../../components/compra/HistorialEstados.jsx'
 
 function buscarOrden(numero) {
   return db.getAll('ordenes').find((o) => String(o.numero) === numero) ?? null
@@ -12,37 +15,37 @@ function buscarOrden(numero) {
 
 export default function BoletaDetalle() {
   const { numero } = useParams()
+  const { usuario } = useAuth()
   const [orden, setOrden] = useState(() => buscarOrden(numero))
-  const [nuevoEstado, setNuevoEstado] = useState(orden?.estado ?? '')
-  const [aviso, setAviso] = useState(null)
+  const [aviso, setAviso] = useState('')
 
   if (!orden) {
     return (
       <div className="text-center py-5">
         <h1 className="h3 text-light">Orden no encontrada</h1>
-        <p className="text-secondary">No existe una orden con el número #{numero}.</p>
+        <p className="text-secondary">No existe una orden con el código {numero}.</p>
         <Link to="/admin/ordenes" className="btn btn-primary">Volver a órdenes</Link>
       </div>
     )
   }
 
-  function guardarEstado(evento) {
-    evento.preventDefault()
-    const actualizada = db.update('ordenes', orden.id, { estado: nuevoEstado })
-    // db.js no avisa a React: se guarda el resultado en el estado para volver a dibujar
+  const repartidor = orden.repartidorId ? db.getById('usuarios', orden.repartidorId) : null
+
+  // db.js no avisa a React: se guarda la orden actualizada en el estado para volver a dibujar
+  function alCambiar(actualizada, mensaje) {
     setOrden(actualizada)
-    setAviso({ tipo: 'success', mensaje: `La orden #${orden.numero} quedó "${nuevoEstado}".` })
+    setAviso(mensaje)
   }
 
   return (
     <>
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3 no-imprimir">
         <div>
-          <h1 className="h3 text-light mb-0">Orden #{orden.numero}</h1>
+          <h1 className="h3 text-light mb-0">Orden {orden.numero}</h1>
           <Link to="/admin/ordenes" className="small">← Volver a órdenes</Link>
         </div>
         <div className="d-flex flex-wrap gap-2">
-          {orden.usuarioId && (
+          {orden.usuarioId && usuario?.rol === 'Administrador' && (
             <Link to={`/admin/usuarios/${orden.usuarioId}/compras`} className="btn btn-outline-light">
               Compras del cliente
             </Link>
@@ -54,29 +57,38 @@ export default function BoletaDetalle() {
       </div>
 
       <div className="no-imprimir">
-        <AlertMessage tipo={aviso?.tipo} mensaje={aviso?.mensaje} onCerrar={() => setAviso(null)} />
-      </div>
+        <AlertMessage tipo="success" mensaje={aviso} onCerrar={() => setAviso('')} />
 
-      <form className="row g-2 align-items-end mb-4 no-imprimir" onSubmit={guardarEstado}>
-        <div className="col-12 col-sm-6 col-lg-4">
-          <label htmlFor="estadoOrden" className="form-label">Estado de la orden</label>
-          <select
-            id="estadoOrden"
-            className="form-select"
-            value={nuevoEstado}
-            onChange={(evento) => setNuevoEstado(evento.target.value)}
-          >
-            {ESTADOS_ORDEN.map((estado) => (
-              <option key={estado} value={estado}>{estado}</option>
-            ))}
-          </select>
+        <div className="row g-3 mb-4">
+          <div className="col-12 col-lg-6">
+            <div className="card card-juego h-100">
+              <div className="card-body">
+                <h2 className="h6 text-info mb-3">Avanzar la orden</h2>
+                <AccionesOrden orden={orden} usuario={usuario} onCambio={alCambiar} />
+                {repartidor && (
+                  <p className="small text-secondary mt-3 mb-0">
+                    Repartidor asignado: <strong className="text-light">{repartidor.nombre} {repartidor.apellidos}</strong>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-lg-6">
+            <div className="card card-juego h-100">
+              <div className="card-body">
+                <h2 className="h6 text-info mb-3">Historial de estados</h2>
+                <HistorialEstados orden={orden} />
+                {orden.fotoEntrega && (
+                  <div className="mt-2">
+                    <div className="small text-secondary mb-1">Foto de la entrega:</div>
+                    <img src={orden.fotoEntrega} alt={`Paquete entregado de la orden ${orden.numero}`} className="rounded border border-secondary img-fluid" style={{ maxHeight: 180 }} />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="col-12 col-sm-auto">
-          <button type="submit" className="btn btn-primary w-100" disabled={nuevoEstado === orden.estado}>
-            Guardar estado
-          </button>
-        </div>
-      </form>
+      </div>
 
       <Boleta orden={orden} />
     </>

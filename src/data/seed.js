@@ -40,14 +40,20 @@ const usuarios = [
   { id: 7, usuario: 'francisco', rut: '77777777-7', nombre: 'Francisco', apellidos: 'Calabran', correo: 'f.calabran@gmail.com', clave: 'cliente', rol: 'Cliente', region: 'Región Metropolitana de Santiago', comuna: 'Cerrillos', direccion: 'Los Crisantemos 777, depto 603', activo: true },
 ]
 
+// Órdenes de ejemplo, una en cada punto del flujo de estados (CF-09 y CF-10):
+// PV-000001 entregada, PV-000002 retiro en preparación, PV-000003 asignada a Ilie, PV-000004 despacho en preparación.
+const clienteFrancisco = { nombre: 'Francisco', apellidos: 'Calabran', correo: 'f.calabran@gmail.com' }
+const direccionFrancisco = { calle: 'Los Crisantemos 777', depto: '603', region: 'Región Metropolitana de Santiago', comuna: 'Cerrillos', indicaciones: 'Dejar con el conserje.' }
+const paso = (estado, fecha, usuarioId, usuarioNombre) => ({ estado, fecha, usuarioId, usuarioNombre })
+
 const ordenes = [
   {
     id: 1,
-    numero: 20261001,
+    numero: 'PV-000001',
     fecha: '2026-10-28T15:20:00.000Z',
     usuarioId: 7,
-    cliente: { nombre: 'Francisco', apellidos: 'Calabran', correo: 'f.calabran@gmail.com' },
-    direccion: { calle: 'Los Crisantemos 777', depto: '603', region: 'Región Metropolitana de Santiago', comuna: 'Cerrillos', indicaciones: 'Dejar con el conserje.' },
+    cliente: clienteFrancisco,
+    direccion: direccionFrancisco,
     tipoEntrega: 'despacho',
     items: [
       { productoId: 7, nombre: 'Super Mario Bros. Wonder', precio: 39990, cantidad: 1, imagen: '/img/mariowonder.jpg' },
@@ -56,15 +62,23 @@ const ordenes = [
     subtotal: 81980,
     despacho: 4000,
     total: 85980,
-    estado: 'Entregado',
+    estado: 'Entregada',
+    repartidorId: 6,
+    fotoEntrega: null,
+    historialEstados: [
+      paso('En preparación', '2026-10-28T15:20:00.000Z', 7, 'Francisco Calabran (compra)'),
+      paso('Asignado a repartidor', '2026-10-28T18:00:00.000Z', 4, 'Fernando Sierra'),
+      paso('En camino', '2026-10-29T13:10:00.000Z', 6, 'Ilie Flores'),
+      paso('Entregada', '2026-10-29T15:45:00.000Z', 6, 'Ilie Flores'),
+    ],
   },
   {
     id: 2,
-    numero: 20261002,
+    numero: 'PV-000002',
     fecha: '2026-11-05T19:45:00.000Z',
     usuarioId: 7,
-    cliente: { nombre: 'Francisco', apellidos: 'Calabran', correo: 'f.calabran@gmail.com' },
-    direccion: { calle: 'Los Crisantemos 777', depto: '603', region: 'Región Metropolitana de Santiago', comuna: 'Cerrillos', indicaciones: '' },
+    cliente: clienteFrancisco,
+    direccion: { ...direccionFrancisco, indicaciones: '' },
     tipoEntrega: 'retiro',
     items: [
       { productoId: 1, nombre: 'The Witcher 3: Wild Hunt - Complete Edition', precio: 34990, cantidad: 2, imagen: '/img/witcher3.jpg' },
@@ -73,6 +87,65 @@ const ordenes = [
     despacho: 0,
     total: 69980,
     estado: 'En preparación',
+    repartidorId: null,
+    fotoEntrega: null,
+    historialEstados: [paso('En preparación', '2026-11-05T19:45:00.000Z', 7, 'Francisco Calabran (compra)')],
+  },
+  {
+    id: 3,
+    numero: 'PV-000003',
+    fecha: '2026-11-08T14:30:00.000Z',
+    usuarioId: 7,
+    cliente: clienteFrancisco,
+    direccion: direccionFrancisco,
+    tipoEntrega: 'despacho',
+    items: [
+      { productoId: 3, nombre: 'The Legend of Zelda: Tears of the Kingdom', precio: 49990, cantidad: 1, imagen: '/img/zelda_totk.jpg' },
+    ],
+    subtotal: 49990,
+    despacho: 4000,
+    total: 53990,
+    estado: 'Asignado a repartidor',
+    repartidorId: 6,
+    fotoEntrega: null,
+    historialEstados: [
+      paso('En preparación', '2026-11-08T14:30:00.000Z', 7, 'Francisco Calabran (compra)'),
+      paso('Asignado a repartidor', '2026-11-09T12:00:00.000Z', 1, 'Jim Charles'),
+    ],
+  },
+  {
+    id: 4,
+    numero: 'PV-000004',
+    fecha: '2026-11-09T21:10:00.000Z',
+    usuarioId: 7,
+    cliente: clienteFrancisco,
+    direccion: direccionFrancisco,
+    tipoEntrega: 'despacho',
+    items: [
+      { productoId: 12, nombre: 'Metal Slug Tactics - Big Box Edition', precio: 22990, cantidad: 1, imagen: '/img/metalslug.jpg' },
+      { productoId: 10, nombre: "TMNT: Shredder's Revenge - 16-Bit Retro Edition", precio: 32990, cantidad: 1, imagen: '/img/tmnt.jpg' },
+    ],
+    subtotal: 55980,
+    despacho: 4000,
+    total: 59980,
+    estado: 'En preparación',
+    repartidorId: null,
+    fotoEntrega: null,
+    historialEstados: [paso('En preparación', '2026-11-09T21:10:00.000Z', 7, 'Francisco Calabran (compra)')],
+  },
+]
+
+// Bitácora de movimientos (CF-14). Se llena sola desde db.js; esta es la entrada inicial.
+const movimientos = [
+  {
+    id: 1,
+    fecha: '2026-10-28T12:00:00.000Z',
+    usuarioId: null,
+    usuarioNombre: 'Sistema',
+    rol: 'Sistema',
+    categoria: 'Sistema',
+    accion: 'Inicialización',
+    detalle: 'Se cargaron los datos iniciales: productos, categorías, usuarios, órdenes y blog.',
   },
 ]
 
@@ -83,6 +156,7 @@ const seed = {
   ordenes,
   blog: blogSeed,
   contactos: [],
+  movimientos,
 }
 
 export default seed

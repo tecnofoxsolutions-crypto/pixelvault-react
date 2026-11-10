@@ -26,7 +26,7 @@ export default function OrdersTable({ ordenes, rutaDetalle, mostrarCliente = tru
             <tr key={orden.numero}>
               {/* En celulares el número es el enlace a la boleta (la columna del botón se oculta) */}
               <td className="fw-semibold">
-                <Link to={rutaDetalle(orden)} className="link-light">#{orden.numero}</Link>
+                <Link to={rutaDetalle(orden)} className="link-light">{orden.numero}</Link>
               </td>
               <td className="d-none d-sm-table-cell text-nowrap">{formatearFecha(orden.fecha, false)}</td>
               {mostrarCliente && (

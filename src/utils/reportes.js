@@ -6,7 +6,7 @@ const DIA_EN_MS = 24 * 60 * 60 * 1000
 // Órdenes no canceladas dentro del rango. dias = null → todas.
 export function ordenesDelPeriodo(ordenes, dias, hoy = new Date()) {
   const desde = dias ? hoy.getTime() - dias * DIA_EN_MS : null
-  return ordenes.filter((o) => o.estado !== 'Cancelado' && (!desde || new Date(o.fecha).getTime() >= desde))
+  return ordenes.filter((o) => o.estado !== 'Cancelada' && (!desde || new Date(o.fecha).getTime() >= desde))
 }
 
 // Total vendido, cantidad de órdenes y ticket promedio

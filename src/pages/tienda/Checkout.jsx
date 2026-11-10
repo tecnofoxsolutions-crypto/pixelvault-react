@@ -29,24 +29,29 @@ const formularioVacio = {
   tipoEntrega: 'despacho',
 }
 
-// Prioridad: 1) lo que el cliente ya había escrito, 2) los datos del usuario con sesión, 3) vacío
+// Se parte de los datos del usuario con sesión y encima se ponen SOLO los campos que el cliente ya escribió
+// (borrador). Antes el borrador completo tenía prioridad, y un borrador vacío borraba los datos del usuario (CF-08).
 function formularioInicial(usuario) {
+  const base = !usuario
+    ? formularioVacio
+    : {
+        ...formularioVacio,
+        nombre: usuario.nombre ?? '',
+        apellidos: usuario.apellidos ?? '',
+        correo: usuario.correo ?? '',
+        calle: usuario.direccion ?? '',
+        region: usuario.region ?? '',
+        comuna: usuario.comuna ?? '',
+      }
+
+  let borrador = {}
   try {
-    const borrador = JSON.parse(sessionStorage.getItem(CLAVE_BORRADOR))
-    if (borrador) return { ...formularioVacio, ...borrador }
+    borrador = JSON.parse(sessionStorage.getItem(CLAVE_BORRADOR)) ?? {}
   } catch {
     // borrador dañado: se ignora
   }
-  if (!usuario) return formularioVacio
-  return {
-    ...formularioVacio,
-    nombre: usuario.nombre ?? '',
-    apellidos: usuario.apellidos ?? '',
-    correo: usuario.correo ?? '',
-    calle: usuario.direccion ?? '',
-    region: usuario.region ?? '',
-    comuna: usuario.comuna ?? '',
-  }
+  const escritos = Object.fromEntries(Object.entries(borrador).filter(([, valor]) => valor !== '' && valor != null))
+  return { ...base, ...escritos }
 }
 
 // Devuelve { campo: 'mensaje de error' | null } con todas las reglas del formulario
@@ -74,10 +79,10 @@ export default function Checkout() {
   const [simularRechazo, setSimularRechazo] = useState(false)
   const [aviso, setAviso] = useState(null)
 
-  // Guardar el borrador cada vez que cambia el formulario
+  // Guardar el borrador cada vez que cambia el formulario (no si el carrito está vacío: esa visita no escribió nada)
   useEffect(() => {
-    sessionStorage.setItem(CLAVE_BORRADOR, JSON.stringify(form))
-  }, [form])
+    if (items.length > 0) sessionStorage.setItem(CLAVE_BORRADOR, JSON.stringify(form))
+  }, [form, items.length])
 
   // Sin productos no hay nada que pagar
   if (items.length === 0) return <Navigate to="/carrito" replace />
