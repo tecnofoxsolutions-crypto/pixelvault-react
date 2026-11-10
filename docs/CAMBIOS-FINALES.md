@@ -37,6 +37,7 @@ Jim arma la versión final del proyecto e implementa los cambios de este documen
 | CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ✅ |
 | CF-17 | Tipo de entrega en los listados, botón "Detalles" y comprobante de entrega para el cliente | Órdenes (Emanuel) | ✅ |
 | CF-18 | Imagen de producto: archivo o URL (no ambos) y encuadre para la tarjeta de la tienda | Admin (Jim) | ✅ |
+| CF-19 | Fondo con patrón gamer e imágenes propias de las categorías | Estilo (Jim) | ✅ |
 
 ---
 
@@ -169,6 +170,16 @@ Cancelar: botón aparte, solo Administrador, solo antes de "En camino".
 }
 ```
 **Archivos:** `components/compra/ordenes.js` (define el flujo: `siguientePaso(orden)`), `pages/admin/Ordenes.jsx`, `pages/admin/BoletaDetalle.jsx`, `components/compra/EstadoBadge.jsx`, `utils/reportes.js` (las canceladas se siguen excluyendo).
+
+### CF-19 · Fondo con patrón gamer e imágenes de categorías
+**Qué cambia:**
+- Toda la página (tienda y Panel Staff) tiene de fondo un **patrón de íconos gamer en pixel art** con la paleta de PixelVault, repetido y con una capa oscura encima para que no compita con el texto.
+- Cada categoría tiene su **imagen propia** en pixel art, en `/categorias` y en el admin de categorías.
+
+**Por qué:** darle identidad visual propia a la tienda.
+**Detalle técnico:** las imágenes originales pesaban unos 2,5 MB cada una; se redujeron a 960 px de ancho (categorías) y 1024 px (fondo), entre 53 y 112 KB cada una, para que la página cargue rápido. Las originales quedaron fuera del repo, en `Evaluacion 2/imagenes-originales/`.
+**Datos versión 4:** hay que limpiar el navegador otra vez para ver las imágenes nuevas de las categorías.
+**Archivos:** `public/img/fondo-patron.jpg`, `public/img/categorias/*.jpg`, `styles/estilos.css` (fondo del `body`), `data/seed.js` y `data/db.js`.
 
 ### CF-18 · Imagen de producto: una sola fuente y encuadre
 **Qué cambia:**

@@ -2,13 +2,14 @@
 // Productos y usuarios vienen de la Evaluación 1; se agregaron categorías, precioOferta y órdenes de ejemplo.
 import blogSeed from './blogSeed.js'
 
+// Imágenes propias de PixelVault para cada categoría (pixel art con la identidad de la tienda)
 const categorias = [
-  { id: 1, nombre: 'RPG', imagen: '/img/witcher3.jpg' },
-  { id: 2, nombre: 'Acción y Aventura', imagen: '/img/zelda_totk.jpg' },
-  { id: 3, nombre: 'Terror', imagen: '/img/re4remake.jpg' },
-  { id: 4, nombre: 'Shooter', imagen: '/img/haloinfinite.jpg' },
-  { id: 5, nombre: 'Plataformas', imagen: '/img/mariowonder.jpg' },
-  { id: 6, nombre: 'Arcade y Peleas', imagen: '/img/sf6.jpg' },
+  { id: 1, nombre: 'RPG', imagen: '/img/categorias/rpg.jpg' },
+  { id: 2, nombre: 'Acción y Aventura', imagen: '/img/categorias/accion-aventura.jpg' },
+  { id: 3, nombre: 'Terror', imagen: '/img/categorias/terror.jpg' },
+  { id: 4, nombre: 'Shooter', imagen: '/img/categorias/shooter.jpg' },
+  { id: 5, nombre: 'Plataformas', imagen: '/img/categorias/plataformas.jpg' },
+  { id: 6, nombre: 'Arcade y Peleas', imagen: '/img/categorias/arcade-peleas.jpg' },
 ]
 
 const productos = [

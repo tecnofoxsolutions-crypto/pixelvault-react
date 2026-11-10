@@ -18,7 +18,8 @@ const PREFIJO = 'pixelvault_'
 // Subir este número obliga a recargar los datos semilla en todos los navegadores.
 // '2': órdenes con código PV y flujo de estados, y colección movimientos (docs/CAMBIOS-FINALES.md)
 // '3': comentario de entrega del repartidor (comentarioEntrega)
-const VERSION_DATOS = '3'
+// '4': imágenes propias de las categorías
+const VERSION_DATOS = '4'
 const MAX_MOVIMIENTOS = 500
 
 function clave(coleccion) {
