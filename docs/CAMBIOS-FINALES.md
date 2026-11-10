@@ -66,7 +66,7 @@ Se propuso eliminarlas porque el catálogo ya tiene filtros, pero **el Anexo 1 d
 **Qué cambia:** el enlace "Productos" pasa a ser un desplegable con:
 - Todos los productos → `/productos`
 - 🔥 Ofertas → `/ofertas`
-- Una línea divisoria y luego cada categoría → `/categorias/:id`
+- 🏷️ Categorías → `/categorias` (ahí se elige la categoría; el desplegable no las lista una por una)
 
 Se quitan "Categorías" y "Ofertas" como enlaces sueltos del menú.
 **Por qué:** dejar el menú más limpio sin perder las vistas que pide el Anexo 1.
