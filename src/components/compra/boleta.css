@@ -1,0 +1,41 @@
+/* DUEÑO: Emanuel (HU-38). Al imprimir la boleta solo se ve la boleta, en blanco y negro. */
+@media print {
+  nav,
+  footer,
+  aside,
+  .no-imprimir,
+  .crt-scanline-beam {
+    display: none !important;
+  }
+
+  body,
+  body::before {
+    background: #fff !important;
+    animation: none !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  /* El <main> del admin ocupa 9 columnas: al imprimir se usa todo el ancho */
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding: 0 !important;
+  }
+
+  .boleta,
+  .boleta * {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-color: #999 !important;
+  }
+
+  .boleta .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #000;
+  }
+}
