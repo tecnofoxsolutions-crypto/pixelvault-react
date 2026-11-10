@@ -33,9 +33,9 @@ Si necesitas un cambio en un archivo de otro, **avisa al dueño por el grupo**. 
 
 | Dueño | Archivos |
 |---|---|
-| **Jim** | `index.html`, `src/data/*` (excepto `regiones.js`), `src/routes/*`, `src/context/AuthContext.jsx`, `src/utils/*`, `src/components/common/*`, `src/components/auth/*`, `src/components/layout/AdminLayout.jsx`, `src/components/layout/AdminSidebar.jsx`, `src/components/admin/*`, `src/main.jsx`, `src/App.jsx`, `package.json` · Páginas: `tienda/Login`, `tienda/Registro`, `admin/Dashboard`, `admin/ProductosAdmin`, `admin/ProductoForm`, `admin/StockCritico`, `admin/Reportes` |
+| **Jim** | `index.html`, `src/data/*` (excepto `regiones.js`), `src/routes/*`, `src/context/AuthContext.jsx`, `src/utils/*`, `src/components/common/*`, `src/components/auth/*`, `src/components/layout/AdminLayout.jsx`, `src/components/layout/AdminSidebar.jsx`, `src/components/admin/*`, `src/main.jsx`, `src/App.jsx`, `package.json` · Páginas: `tienda/Login`, `tienda/Registro`, `admin/Dashboard`, `admin/ProductosAdmin`, `admin/ProductoForm`, `admin/StockCritico`, `admin/Reportes`, `admin/CategoriasAdmin`, `admin/UsuariosAdmin`, `admin/UsuarioForm` (reasignadas desde Maximiliano) |
 | **Emanuel** | `src/context/CartContext.jsx`, `src/data/regiones.js`, `src/components/carrito/*`, `src/components/compra/*` · Páginas: `tienda/Carrito`, `tienda/Checkout`, `tienda/PagoExitoso`, `tienda/PagoError`, `tienda/MisCompras`, `admin/Ordenes`, `admin/BoletaDetalle`, `admin/HistorialUsuario`, `admin/Perfil` · Documento ERS V2 |
-| **Maximiliano** | `src/components/layout/TiendaLayout.jsx`, `Navbar.jsx`, `Footer.jsx`, `src/components/productos/*`, `src/styles/estilos.css`, `public/img/*` · Páginas: `tienda/Home`, `tienda/Productos`, `tienda/ProductoDetalle`, `tienda/Categorias`, `tienda/Ofertas`, `tienda/Blog`, `tienda/BlogDetalle`, `tienda/Nosotros`, `tienda/Contacto`, `tienda/NotFound`, `admin/CategoriasAdmin`, `admin/UsuariosAdmin`, `admin/UsuarioForm` |
+| **Maximiliano** | `src/components/layout/TiendaLayout.jsx`, `Navbar.jsx`, `Footer.jsx`, `src/components/productos/*`, `src/styles/estilos.css`, `public/img/*` · Páginas: `tienda/Home`, `tienda/Productos`, `tienda/ProductoDetalle`, `tienda/Categorias`, `tienda/Ofertas`, `tienda/Blog`, `tienda/BlogDetalle`, `tienda/Nosotros`, `tienda/Contacto`, `tienda/NotFound` |
 
 Cada página ya existe como marcador (`PaginaPendiente`) con su ruta registrada en `src/routes/AppRouter.jsx`. Solo hay que reemplazar el contenido del archivo. Si un componente nuevo es solo tuyo, créalo en tu carpeta de `src/components/`.
 
@@ -146,8 +146,8 @@ El tema oscuro de Bootstrap está activo en toda la app (`data-bs-theme="dark"` 
 | `/admin/reportes` | Reportes | Jim |
 | `/admin/ordenes` · `/admin/ordenes/:numero` | Ordenes · BoletaDetalle | Emanuel |
 | `/admin/usuarios/:id/compras` · `/admin/perfil` | HistorialUsuario · Perfil | Emanuel |
-| `/admin/categorias` | CategoriasAdmin | Maximiliano |
-| `/admin/usuarios` · `/admin/usuarios/nuevo` · `/admin/usuarios/:id/editar` | UsuariosAdmin · UsuarioForm | Maximiliano |
+| `/admin/categorias` | CategoriasAdmin | Jim (reasignada) |
+| `/admin/usuarios` · `/admin/usuarios/nuevo` · `/admin/usuarios/:id/editar` | UsuariosAdmin · UsuarioForm | Jim (reasignada) |
 
 ## Tareas por persona (orden sugerido)
 
@@ -169,7 +169,7 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 3. MUST · HU-33 Detalle de producto con cantidad y relacionados
 4. MUST · HU-34/35 Categorías y Ofertas (precio tachado + % de descuento)
 5. MUST · HU-31 Home con carrusel Bootstrap, categorías y destacados
-6. MUST · HU-48/49 Admin de categorías y usuarios (`UserForm` para crear y editar)
+6. ~~MUST · HU-48/49 Admin de categorías y usuarios~~ → **reasignada a Jim** para que Maximiliano se concentre en la tienda pública
 7. SHOULD · HU-41/42 Blog, Nosotros, Contacto (ticket `PVT-000001`) y 404
 8. MUST · MEJ-01 Revisión responsiva final (375, 768 y 1280 px) y capturas
 
@@ -180,7 +180,8 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 4. ✅ MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. ✅ MUST · HU-47 Stock crítico
 6. ✅ SHOULD · HU-51 Reportes
-7. MUST · TEC-08 README final, .zip y entrega en AVA
+7. MUST · HU-48/49 Admin de categorías y usuarios (reasignada desde Maximiliano)
+8. MUST · TEC-08 README final, .zip y entrega en AVA
 
 ## Reglas de código
 
