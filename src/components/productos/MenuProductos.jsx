@@ -1,14 +1,18 @@
-// Desplegable "Productos" del header (CF-02): todos los productos, ofertas y cada categoría.
-// Reemplaza al antiguo desplegable "Categorías" de Maximiliano (TEC-03). Las categorías se leen de db.js.
+// Desplegable "Productos" del header (CF-02): todos los productos, ofertas y categorías.
+// Reemplaza al antiguo desplegable "Categorías" de Maximiliano (TEC-03).
+// "Categorías" lleva a /categorias, donde se elige una; la lista de categorías no se repite aquí.
 import { useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import db from '../../data/db.js'
+import { NavLink, useLocation } from 'react-router-dom'
+
+const opciones = [
+  { to: '/productos', texto: '🎮 Todos los productos', exacto: true },
+  { to: '/ofertas', texto: '🔥 Ofertas', clase: 'text-warning' },
+  { to: '/categorias', texto: '🏷️ Categorías' },
+]
 
 export default function MenuProductos({ onElegir }) {
   const [abierto, setAbierto] = useState(false)
   const { pathname } = useLocation()
-  // Si el admin crea una categoría, aparece aquí sin tocar el código
-  const categorias = db.getAll('categorias')
   const activo = ['/productos', '/ofertas', '/categorias'].some((ruta) => pathname.startsWith(ruta))
 
   function elegir() {
@@ -27,24 +31,13 @@ export default function MenuProductos({ onElegir }) {
         Productos
       </button>
       <ul className={`dropdown-menu ${abierto ? 'show' : ''}`}>
-        <li>
-          <NavLink className="dropdown-item" to="/productos" end onClick={elegir}>🎮 Todos los productos</NavLink>
-        </li>
-        <li>
-          <NavLink className="dropdown-item text-warning" to="/ofertas" onClick={elegir}>🔥 Ofertas</NavLink>
-        </li>
-        <li><hr className="dropdown-divider" /></li>
-        <li><h6 className="dropdown-header">Categorías</h6></li>
-        {categorias.map((categoria) => (
-          <li key={categoria.id}>
-            <NavLink className="dropdown-item" to={`/categorias/${categoria.id}`} onClick={elegir}>
-              {categoria.nombre}
+        {opciones.map((opcion) => (
+          <li key={opcion.to}>
+            <NavLink className={`dropdown-item ${opcion.clase ?? ''}`} to={opcion.to} end={opcion.exacto} onClick={elegir}>
+              {opcion.texto}
             </NavLink>
           </li>
         ))}
-        <li>
-          <NavLink className="dropdown-item small text-secondary" to="/categorias" end onClick={elegir}>Ver todas las categorías →</NavLink>
-        </li>
       </ul>
     </li>
   )

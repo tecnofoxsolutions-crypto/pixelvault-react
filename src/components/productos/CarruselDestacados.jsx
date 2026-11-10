@@ -8,6 +8,16 @@ import db from '../../data/db.js'
 import PriceTag from './PriceTag.jsx'
 import PlataformaBadge from './PlataformaBadge.jsx'
 
+// Flecha dibujada en SVG: queda centrada exacta en el botón (los caracteres ‹ › de la fuente no lo están)
+function Flecha({ direccion }) {
+  const puntos = direccion === 'izquierda' ? '15.5 5 8.5 12 15.5 19' : '8.5 5 15.5 12 8.5 19'
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points={puntos} />
+    </svg>
+  )
+}
+
 export default function CarruselDestacados({ productos }) {
   const [indice, setIndice] = useState(0)
   const [pausado, setPausado] = useState(false)
@@ -39,8 +49,12 @@ export default function CarruselDestacados({ productos }) {
         {/* Las flechas van dentro de la tarjeta, a los costados; el contenido tiene margen lateral para que no lo tapen */}
         <article className="card card-juego card-destacado-estrella carrusel-destacados" aria-live="polite">
           <span className="badge-estrella-mario" aria-hidden="true">⭐</span>
-          <button type="button" className="btn-carrusel btn-carrusel-anterior" onClick={() => irA(indice - 1)} aria-label="Juego anterior">‹</button>
-          <button type="button" className="btn-carrusel btn-carrusel-siguiente" onClick={() => irA(indice + 1)} aria-label="Juego siguiente">›</button>
+          <button type="button" className="btn-carrusel btn-carrusel-anterior" onClick={() => irA(indice - 1)} aria-label="Juego anterior">
+            <Flecha direccion="izquierda" />
+          </button>
+          <button type="button" className="btn-carrusel btn-carrusel-siguiente" onClick={() => irA(indice + 1)} aria-label="Juego siguiente">
+            <Flecha direccion="derecha" />
+          </button>
           <div className="row g-0 align-items-center carrusel-contenido">
             <div className="col-12 col-md-5 text-center mb-3 mb-md-0">
               <Link to={`/productos/${p.id}`}>

@@ -531,9 +531,10 @@ body::before {
   border: 2px solid var(--pv-arcade-yellow);
   background: rgba(7, 16, 24, 0.9);
   color: var(--pv-arcade-yellow);
-  font-size: 1.8rem;
-  line-height: 1;
-  padding-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.45);
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
@@ -556,7 +557,8 @@ body::before {
 .punto-carrusel.activo { background: var(--pv-arcade-yellow); }
 @media (max-width: 575.98px) {
   .carrusel-contenido { padding: 1rem 2.75rem; }
-  .btn-carrusel { width: 34px; height: 34px; font-size: 1.3rem; }
+  .btn-carrusel { width: 34px; height: 34px; }
+  .btn-carrusel svg { width: 16px; height: 16px; }
   .btn-carrusel-anterior { left: 6px; }
   .btn-carrusel-siguiente { right: 6px; }
 }
