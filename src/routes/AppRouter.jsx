@@ -1,6 +1,7 @@
 // DUEÑO: Jim. Todas las rutas de la app. Si necesitas una ruta nueva, pídesela a Jim por el grupo.
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
+import { ROLES_STAFF, rolesDe } from '../data/permisos.js'
 import TiendaLayout from '../components/layout/TiendaLayout.jsx'
 import AdminLayout from '../components/layout/AdminLayout.jsx'
 
@@ -40,6 +41,11 @@ import Perfil from '../pages/admin/Perfil.jsx'
 import CategoriasAdmin from '../pages/admin/CategoriasAdmin.jsx'
 import UsuariosAdmin from '../pages/admin/UsuariosAdmin.jsx'
 import UsuarioForm from '../pages/admin/UsuarioForm.jsx'
+// Panel Staff — nuevas secciones por rol (CF-12, CF-13, CF-14)
+import Entregas from '../pages/admin/Entregas.jsx'
+import BlogAdmin from '../pages/admin/BlogAdmin.jsx'
+import ArticuloForm from '../pages/admin/ArticuloForm.jsx'
+import Historial from '../pages/admin/Historial.jsx'
 
 export default function AppRouter() {
   return (
@@ -71,30 +77,58 @@ export default function AppRouter() {
         <Route path="*" element={<NotFound />} />
       </Route>
 
+      {/* Panel Staff (CF-11): todo el staff entra, y cada grupo de rutas exige los roles de data/permisos.js */}
       <Route
         path="/admin"
         element={
-          <ProtectedRoute roles={['Administrador']}>
+          <ProtectedRoute roles={ROLES_STAFF}>
             <AdminLayout />
           </ProtectedRoute>
         }
       >
         <Route index element={<Dashboard />} />
-        <Route path="productos" element={<ProductosAdmin />} />
-        <Route path="productos/nuevo" element={<ProductoForm />} />
-        <Route path="productos/criticos" element={<StockCritico />} />
-        <Route path="productos/:id/editar" element={<ProductoForm />} />
-        <Route path="reportes" element={<Reportes />} />
-
-        <Route path="ordenes" element={<Ordenes />} />
-        <Route path="ordenes/:numero" element={<BoletaDetalle />} />
-        <Route path="usuarios/:id/compras" element={<HistorialUsuario />} />
         <Route path="perfil" element={<Perfil />} />
 
-        <Route path="categorias" element={<CategoriasAdmin />} />
-        <Route path="usuarios" element={<UsuariosAdmin />} />
-        <Route path="usuarios/nuevo" element={<UsuarioForm />} />
-        <Route path="usuarios/:id/editar" element={<UsuarioForm />} />
+        <Route element={<ProtectedRoute roles={rolesDe('ordenes')} />}>
+          <Route path="ordenes" element={<Ordenes />} />
+          <Route path="ordenes/:numero" element={<BoletaDetalle />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('entregas')} />}>
+          <Route path="entregas" element={<Entregas />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('productos')} />}>
+          <Route path="productos" element={<ProductosAdmin />} />
+          <Route path="productos/nuevo" element={<ProductoForm />} />
+          <Route path="productos/criticos" element={<StockCritico />} />
+          <Route path="productos/:id/editar" element={<ProductoForm />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('categorias')} />}>
+          <Route path="categorias" element={<CategoriasAdmin />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('blog')} />}>
+          <Route path="blog" element={<BlogAdmin />} />
+          <Route path="blog/nuevo" element={<ArticuloForm />} />
+          <Route path="blog/:id/editar" element={<ArticuloForm />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('usuarios')} />}>
+          <Route path="usuarios" element={<UsuariosAdmin />} />
+          <Route path="usuarios/nuevo" element={<UsuarioForm />} />
+          <Route path="usuarios/:id/editar" element={<UsuarioForm />} />
+          <Route path="usuarios/:id/compras" element={<HistorialUsuario />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('reportes')} />}>
+          <Route path="reportes" element={<Reportes />} />
+        </Route>
+
+        <Route element={<ProtectedRoute roles={rolesDe('historial')} />}>
+          <Route path="historial" element={<Historial />} />
+        </Route>
       </Route>
     </Routes>
   )

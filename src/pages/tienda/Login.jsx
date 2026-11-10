@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
+import { esStaff } from '../../data/permisos.js'
 import AlertMessage from '../../components/common/AlertMessage.jsx'
 import FormField from '../../components/common/FormField.jsx'
 import CuentasDemo from '../../components/auth/CuentasDemo.jsx'
@@ -32,8 +33,9 @@ export default function Login() {
       return
     }
 
-    if (resultado.usuario.rol === 'Administrador') {
-      navigate(destino ?? '/admin')
+    // Todo el staff entra directo al Panel Staff (CF-16); el cliente vuelve a la tienda
+    if (esStaff(resultado.usuario)) {
+      navigate(destino?.startsWith('/admin') ? destino : '/admin')
     } else {
       navigate(destino && !destino.startsWith('/admin') ? destino : '/')
     }
@@ -52,7 +54,7 @@ export default function Login() {
           <h1 className="h4 text-light">Ya iniciaste sesión</h1>
           <p className="text-secondary">Estás conectado como <strong className="text-info">{usuario.nombre}</strong> ({usuario.rol}).</p>
           <div className="d-flex gap-2 justify-content-center flex-wrap">
-            <Link to={usuario.rol === 'Administrador' ? '/admin' : '/'} className="btn btn-primary">Continuar</Link>
+            <Link to={esStaff(usuario) ? '/admin' : '/'} className="btn btn-primary">Continuar</Link>
             <button className="btn btn-outline-light" onClick={logout}>Cerrar sesión</button>
           </div>
         </div>

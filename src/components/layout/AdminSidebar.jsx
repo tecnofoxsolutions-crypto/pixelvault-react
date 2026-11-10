@@ -1,18 +1,9 @@
-// DUEÑO: Jim (tarjeta HU-44).
+// DUEÑO: Jim (tarjeta HU-44). Muestra solo las secciones del rol del usuario (CF-11, data/permisos.js).
 // En escritorio el menú siempre se ve. En móvil se abre y cierra con el botón "Menú" (estado `abierto`).
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext.jsx'
-
-const secciones = [
-  { to: '/admin', texto: 'Dashboard', icono: '🏠', exacto: true },
-  { to: '/admin/ordenes', texto: 'Órdenes', icono: '🧾' },
-  { to: '/admin/productos', texto: 'Productos', icono: '📦' },
-  { to: '/admin/categorias', texto: 'Categorías', icono: '🏷️' },
-  { to: '/admin/usuarios', texto: 'Usuarios', icono: '👥' },
-  { to: '/admin/reportes', texto: 'Reportes', icono: '📊' },
-  { to: '/admin/perfil', texto: 'Perfil', icono: '🙍' },
-]
+import { seccionesPara } from '../../data/permisos.js'
 
 export default function AdminSidebar() {
   const { usuario, logout } = useAuth()
@@ -28,7 +19,7 @@ export default function AdminSidebar() {
     <div>
       <div className="d-flex justify-content-between align-items-center">
         <div>
-          <div className="fw-bold text-light font-arcade small"><span className="text-info">Pixel</span>Vault</div>
+          <div className="fw-bold text-light font-arcade small"><span className="text-info">Pixel</span>Vault <span className="text-warning">Staff</span></div>
           <div className="small text-secondary">{usuario?.nombre} · {usuario?.rol}</div>
         </div>
         <button
@@ -44,7 +35,7 @@ export default function AdminSidebar() {
 
       <div id="menuAdmin" className={`${abierto ? 'd-block' : 'd-none'} d-md-block mt-3`}>
         <nav className="nav nav-pills flex-column gap-1 mb-3">
-          {secciones.map((s) => (
+          {seccionesPara(usuario).map((s) => (
             <NavLink
               key={s.to}
               to={s.to}

@@ -4,6 +4,7 @@ const insigniaPorRol = {
   Administrador: { clase: 'text-bg-primary', texto: 'Admin' },
   Operador: { clase: 'text-bg-info', texto: 'Operador' },
   Editor: { clase: 'text-bg-warning', texto: 'Editor' },
+  Repartidor: { clase: 'text-bg-secondary', texto: 'Repartidor' },
   Cliente: { clase: 'text-bg-success', texto: 'Cliente' },
 }
 

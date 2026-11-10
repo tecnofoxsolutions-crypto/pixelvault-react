@@ -5,6 +5,7 @@ const cuentasDemo = [
   { usuario: 'Maximiliano', clave: 'admin', rol: 'Administrador' },
   { usuario: 'fernando', clave: 'operador', rol: 'Operador' },
   { usuario: 'adriana', clave: 'editor', rol: 'Editor' },
+  { usuario: 'ilie', clave: 'repartidor', rol: 'Repartidor' },
   { usuario: 'francisco', clave: 'cliente', rol: 'Cliente' },
 ]
 

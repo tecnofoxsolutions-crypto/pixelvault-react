@@ -16,6 +16,8 @@ export default function UsuariosAdmin() {
   const [usuarios, setUsuarios] = useState(() => db.getAll('usuarios'))
   const [busqueda, setBusqueda] = useState('')
   const [filtroRol, setFiltroRol] = useState('')
+  // Pestaña activa: clientes o staff (CF-15)
+  const [pestana, setPestana] = useState('clientes')
   const [mensaje, setMensaje] = useState(location.state?.mensaje ?? '')
 
   // El mensaje de "creado/actualizado" se muestra una sola vez
@@ -23,13 +25,23 @@ export default function UsuariosAdmin() {
     if (location.state?.mensaje) navigate(location.pathname, { replace: true, state: null })
   }, [location, navigate])
 
+  const clientes = usuarios.filter((u) => u.rol === 'Cliente')
+  const staff = usuarios.filter((u) => u.rol !== 'Cliente')
+  const grupo = pestana === 'clientes' ? clientes : staff
+  const rolesStaff = roles.filter((r) => r.nombre !== 'Cliente')
+
   const texto = busqueda.trim().toLowerCase()
-  const visibles = usuarios.filter((u) => {
+  const visibles = grupo.filter((u) => {
     const nombreCompleto = `${u.nombre} ${u.apellidos}`.toLowerCase()
     const coincideTexto = !texto || nombreCompleto.includes(texto) || u.correo.toLowerCase().includes(texto) || u.rut.includes(texto)
-    const coincideRol = !filtroRol || u.rol === filtroRol
+    const coincideRol = pestana === 'clientes' || !filtroRol || u.rol === filtroRol
     return coincideTexto && coincideRol
   })
+
+  function cambiarPestana(nueva) {
+    setPestana(nueva)
+    setFiltroRol('')
+  }
 
   const esYo = (u) => String(u.id) === String(sesion?.id)
 
@@ -44,15 +56,38 @@ export default function UsuariosAdmin() {
       <div className="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div>
           <h1 className="h3 text-light mb-0">Usuarios</h1>
-          <p className="text-secondary small mb-0">Mostrando {visibles.length} de {usuarios.length} usuarios</p>
+          <p className="text-secondary small mb-0">Mostrando {visibles.length} de {grupo.length} {pestana === 'clientes' ? 'clientes' : 'miembros del staff'}</p>
         </div>
         <Link to="/admin/usuarios/nuevo" className="btn btn-primary">+ Nuevo usuario</Link>
       </div>
 
       <AlertMessage tipo="success" mensaje={mensaje} onCerrar={() => setMensaje('')} />
 
+      <ul className="nav nav-tabs mb-3">
+        <li className="nav-item">
+          <button type="button" className={`nav-link ${pestana === 'clientes' ? 'active' : ''}`} onClick={() => cambiarPestana('clientes')}>
+            🛒 Clientes <span className="badge text-bg-success ms-1">{clientes.length}</span>
+          </button>
+        </li>
+        <li className="nav-item">
+          <button type="button" className={`nav-link ${pestana === 'staff' ? 'active' : ''}`} onClick={() => cambiarPestana('staff')}>
+            🛠️ Staff <span className="badge text-bg-primary ms-1">{staff.length}</span>
+          </button>
+        </li>
+      </ul>
+
+      {pestana === 'staff' && (
+        <div className="d-flex flex-wrap gap-2 mb-3">
+          {rolesStaff.map((r) => (
+            <span key={r.nombre} className={`badge ${r.clase} fs-6 fw-normal`}>
+              {r.nombre}: {staff.filter((u) => u.rol === r.nombre).length}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="row g-2 mb-3">
-        <div className="col-12 col-md-7">
+        <div className={pestana === 'staff' ? 'col-12 col-md-7' : 'col-12'}>
           <input
             type="search"
             className="form-control"
@@ -62,12 +97,14 @@ export default function UsuariosAdmin() {
             onChange={(e) => setBusqueda(e.target.value)}
           />
         </div>
-        <div className="col-12 col-md-5">
-          <select className="form-select" aria-label="Filtrar por rol" value={filtroRol} onChange={(e) => setFiltroRol(e.target.value)}>
-            <option value="">Todos los roles</option>
-            {roles.map((r) => <option key={r.nombre} value={r.nombre}>{r.nombre}</option>)}
-          </select>
-        </div>
+        {pestana === 'staff' && (
+          <div className="col-12 col-md-5">
+            <select className="form-select" aria-label="Filtrar por rol" value={filtroRol} onChange={(e) => setFiltroRol(e.target.value)}>
+              <option value="">Todos los roles</option>
+              {rolesStaff.map((r) => <option key={r.nombre} value={r.nombre}>{r.nombre}</option>)}
+            </select>
+          </div>
+        )}
       </div>
 
       {visibles.length === 0 ? (
@@ -101,7 +138,7 @@ export default function UsuariosAdmin() {
                   </td>
                   <td className="text-end text-nowrap">
                     <Link to={`/admin/usuarios/${u.id}/editar`} className="btn btn-sm btn-outline-info me-1">Editar</Link>
-                    <Link to={`/admin/usuarios/${u.id}/compras`} className="btn btn-sm btn-outline-light me-1">Compras</Link>
+                    {u.rol === 'Cliente' && <Link to={`/admin/usuarios/${u.id}/compras`} className="btn btn-sm btn-outline-light me-1">Compras</Link>}
                     <button
                       type="button"
                       className={`btn btn-sm ${u.activo ? 'btn-outline-danger' : 'btn-outline-success'}`}

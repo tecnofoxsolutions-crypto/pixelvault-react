@@ -1,6 +1,8 @@
-// Sesión del usuario. Uso: const { usuario, login, logout, registrar, tieneRol } = useAuth()
+// Sesión del usuario. Uso: const { usuario, login, logout, registrar, tieneRol, esStaff } = useAuth()
 import { createContext, useContext, useState } from 'react'
 import db from '../data/db.js'
+import { esStaff } from '../data/permisos.js'
+import { CLAVE_BORRADOR_CHECKOUT } from '../components/compra/pago.js'
 
 const AuthContext = createContext(null)
 const CLAVE_SESION = 'pixelvault_sesion'
@@ -27,12 +29,16 @@ export function AuthProvider({ children }) {
       return { ok: false, error: 'Tu cuenta está desactivada' }
     }
     sessionStorage.setItem(CLAVE_SESION, encontrado.id)
+    db.registrarMovimiento('Sesión', 'Inicio de sesión', `${encontrado.nombre} ${encontrado.apellidos} (${encontrado.rol})`)
     setUsuario(encontrado)
     return { ok: true, usuario: encontrado }
   }
 
   function logout() {
+    if (usuario) db.registrarMovimiento('Sesión', 'Cierre de sesión', `${usuario.nombre} ${usuario.apellidos} (${usuario.rol})`)
     sessionStorage.removeItem(CLAVE_SESION)
+    // El borrador del checkout tiene datos personales: no debe verlo el siguiente usuario del navegador (CF-08)
+    sessionStorage.removeItem(CLAVE_BORRADOR_CHECKOUT)
     setUsuario(null)
   }
 
@@ -66,7 +72,7 @@ export function AuthProvider({ children }) {
     setUsuario(cargarSesion())
   }
 
-  const valor = { usuario, login, logout, registrar, tieneRol, refrescarUsuario }
+  const valor = { usuario, login, logout, registrar, tieneRol, refrescarUsuario, esStaff: esStaff(usuario) }
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>
 }
 
