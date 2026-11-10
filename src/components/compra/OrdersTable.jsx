@@ -1,8 +1,10 @@
-// DUEÑO: Emanuel (HU-45). Tabla de órdenes. Se reutiliza en el admin, en "Mis compras" y en el historial por usuario.
-// Props: ordenes, rutaDetalle(orden) → ruta de la boleta, mostrarCliente (true por defecto)
+// Tabla de órdenes. Creada por Emanuel (HU-45). Se reutiliza en el admin, en "Mis compras" y en el historial por usuario.
+// Muestra el tipo de entrega (despacho o retiro) para distinguirlas a simple vista.
+// Props: ordenes, rutaDetalle(orden) → ruta del detalle, mostrarCliente (true por defecto)
 import { Link } from 'react-router-dom'
 import { formatoCLP } from '../../utils/formatoCLP.js'
 import EstadoBadge from './EstadoBadge.jsx'
+import TipoEntregaBadge from './TipoEntregaBadge.jsx'
 import { formatearFecha } from './ordenes.js'
 
 export default function OrdersTable({ ordenes, rutaDetalle, mostrarCliente = true }) {
@@ -12,6 +14,7 @@ export default function OrdersTable({ ordenes, rutaDetalle, mostrarCliente = tru
         <thead>
           <tr>
             <th scope="col">Número</th>
+            <th scope="col">Entrega</th>
             <th scope="col" className="d-none d-sm-table-cell">Fecha</th>
             {mostrarCliente && <th scope="col">Cliente</th>}
             <th scope="col" className="text-end">Total</th>
@@ -24,10 +27,11 @@ export default function OrdersTable({ ordenes, rutaDetalle, mostrarCliente = tru
         <tbody>
           {ordenes.map((orden) => (
             <tr key={orden.numero}>
-              {/* En celulares el número es el enlace a la boleta (la columna del botón se oculta) */}
-              <td className="fw-semibold">
+              {/* En celulares el número es el enlace al detalle (la columna del botón se oculta) */}
+              <td className="fw-semibold text-nowrap">
                 <Link to={rutaDetalle(orden)} className="link-light">{orden.numero}</Link>
               </td>
+              <td><TipoEntregaBadge tipoEntrega={orden.tipoEntrega} /></td>
               <td className="d-none d-sm-table-cell text-nowrap">{formatearFecha(orden.fecha, false)}</td>
               {mostrarCliente && (
                 <td>
@@ -39,7 +43,7 @@ export default function OrdersTable({ ordenes, rutaDetalle, mostrarCliente = tru
               <td><EstadoBadge estado={orden.estado} /></td>
               <td className="text-end d-none d-sm-table-cell">
                 <Link to={rutaDetalle(orden)} className="btn btn-sm btn-outline-info text-nowrap">
-                  Ver boleta
+                  Detalles
                 </Link>
               </td>
             </tr>

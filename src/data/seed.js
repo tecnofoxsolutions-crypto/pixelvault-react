@@ -65,6 +65,7 @@ const ordenes = [
     estado: 'Entregada',
     repartidorId: 6,
     fotoEntrega: null,
+    comentarioEntrega: 'Recibido por el conserje del edificio, el Sr. Pérez.',
     historialEstados: [
       paso('En preparación', '2026-10-28T15:20:00.000Z', 7, 'Francisco Calabran (compra)'),
       paso('Asignado a repartidor', '2026-10-28T18:00:00.000Z', 4, 'Fernando Sierra'),

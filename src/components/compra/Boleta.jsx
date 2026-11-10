@@ -2,6 +2,7 @@
 // Props: orden (objeto orden de db.js)
 import OrderSummaryTable from './OrderSummaryTable.jsx'
 import EstadoBadge from './EstadoBadge.jsx'
+import ComprobanteEntrega from './ComprobanteEntrega.jsx'
 import { formatearFecha } from './ordenes.js'
 import '../carrito/carrito.css'
 import './boleta.css'
@@ -52,6 +53,8 @@ export default function Boleta({ orden }) {
             </p>
           </section>
         </div>
+
+        <ComprobanteEntrega orden={orden} />
 
         <OrderSummaryTable
           items={orden.items}

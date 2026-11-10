@@ -35,6 +35,7 @@ Jim arma la versión final del proyecto e implementa los cambios de este documen
 | CF-14 | Historial de movimientos (solo administradores) | Nuevo (Jim) | ✅ |
 | CF-15 | Usuarios divididos en Clientes y Staff | Admin (Jim) | ✅ |
 | CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ✅ |
+| CF-17 | Tipo de entrega en los listados, botón "Detalles" y comprobante de entrega para el cliente | Órdenes (Emanuel) | ✅ |
 
 ---
 
@@ -168,6 +169,17 @@ Cancelar: botón aparte, solo Administrador, solo antes de "En camino".
 ```
 **Archivos:** `components/compra/ordenes.js` (define el flujo: `siguientePaso(orden)`), `pages/admin/Ordenes.jsx`, `pages/admin/BoletaDetalle.jsx`, `components/compra/EstadoBadge.jsx`, `utils/reportes.js` (las canceladas se siguen excluyendo).
 
+### CF-17 · Tipo de entrega visible y comprobante para el cliente
+**Qué cambia:**
+- Las tablas de órdenes (admin, Mis compras e historial por usuario) tienen una columna **Entrega** con una insignia 🚚 Despacho o 🏪 Retiro. En el admin hay además un filtro "Solo despacho / Solo retiro".
+- El botón "Ver boleta" ahora dice **"Detalles"**.
+- Al marcar una orden como entregada, el repartidor puede dejar un **comentario para el cliente** (opcional), además de la foto.
+- En el detalle de una orden con despacho, el **cliente ve el comprobante de entrega**: foto del paquete, comentario, quién la entregó y cuándo. Mientras va en camino, ve qué repartidor la lleva. Las órdenes de retiro no muestran comprobante.
+
+**Por qué:** que el staff distinga de un vistazo qué órdenes salen a despacho, y que el cliente tenga respaldo de la entrega.
+**Contrato:** nuevo campo opcional de la orden `comentarioEntrega` (texto). Datos versión 3: hay que limpiar el navegador otra vez.
+**Archivos:** nuevos `components/compra/TipoEntregaBadge.jsx` y `components/compra/ComprobanteEntrega.jsx` (se muestra dentro de `Boleta.jsx`, así lo ven el cliente, el admin y el repartidor); `components/compra/OrdersTable.jsx`, `components/compra/AccionesOrden.jsx`, `pages/admin/Ordenes.jsx`, `pages/admin/Entregas.jsx`, `data/seed.js` y `data/db.js`.
+
 ---
 
 ## Panel staff (antes "panel de administración")
@@ -236,7 +248,7 @@ Crear, editar, activar y desactivar funciona igual que antes en ambas.
 
 ## Datos: versión 2
 
-Como cambia la forma de las órdenes y se agrega la colección `movimientos`, en `db.js` se sube `VERSION_DATOS` de `'1'` a `'2'`. Al abrir la app con datos viejos, se recargan solos los datos semilla. Las compras de prueba que hayan hecho se pierden, que es lo esperado.
+Como cambia la forma de las órdenes y se agrega la colección `movimientos`, en `db.js` se sube `VERSION_DATOS` de `'1'` a `'2'` (y luego a `'3'` con CF-17). Al abrir la app con datos viejos, se recargan solos los datos semilla. Las compras de prueba que hayan hecho se pierden, que es lo esperado.
 
 ## Cuentas de prueba (sin cambios)
 

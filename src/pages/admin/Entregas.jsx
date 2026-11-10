@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx'
 import AlertMessage from '../../components/common/AlertMessage.jsx'
 import AccionesOrden from '../../components/compra/AccionesOrden.jsx'
 import EstadoBadge from '../../components/compra/EstadoBadge.jsx'
+import ComprobanteEntrega from '../../components/compra/ComprobanteEntrega.jsx'
 import { formatearFecha, ordenarPorFecha } from '../../components/compra/ordenes.js'
 
 const PENDIENTES = ['Asignado a repartidor', 'En camino']
@@ -81,11 +82,7 @@ export default function Entregas() {
                   </ul>
 
                   {orden.estado === 'Entregada' ? (
-                    orden.fotoEntrega ? (
-                      <img src={orden.fotoEntrega} alt={`Entrega de ${orden.numero}`} className="rounded border border-secondary img-fluid" style={{ maxHeight: 160 }} />
-                    ) : (
-                      <p className="small text-secondary mb-0">Entregada (sin foto registrada).</p>
-                    )
+                    <ComprobanteEntrega orden={orden} />
                   ) : (
                     <AccionesOrden orden={orden} usuario={usuario} onCambio={alCambiar} />
                   )}

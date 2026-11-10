@@ -18,9 +18,13 @@ export default function Ordenes() {
   const [ordenes] = useState(() => ordenarPorFecha(db.getAll('ordenes')))
   const [busqueda, setBusqueda] = useState('')
   const [filtroEstado, setFiltroEstado] = useState('')
+  const [filtroEntrega, setFiltroEntrega] = useState('')
 
   const visibles = ordenes.filter(
-    (orden) => (!filtroEstado || orden.estado === filtroEstado) && coincideBusqueda(orden, busqueda)
+    (orden) =>
+      (!filtroEstado || orden.estado === filtroEstado) &&
+      (!filtroEntrega || orden.tipoEntrega === filtroEntrega) &&
+      coincideBusqueda(orden, busqueda)
   )
   const totalVisibles = visibles.reduce((suma, orden) => suma + orden.total, 0)
 
@@ -34,7 +38,7 @@ export default function Ordenes() {
       </div>
 
       <div className="row g-2 mb-3">
-        <div className="col-12 col-md-7">
+        <div className="col-12 col-md-5">
           <label htmlFor="busquedaOrden" className="visually-hidden">Buscar por cliente</label>
           <input
             id="busquedaOrden"
@@ -45,7 +49,7 @@ export default function Ordenes() {
             onChange={(evento) => setBusqueda(evento.target.value)}
           />
         </div>
-        <div className="col-12 col-md-5">
+        <div className="col-6 col-md-4">
           <label htmlFor="filtroEstado" className="visually-hidden">Filtrar por estado</label>
           <select
             id="filtroEstado"
@@ -57,6 +61,19 @@ export default function Ordenes() {
             {ESTADOS_ORDEN.map((estado) => (
               <option key={estado} value={estado}>{estado}</option>
             ))}
+          </select>
+        </div>
+        <div className="col-6 col-md-3">
+          <label htmlFor="filtroEntrega" className="visually-hidden">Filtrar por tipo de entrega</label>
+          <select
+            id="filtroEntrega"
+            className="form-select"
+            value={filtroEntrega}
+            onChange={(evento) => setFiltroEntrega(evento.target.value)}
+          >
+            <option value="">Despacho y retiro</option>
+            <option value="despacho">🚚 Solo despacho</option>
+            <option value="retiro">🏪 Solo retiro</option>
           </select>
         </div>
       </div>

@@ -78,12 +78,7 @@ export default function BoletaDetalle() {
               <div className="card-body">
                 <h2 className="h6 text-info mb-3">Historial de estados</h2>
                 <HistorialEstados orden={orden} />
-                {orden.fotoEntrega && (
-                  <div className="mt-2">
-                    <div className="small text-secondary mb-1">Foto de la entrega:</div>
-                    <img src={orden.fotoEntrega} alt={`Paquete entregado de la orden ${orden.numero}`} className="rounded border border-secondary img-fluid" style={{ maxHeight: 180 }} />
-                  </div>
-                )}
+                {/* La foto y el comentario de la entrega se ven en la boleta (ComprobanteEntrega) */}
               </div>
             </div>
           </div>

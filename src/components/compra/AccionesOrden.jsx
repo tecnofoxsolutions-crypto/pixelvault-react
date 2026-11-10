@@ -13,6 +13,8 @@ export default function AccionesOrden({ orden, usuario, onCambio }) {
   const repartidores = repartidoresActivos()
   const [repartidorId, setRepartidorId] = useState(orden.repartidorId ? String(orden.repartidorId) : '')
   const [foto, setFoto] = useState(null)
+  // Comentario opcional del repartidor al entregar (ej: "Recibido por el conserje"); lo ve el cliente
+  const [comentario, setComentario] = useState('')
   const [error, setError] = useState('')
   const [confirmarCancelar, setConfirmarCancelar] = useState(false)
 
@@ -41,13 +43,17 @@ export default function AccionesOrden({ orden, usuario, onCambio }) {
     }
     const extra = {}
     if (paso.accion === 'asignar') extra.repartidorId = Number(repartidorId)
-    if (paso.pideFoto) extra.fotoEntrega = foto
+    if (paso.pideFoto) {
+      extra.fotoEntrega = foto
+      extra.comentarioEntrega = comentario.trim()
+    }
 
     const actualizada = cambiarEstado(orden, paso.estadoNuevo, usuario, extra)
     const repartidor = repartidores.find((r) => String(r.id) === repartidorId)
     const detalle = paso.accion === 'asignar' && repartidor ? ` (repartidor: ${repartidor.nombre} ${repartidor.apellidos})` : ''
     setError('')
     setFoto(null)
+    setComentario('')
     onCambio(actualizada, `La orden ${orden.numero} pasó a "${paso.estadoNuevo}"${detalle}.`)
   }
 
@@ -82,10 +88,24 @@ export default function AccionesOrden({ orden, usuario, onCambio }) {
             </div>
           )}
           {paso.pideFoto && (
-            <div>
-              <label htmlFor={`foto-${orden.id}`} className="form-label small mb-1">Foto de la entrega</label>
-              <input id={`foto-${orden.id}`} type="file" accept="image/*" capture="environment" className="form-control form-control-sm" onChange={elegirFoto} />
-            </div>
+            <>
+              <div>
+                <label htmlFor={`foto-${orden.id}`} className="form-label small mb-1">Foto de la entrega</label>
+                <input id={`foto-${orden.id}`} type="file" accept="image/*" capture="environment" className="form-control form-control-sm" onChange={elegirFoto} />
+              </div>
+              <div className="flex-grow-1">
+                <label htmlFor={`comentario-${orden.id}`} className="form-label small mb-1">Comentario para el cliente (opcional)</label>
+                <input
+                  id={`comentario-${orden.id}`}
+                  type="text"
+                  maxLength={200}
+                  className="form-control form-control-sm"
+                  placeholder="Ej: Recibido por el conserje"
+                  value={comentario}
+                  onChange={(e) => setComentario(e.target.value)}
+                />
+              </div>
+            </>
           )}
           <button type="button" className="btn btn-success btn-sm" onClick={avanzar}>
             {paso.texto} →
