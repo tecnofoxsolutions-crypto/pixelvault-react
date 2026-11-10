@@ -1,19 +1,10 @@
 // DUEÑO: Emanuel (HU-38). Boleta de una orden. Se reutiliza en pago exitoso, mis compras y el admin de órdenes.
 // Props: orden (objeto orden de db.js)
 import OrderSummaryTable from './OrderSummaryTable.jsx'
+import EstadoBadge from './EstadoBadge.jsx'
+import { formatearFecha } from './ordenes.js'
 import '../carrito/carrito.css'
 import './boleta.css'
-
-const coloresEstado = {
-  'En preparación': 'bg-warning text-dark',
-  Enviado: 'bg-info text-dark',
-  Entregado: 'bg-success',
-  Cancelado: 'bg-danger',
-}
-
-function formatearFecha(iso) {
-  return new Date(iso).toLocaleString('es-CL', { dateStyle: 'long', timeStyle: 'short' })
-}
 
 export default function Boleta({ orden }) {
   const { cliente, direccion } = orden
@@ -32,7 +23,7 @@ export default function Boleta({ orden }) {
           <div className="text-md-end">
             <div className="fw-bold">Orden #{orden.numero}</div>
             <div className="small text-secondary">{formatearFecha(orden.fecha)}</div>
-            <span className={`badge ${coloresEstado[orden.estado] ?? 'bg-secondary'}`}>{orden.estado}</span>
+            <EstadoBadge estado={orden.estado} />
           </div>
         </header>
 
