@@ -1,0 +1,17 @@
+/* DUEÑO: Emanuel (HU-36). Estilos propios del carrito (estilos.css es de Maximiliano). */
+.carrito-img {
+  width: 4rem;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.carrito-cantidad {
+  min-width: 2.5rem;
+  opacity: 1 !important;
+}
+
+.card-resumen {
+  background-color: var(--pv-steam-card);
+  border: 2px solid #23354a;
+}
