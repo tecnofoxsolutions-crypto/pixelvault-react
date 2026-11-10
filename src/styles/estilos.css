@@ -488,3 +488,8 @@ body::before {
 }
 
 
+
+/* TEC-03: barra de la tienda en escritorio (en móvil ocupa todo el ancho) */
+@media (min-width: 992px) {
+  .buscador-navbar { width: 14rem; }
+}
