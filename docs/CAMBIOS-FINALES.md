@@ -1,0 +1,255 @@
+# Cambios finales antes de la entrega
+
+**Responsable:** Jim · **Fecha:** 2026-11-10
+
+Jim arma la versión final del proyecto e implementa los cambios de este documento, **aunque toquen archivos de Emanuel o Maximiliano**. Aquí está qué cambia, por qué y qué tiene que saber cada uno para explicarlo en la defensa.
+
+---
+
+## ⚠️ Reglas mientras se hacen estos cambios
+
+1. **Emanuel y Maximiliano: no editen código en `src/`.** Solo hagan `git pull`. Si encuentran un error, avísenle a Jim por el grupo en vez de corregirlo, para no generar conflictos de Git.
+2. Pueden seguir editando **solo documentación**: el ERS V2 (`docs/ERS_V2.*`) y sus guías de defensa (`docs/guia-defensa-<nombre>.md`).
+3. **Después de cada `pull`, limpien los datos del navegador:** consola → `localStorage.clear(); sessionStorage.clear()` → recargar. La forma de las órdenes cambia (ver CF-10) y se sube la versión de datos para que se recarguen solos, pero conviene limpiar igual.
+4. **Agentes:** lean este archivo completo antes de responder preguntas sobre el proyecto. Los cambios marcados **✅** ya están en `main`; los **⏳** todavía no.
+
+---
+
+## Resumen
+
+| ID | Cambio | Área (dueño original) | Estado |
+|---|---|---|---|
+| CF-01 | Home rediseñado como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
+| CF-02 | Desplegable "Productos" en el header con Ofertas y Categorías | Header (Maximiliano) | ⏳ |
+| CF-03 | Carrito oculto mientras está vacío y "Registrarse" | Header (Maximiliano) | ⏳ |
+| CF-04 | Categoría visible en las tarjetas y filtro "Solo ofertas" | Catálogo (Maximiliano) | ⏳ |
+| CF-05 | Categorías y Ofertas reutilizan el catálogo | Catálogo (Maximiliano) | ⏳ |
+| CF-06 | Nosotros como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
+| CF-07 | Contacto como en la Evaluación 1 | Tienda (Maximiliano) | ⏳ |
+| CF-08 | Corrección: el checkout no autocompletaba los datos del cliente | Compra (Emanuel) | ⏳ |
+| CF-09 | Números de orden correlativos `PV-000001` | Órdenes (Emanuel) | ⏳ |
+| CF-10 | Flujo de estados de la orden con botón "siguiente estado" | Órdenes (Emanuel) | ⏳ |
+| CF-11 | Panel staff por rol: cada rol ve solo lo suyo | Admin (Jim) | ⏳ |
+| CF-12 | Panel del repartidor: sus entregas asignadas | Nuevo (Jim) | ⏳ |
+| CF-13 | Panel del editor: CRUD del blog | Nuevo (Jim) | ⏳ |
+| CF-14 | Historial de movimientos (solo administradores) | Nuevo (Jim) | ⏳ |
+| CF-15 | Usuarios divididos en Clientes y Staff | Admin (Jim) | ⏳ |
+| CF-16 | El staff entra directo al panel al iniciar sesión | Sesión (Jim) | ⏳ |
+
+---
+
+## Decisión importante: Categorías y Ofertas se mantienen como vistas
+
+Se propuso eliminarlas porque el catálogo ya tiene filtros, pero **el Anexo 1 de la Evaluación 2 las exige**:
+- En el diagrama de la tienda (Figura 3), "CATEGORÍAS → CATEGORÍA #1" y "OFERTAS" están en verde, que es como se marcan las vistas nuevas de esta entrega.
+- El texto dice: "Categorías: vista que separa los productos por categorías" y "Ofertas: vista que muestra todos los productos en ofertas".
+
+**Solución:** las rutas `/categorias`, `/categorias/:id` y `/ofertas` siguen existiendo, pero se llega a ellas desde el desplegable de "Productos" (CF-02) y por dentro **reutilizan el mismo componente del catálogo** con un filtro ya aplicado (CF-05). Se cumple el requisito sin duplicar código.
+
+---
+
+## Tienda
+
+### CF-01 · Home como en la Evaluación 1
+**Qué cambia:**
+- **Presentación arriba** (como el `index.html` de la Evaluación 1): insignia "Tienda especializada", título "Videojuegos Físicos para Coleccionistas", texto descriptivo y dos botones: **Ver catálogo completo** → `/productos` y **Conoce PixelVault** → `/nosotros`. Este título es el `h1` de la página (antes el Home no tenía `h1`).
+- **Carrusel = "Destacados ⭐"**: muestra los productos con `destacado: true`, con **borde amarillo y estrella** (clase `card-destacado-estrella` de `estilos.css`, la misma de la Evaluación 1).
+- **Flechas del carrusel visibles** y **fuera de la tarjeta**: antes la flecha izquierda tapaba el botón "Ver juego".
+- **Tres características** como en la Evaluación 1: *Ediciones Físicas Originales*, *Control Estricto de Stock* y *Comunidad y Cultura Gamer*, con **efecto de borde RGB** animado.
+- **Se quitan** las secciones "Categorías" y "Destacados" de abajo, porque repetían el carrusel y el catálogo.
+
+**Por qué:** recuperar la identidad de la Evaluación 1 y evitar contenido repetido en la portada.
+**Archivos:** `pages/tienda/Home.jsx`, `components/productos/CarruselDestacados.jsx`, `styles/estilos.css`.
+
+### CF-02 · Desplegable "Productos" en el header
+**Qué cambia:** el enlace "Productos" pasa a ser un desplegable con:
+- Todos los productos → `/productos`
+- 🔥 Ofertas → `/ofertas`
+- Una línea divisoria y luego cada categoría → `/categorias/:id`
+
+Se quitan "Categorías" y "Ofertas" como enlaces sueltos del menú.
+**Por qué:** dejar el menú más limpio sin perder las vistas que pide el Anexo 1.
+**Archivos:** `components/layout/Navbar.jsx`, `components/productos/MenuCategorias.jsx`.
+
+### CF-03 · Carrito oculto mientras está vacío y "Registrarse"
+**Qué cambia:**
+- El botón "Carrito $X" del header solo aparece cuando hay al menos un producto (`cantidadItems > 0`).
+- El botón "Crear cuenta" pasa a decir **"Registrarse"**.
+
+**Por qué:** un carrito en $0 no aporta nada. La página `/carrito` sigue existiendo, con su mensaje de carrito vacío.
+**Archivos:** `components/layout/Navbar.jsx`.
+
+### CF-04 · Categoría en las tarjetas y filtro "Solo ofertas"
+**Qué cambia:**
+- Cada tarjeta de juego (`ProductCard`) muestra su **categoría**, además de la plataforma.
+- El filtro de precios del catálogo agrega la opción **"Solo ofertas"**: muestra los productos con `precioOferta` menor que `precio`.
+
+**Por qué:** que la categoría se vea sin entrar al detalle, y que las ofertas también se encuentren desde el catálogo.
+**Archivos:** `components/productos/ProductCard.jsx`, `components/productos/ProductFilters.jsx`, `pages/tienda/Productos.jsx`.
+
+### CF-05 · Categorías y Ofertas reutilizan el catálogo
+**Qué cambia:**
+- `/categorias/:id` muestra el catálogo con el filtro de esa categoría ya aplicado, y con el nombre de la categoría como título.
+- `/ofertas` muestra el catálogo con "Solo ofertas" ya aplicado.
+- `/categorias` (sin id) muestra las tarjetas de categorías para elegir una.
+
+**Por qué:** cumplir la vista exigida sin mantener tres listados distintos.
+**Para la defensa:** es un buen ejemplo de **componente reutilizable con props**: el mismo catálogo recibe `filtroInicial` y `titulo` y se comporta distinto según la ruta.
+**Archivos:** `pages/tienda/Productos.jsx`, `pages/tienda/Categorias.jsx`, `pages/tienda/Ofertas.jsx`.
+
+### CF-06 · Nosotros como en la Evaluación 1
+**Qué cambia:**
+- Vuelve la **historia de PixelVault** ("Nuestra Historia · Preservando el Arte de los Videojuegos Físicos", con sus dos párrafos e imagen).
+- **Misión y Visión** con un estilo más trabajado: tarjetas con ícono, borde de color y efecto al pasar el mouse.
+- Las áreas del equipo ("Administración y datos", "Carrito y compras", "Tienda y catálogo") pasan a ser **chips de estilo gamer** (fuente arcade, borde de neón).
+
+**Por qué:** devolverle a la página el contenido y el estilo que ya tenía la Evaluación 1.
+**Archivos:** `pages/tienda/Nosotros.jsx`, `components/info/TeamMemberCard.jsx`, `styles/estilos.css`.
+
+### CF-07 · Contacto como en la Evaluación 1
+**Qué cambia:** la página vuelve a tener:
+- Encabezado "Canal Directo · Contacto & Soporte PixelVault" con su texto explicativo.
+- El formulario a la izquierda y, a la derecha, **Datos de Bodega y Retiro**: dirección (Paseo Huérfanos #1230, Local 16-B, Santiago Centro), horario, correo de operaciones y mesa de ayuda.
+- **Preguntas frecuentes** en un acordeón de Bootstrap.
+- Más estilo: tarjetas oscuras con borde de neón, como el resto de la tienda.
+
+**Por qué:** a la página le faltaba información útil y estilo.
+**Archivos:** `pages/tienda/Contacto.jsx`, `components/info/ContactForm.jsx`.
+
+---
+
+## Compra y órdenes
+
+### CF-08 · Corrección: el checkout no autocompletaba los datos del cliente
+**Problema:** el checkout guarda un borrador del formulario en `sessionStorage` (`pixelvault_checkout`) para no perder los datos si el pago falla. Pero ese borrador también se guardaba **vacío** cuando alguien entraba a `/checkout` sin productos o sin sesión. Después tenía prioridad sobre los datos del usuario, y el cliente con sesión veía todo en blanco.
+
+**Corrección:**
+- El formulario parte de los datos del usuario y encima pone **solo los campos que el cliente sí escribió** en el borrador.
+- No se guarda el borrador cuando el carrito está vacío.
+- Al cerrar sesión se borra el borrador, para que otro usuario en el mismo navegador no vea datos ajenos.
+
+**Archivos:** `pages/tienda/Checkout.jsx`, `context/AuthContext.jsx`.
+
+### CF-09 · Números de orden `PV-000001`
+**Qué cambia:** cada orden tiene un **código correlativo** `PV-000001`, `PV-000002`, … (como en la Evaluación 1), calculado a partir del mayor existente. Se muestra en la boleta, en Mis compras, en el admin y en las URLs: `/compra/exito/PV-000003` y `/admin/ordenes/PV-000003`.
+**Por qué:** un identificador legible y consistente con la Evaluación 1.
+**Contrato:** el campo `numero` de la orden pasa a ser texto (`'PV-000001'`) en vez de número. Las órdenes de ejemplo de `seed.js` se convierten a `PV-000001` y `PV-000002`.
+**Archivos:** `components/compra/pago.js`, `components/compra/ordenes.js`, `data/seed.js`, páginas de órdenes y boleta.
+
+### CF-10 · Flujo de estados con botón "siguiente estado"
+**Qué cambia:** el estado de la orden **ya no se elige de una lista**. Cada orden muestra un **botón con el siguiente paso**, según su tipo de entrega:
+
+```text
+Despacho a domicilio:
+  En preparación ──[Asignar repartidor ▾]──▶ Asignado a repartidor ──[Iniciar ruta]──▶ En camino ──[Marcar entregada + foto]──▶ Entregada
+
+Retiro en tienda:
+  En preparación ──[Marcar lista para retiro]──▶ Lista para retiro ──[Entregar al cliente]──▶ Entregada
+
+Cancelar: botón aparte, solo Administrador, solo antes de "En camino".
+```
+
+- "Asignar repartidor" pide **elegir a cuál** (lista de usuarios con rol Repartidor activos): elegir la persona no es lo mismo que elegir el estado.
+- "Iniciar ruta" y "Marcar entregada" los hace **el repartidor** desde su panel (CF-12). El administrador también puede hacerlo si hace falta.
+- Cada cambio queda guardado en la orden (`historialEstados`) y en el historial de movimientos (CF-14).
+
+**Por qué:** evitar saltos de estado imposibles (por ejemplo, de "En preparación" directo a "Entregada") y replicar la logística de la Evaluación 1.
+
+**Contrato:** nuevos campos de la orden:
+```js
+{
+  numero: 'PV-000001',
+  estado: 'En preparación' | 'Asignado a repartidor' | 'En camino' | 'Lista para retiro' | 'Entregada' | 'Cancelada',
+  repartidorId: 6 | null,
+  fotoEntrega: 'data:image/jpeg;base64,...' | null,
+  historialEstados: [{ estado, fecha, usuarioId, usuarioNombre }],
+  // ...el resto igual que antes
+}
+```
+**Archivos:** `components/compra/ordenes.js` (define el flujo: `siguientePaso(orden)`), `pages/admin/Ordenes.jsx`, `pages/admin/BoletaDetalle.jsx`, `components/compra/EstadoBadge.jsx`, `utils/reportes.js` (las canceladas se siguen excluyendo).
+
+---
+
+## Panel staff (antes "panel de administración")
+
+### CF-11 · Cada rol ve solo lo que le compete
+**Qué cambia:** el panel `/admin` pasa a llamarse **Panel Staff**. El menú lateral y las rutas se filtran según el rol:
+
+| Sección | Administrador | Operador | Editor | Repartidor |
+|---|:-:|:-:|:-:|:-:|
+| Dashboard (resumen según el rol) | ✅ | ✅ | ✅ | ✅ |
+| Órdenes y boletas | ✅ | ✅ | | |
+| Mis entregas (CF-12) | | | | ✅ |
+| Productos y stock crítico | ✅ | ✅ | | |
+| Categorías | ✅ | | | |
+| Blog (CF-13) | ✅ | | ✅ | |
+| Usuarios (CF-15) | ✅ | | | |
+| Reportes | ✅ | | | |
+| Historial de movimientos (CF-14) | ✅ | | | |
+| Perfil | ✅ | ✅ | ✅ | ✅ |
+
+- Si un rol entra por URL a una sección que no es suya, ve "Acceso denegado".
+- El **Administrador conserva todas las vistas** que pide la Figura 10 del Anexo 1.
+- El Cliente no entra al panel; en la tienda ve "Mis compras".
+
+**Por qué:** replicar los permisos de la Evaluación 1 (RBAC) y que cada usuario vea solo sus herramientas.
+**Contrato:** `ProtectedRoute` recibe `roles={[...]}` por ruta. La configuración de qué ve cada rol queda en un solo lugar: `data/permisos.js`.
+**Archivos:** `routes/AppRouter.jsx`, `routes/ProtectedRoute.jsx`, `components/layout/AdminSidebar.jsx`, `pages/admin/Dashboard.jsx`, nuevo `data/permisos.js`.
+
+### CF-12 · Panel del repartidor
+**Qué cambia:** nueva sección **Mis entregas** (`/admin/entregas`), solo para el rol Repartidor. Muestra las órdenes asignadas a ese repartidor, con dirección, comuna, indicaciones y productos, y sus botones:
+- **Iniciar ruta** → pasa la orden a "En camino".
+- **Marcar entregada** → pide **subir una foto del paquete entregado** (se guarda como base64 con `FileReader`, como en la Evaluación 1) → pasa la orden a "Entregada".
+
+Tiene dos pestañas: Pendientes y Entregadas. **Usuario de prueba:** `ilie` / `repartidor` (Ilie Flores, ya existe en los datos).
+**Archivos:** nuevo `pages/admin/Entregas.jsx`, `components/compra/ordenes.js`.
+
+### CF-13 · Panel del editor (blog)
+**Qué cambia:** nueva sección **Blog** (`/admin/blog`) para Editor y Administrador: listado de artículos, **crear, editar y eliminar** (con confirmación). El formulario tiene título, categoría, resumen, contenido, imagen (URL o archivo del equipo, como en la Evaluación 1) y autor. El blog público (`/blog`) muestra los cambios al instante.
+**Usuario de prueba:** `adriana` / `editor` (Adriana Quispe, ya existe en los datos).
+**Archivos:** nuevos `pages/admin/BlogAdmin.jsx`, `pages/admin/ArticuloForm.jsx` y `components/admin/ArticuloForm.jsx`.
+
+### CF-14 · Historial de movimientos (solo administradores)
+**Qué cambia:** nueva sección **Historial** (`/admin/historial`) con la bitácora de todo lo que pasa en la página, como el `historial.html` de la Evaluación 1. Muestra fecha, usuario, rol, categoría, acción y detalle, con filtros por categoría y usuario, y búsqueda.
+
+**Cómo funciona:** se registra **de forma central en `db.js`**. Cada `create`, `update` y `remove` agrega un movimiento a la colección `movimientos`, con el usuario en sesión. Así no hubo que tocar cada página. También se registran el inicio y cierre de sesión, las compras y los cambios de estado de las órdenes.
+
+**Contrato:** nueva colección `movimientos`:
+```js
+{ id, fecha, usuarioId, usuarioNombre, rol, categoria: 'Productos' | 'Órdenes' | 'Usuarios' | 'Blog' | 'Categorías' | 'Sesión', accion, detalle }
+```
+**Archivos:** `data/db.js`, nuevos `pages/admin/Historial.jsx` y `utils/movimientos.js`.
+
+### CF-15 · Usuarios divididos en Clientes y Staff
+**Qué cambia:** la sección Usuarios tiene **dos pestañas**:
+- **Clientes:** rol Cliente, con el botón "Compras" (historial de compras).
+- **Staff:** Administrador, Operador, Editor y Repartidor, con contadores por rol (como el "panel de staff unificado" de la Evaluación 1).
+
+Crear, editar, activar y desactivar funciona igual que antes en ambas.
+**Archivos:** `pages/admin/UsuariosAdmin.jsx`.
+
+### CF-16 · El staff entra directo al panel
+**Qué cambia:** al iniciar sesión, cualquier rol de staff (Administrador, Operador, Editor o Repartidor) va directo al **Panel Staff**. El Cliente vuelve a la tienda. En el header de la tienda, el staff ve un botón "Panel Staff".
+**Archivos:** `pages/tienda/Login.jsx`, `components/layout/Navbar.jsx`, `data/permisos.js`.
+
+---
+
+## Datos: versión 2
+
+Como cambia la forma de las órdenes y se agrega la colección `movimientos`, en `db.js` se sube `VERSION_DATOS` de `'1'` a `'2'`. Al abrir la app con datos viejos, se recargan solos los datos semilla. Las compras de prueba que hayan hecho se pierden, que es lo esperado.
+
+## Cuentas de prueba (sin cambios)
+
+| Usuario | Clave | Rol | Qué probar |
+|---|---|---|---|
+| Jim / Emanuel / Maximiliano | `admin` | Administrador | Todo el panel, historial, usuarios |
+| fernando | `operador` | Operador | Órdenes (preparar, asignar repartidor), productos |
+| adriana | `editor` | Editor | Blog |
+| ilie | `repartidor` | Repartidor | Mis entregas: iniciar ruta y marcar entregada con foto |
+| francisco | `cliente` | Cliente | Compra completa y Mis compras |
+
+## Qué preparar para la defensa
+
+- **Maximiliano:** el Home, el header, el catálogo, Nosotros y Contacto cambiaron. Revisen juntos el nuevo `Productos.jsx`: ahora recibe `filtroInicial` y `titulo` por props y lo reutilizan Categorías y Ofertas (CF-05). Es un buen ejemplo de props.
+- **Emanuel:** tus órdenes ahora siguen un flujo con `siguientePaso(orden)` en `ordenes.js` (CF-10) y tienen códigos PV (CF-09). Revisa también la corrección del checkout (CF-08): es un buen ejemplo de cómo se combinan dos fuentes de datos para el estado inicial de un formulario.
+- **Jim:** permisos por rol (CF-11), historial central en `db.js` (CF-14) y los paneles de repartidor y editor (CF-12 y CF-13).

@@ -1,5 +1,11 @@
 # Guía para agentes y desarrolladores — PixelVault React
 
+> ## ⚠️ ETAPA FINAL — LEER PRIMERO [`docs/CAMBIOS-FINALES.md`](docs/CAMBIOS-FINALES.md)
+> Todas las páginas están terminadas. **Jim arma la versión final** y aplica los cambios CF-01 a CF-16 en cualquier archivo, incluidos los de Emanuel y Maximiliano.
+> - **Emanuel y Maximiliano: no editen código en `src/`**, solo hagan `git pull`. Si encuentran un error, avísenle a Jim. Pueden editar solo documentación (`docs/ERS_V2.*` y su `docs/guia-defensa-<nombre>.md`).
+> - Ese documento explica qué cambió, por qué, los campos nuevos del contrato (órdenes `PV-000001`, flujo de estados, colección `movimientos`, permisos por rol) y qué preparar para la defensa.
+> - La tabla de dueños de abajo ya no restringe a Jim; sirve para saber quién hizo originalmente cada parte.
+
 Proyecto de la **Evaluación Parcial 2 de DSY1104 Desarrollo Fullstack II (Duoc UC)**: migrar a React la tienda de videojuegos físicos PixelVault (Evaluación 1 en HTML + Bootstrap + JS) y agregar las vistas nuevas que pide el enunciado.
 
 **Entrega: mañana.** Tres desarrolladores trabajan en paralelo, cada uno sobre **sus propios archivos**, y suben a `main` a medida que terminan.
