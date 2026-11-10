@@ -33,7 +33,7 @@ Si necesitas un cambio en un archivo de otro, **avisa al dueño por el grupo**. 
 
 | Dueño | Archivos |
 |---|---|
-| **Jim** | `src/data/*` (excepto `regiones.js`), `src/routes/*`, `src/context/AuthContext.jsx`, `src/utils/*`, `src/components/common/*`, `src/components/layout/AdminLayout.jsx`, `src/components/layout/AdminSidebar.jsx`, `src/components/admin/*`, `src/main.jsx`, `src/App.jsx`, `package.json` · Páginas: `tienda/Login`, `tienda/Registro`, `admin/Dashboard`, `admin/ProductosAdmin`, `admin/ProductoForm`, `admin/StockCritico`, `admin/Reportes` |
+| **Jim** | `index.html`, `src/data/*` (excepto `regiones.js`), `src/routes/*`, `src/context/AuthContext.jsx`, `src/utils/*`, `src/components/common/*`, `src/components/auth/*`, `src/components/layout/AdminLayout.jsx`, `src/components/layout/AdminSidebar.jsx`, `src/components/admin/*`, `src/main.jsx`, `src/App.jsx`, `package.json` · Páginas: `tienda/Login`, `tienda/Registro`, `admin/Dashboard`, `admin/ProductosAdmin`, `admin/ProductoForm`, `admin/StockCritico`, `admin/Reportes` |
 | **Emanuel** | `src/context/CartContext.jsx`, `src/data/regiones.js`, `src/components/carrito/*`, `src/components/compra/*` · Páginas: `tienda/Carrito`, `tienda/Checkout`, `tienda/PagoExitoso`, `tienda/PagoError`, `tienda/MisCompras`, `admin/Ordenes`, `admin/BoletaDetalle`, `admin/HistorialUsuario`, `admin/Perfil` · Documento ERS V2 |
 | **Maximiliano** | `src/components/layout/TiendaLayout.jsx`, `Navbar.jsx`, `Footer.jsx`, `src/components/productos/*`, `src/styles/estilos.css`, `public/img/*` · Páginas: `tienda/Home`, `tienda/Productos`, `tienda/ProductoDetalle`, `tienda/Categorias`, `tienda/Ofertas`, `tienda/Blog`, `tienda/BlogDetalle`, `tienda/Nosotros`, `tienda/Contacto`, `tienda/NotFound`, `admin/CategoriasAdmin`, `admin/UsuariosAdmin`, `admin/UsuarioForm` |
 
@@ -96,12 +96,20 @@ const { items, agregar, quitar, cambiarCantidad, vaciar, total, cantidadItems } 
 
 ```js
 import { formatoCLP } from '../../utils/formatoCLP.js'          // formatoCLP(34990) → "$34.990"
-import { requerido, validarCorreo, validarRut, validarLargo } from '../../utils/validaciones.js'
-// devuelven el texto del error o null
+import { requerido, validarCorreo, validarRut, validarLargo, formatearRut } from '../../utils/validaciones.js'
+// devuelven el texto del error o null:
+//   requerido(valor, 'la región')          → 'Completa la región'   (pasa el campo en minúscula y con artículo)
+//   validarLargo(valor, 6, 30, 'La clave') → 'La clave debe tener al menos 6 caracteres'
+//   formatearRut('12.345.678-5')           → '12345678-5' (así se guarda en db.js)
 
 import AlertMessage from '../../components/common/AlertMessage.jsx' // <AlertMessage tipo="danger" mensaje="..." onCerrar={fn} />
 import FormField from '../../components/common/FormField.jsx'       // input con label y error bajo el campo
+import SelectField from '../../components/common/SelectField.jsx'   // <select> con label y error; recibe opciones={['A', 'B']}
 ```
+
+`src/pages/tienda/Registro.jsx` es un ejemplo completo de formulario con validación en vivo (errores bajo el campo apenas se toca) y selector región → comuna. Úsalo como referencia para el checkout y el formulario de usuarios.
+
+El tema oscuro de Bootstrap está activo en toda la app (`data-bs-theme="dark"` en `index.html`): no hace falta poner `bg-dark` a los inputs.
 
 ### Rutas
 
@@ -151,8 +159,8 @@ Los criterios de aceptación de cada tarea están en su tarjeta de Trello y en `
 
 **Jim**
 1. ✅ Esqueleto del proyecto (este repo)
-2. MUST · HU-40 Login (con panel de cuentas demo) y registro
-3. MUST · HU-44 Dashboard admin
+2. ✅ MUST · HU-40 Login (con panel de cuentas demo) y registro
+3. ✅ MUST · HU-44 Dashboard admin
 4. MUST · HU-46 CRUD de productos (`ProductForm` para crear y editar)
 5. MUST · HU-47 Stock crítico
 6. SHOULD · HU-51 Reportes
