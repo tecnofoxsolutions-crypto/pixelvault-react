@@ -496,3 +496,6 @@ body::before {
 
 /* HU-33: imagen del detalle sin ocupar toda la pantalla en móvil */
 .imagen-detalle { max-height: 28rem; width: auto; }
+
+/* HU-34: imagen de las tarjetas de categoría */
+.card-categoria-img { height: 140px; object-fit: cover; }
