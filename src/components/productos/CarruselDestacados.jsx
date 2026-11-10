@@ -40,13 +40,13 @@ export default function CarruselDestacados({ productos }) {
       <div className="carousel-inner">
         {productos.map((p, i) => (
           <div key={p.id} className={`carousel-item ${i === indice ? 'active' : ''}`}>
-            <div className="row g-0 align-items-center p-4 p-md-5">
+            <div className="row g-0 align-items-center px-4 pt-4 pb-5 p-md-5">
               <div className="col-12 col-md-7 order-2 order-md-1">
                 <PlataformaBadge plataforma={p.plataforma} />
                 <h2 className="display-6 text-light mt-2">{p.nombre}</h2>
                 <p className="d-none d-md-block">{p.descripcion}</p>
                 <PriceTag producto={p} grande />
-                <Link className="btn btn-info mt-3" to={`/productos/${p.id}`}>Ver juego</Link>
+                <Link className="btn btn-info mt-3 d-table" to={`/productos/${p.id}`}>Ver juego</Link>
               </div>
               <div className="col-12 col-md-5 order-1 order-md-2 text-center mb-3 mb-md-0">
                 <img src={p.imagen} alt={p.nombre} className="img-fluid rounded carrusel-img" />

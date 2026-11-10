@@ -509,3 +509,7 @@ body::before {
 .imagen-articulo { max-height: 22rem; object-fit: cover; }
 .cuerpo-articulo { line-height: 1.7; }
 .foto-equipo { width: 120px; height: 120px; object-fit: cover; }
+
+/* MEJ-01: los textos "visually-hidden" (position: absolute) dentro de una tabla
+   escapaban del contenedor con scroll y ensanchaban la página en tablet */
+.table-responsive { position: relative; }
