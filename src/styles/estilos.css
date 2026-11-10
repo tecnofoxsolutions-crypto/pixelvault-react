@@ -503,3 +503,9 @@ body::before {
 /* HU-31: imagen del carrusel de la portada */
 .carrusel-img { max-height: 320px; box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.6); }
 .hero-steam .carousel-indicators { margin-bottom: 0.5rem; }
+
+/* HU-41/42: blog, artículo y equipo */
+.card-blog-img { height: 180px; object-fit: cover; }
+.imagen-articulo { max-height: 22rem; object-fit: cover; }
+.cuerpo-articulo { line-height: 1.7; }
+.foto-equipo { width: 120px; height: 120px; object-fit: cover; }
