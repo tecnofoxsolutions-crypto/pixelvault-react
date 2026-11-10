@@ -491,26 +491,14 @@ body::before {
 
 
 
-/* TEC-03: zona derecha del header. En móvil todo va en columna y el buscador ocupa el ancho;
-   desde 992 px va en una fila: buscador | separador | carrito y cuenta, todo a la misma altura */
-.acciones-navbar {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.separador-navbar {
-  width: 1px;
-  height: 22px;
-  background: rgba(0, 229, 255, 0.35);
-}
+/* TEC-03: header. Fila 1: logo y buscador; fila 2: secciones y botones de cuenta (ver Navbar.jsx) */
 .chip-usuario {
   max-width: 11rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 @media (min-width: 992px) {
-  .acciones-navbar { flex-direction: row; align-items: center; gap: 0.75rem; }
-  .buscador-navbar { width: 15rem; }
+  .buscador-navbar { width: 17rem; }
 }
 
 /* HU-33: imagen del detalle sin ocupar toda la pantalla en móvil */

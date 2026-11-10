@@ -1,6 +1,6 @@
 // Barra superior de todas las páginas de la tienda. Creada por Maximiliano (TEC-03).
-// Escritorio (≥ 992 px): fila 1 = logo, buscador, carrito y sesión; fila 2 = enlaces.
-// Móvil (< 992 px): logo + botón hamburguesa; al abrirlo se ven enlaces, buscador, carrito y sesión.
+// Escritorio (≥ 992 px): fila 1 = logo y buscador; fila 2 = secciones y botones de cuenta (carrito, usuario, Salir).
+// Móvil (< 992 px): logo + botón hamburguesa; al abrirlo se ven secciones, buscador y botones de cuenta.
 // CF-02: "Productos" es un desplegable con Ofertas y Categorías. CF-03: el carrito solo aparece si tiene productos.
 import { useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
@@ -18,9 +18,9 @@ const enlacesDespues = [
 ]
 
 // Buscador + botón Carrito + botones de sesión. Se usa dos veces: en escritorio y dentro del menú móvil.
-// Todo va en altura "sm" y alineado al centro para que se vea como un solo bloque:
-// [buscador] | [carrito] [👤 nombre ⏻]   o, sin sesión,   [buscador] | [Iniciar sesión] [Registrarse]
-function AccionesNavbar({ alNavegar }) {
+// Botones de la cuenta, en la fila de las secciones (a la derecha, en simetría con ellas):
+// [🛒 carrito] [👤 nombre] [Salir]   o, sin sesión,   [Iniciar sesión] [Registrarse]
+function BotonesCuenta({ alNavegar }) {
   const { usuario, logout, esStaff } = useAuth()
   const { total, cantidadItems } = useCart()
   const navigate = useNavigate()
@@ -32,38 +32,33 @@ function AccionesNavbar({ alNavegar }) {
   }
 
   return (
-    <div className="acciones-navbar">
-      <BuscadorProductos onBuscar={alNavegar} />
-      <span className="separador-navbar d-none d-lg-block" aria-hidden="true" />
-      <div className="d-flex flex-wrap gap-2 align-items-center text-nowrap">
-        {cantidadItems > 0 && (
-          <Link className="btn btn-success btn-sm d-inline-flex align-items-center gap-1" to="/carrito" onClick={alNavegar}>
-            🛒 {formatoCLP(total)}
-            <span className="badge bg-light text-dark">{cantidadItems}</span>
+    <div className="d-flex flex-wrap gap-2 align-items-center text-nowrap">
+      {cantidadItems > 0 && (
+        <Link className="btn btn-success btn-sm d-inline-flex align-items-center gap-1" to="/carrito" onClick={alNavegar}>
+          🛒 {formatoCLP(total)}
+          <span className="badge bg-light text-dark">{cantidadItems}</span>
+        </Link>
+      )}
+      {usuario ? (
+        <>
+          <Link
+            className="btn btn-outline-light btn-sm chip-usuario"
+            to={esStaff ? '/admin/perfil' : '/mis-compras'}
+            onClick={alNavegar}
+            title={esStaff ? 'Mi perfil' : 'Mis compras'}
+          >
+            👤 {usuario.nombre}
           </Link>
-        )}
-        {usuario ? (
-          // Nombre y cerrar sesión unidos en un solo grupo de botones
-          <div className="btn-group btn-group-sm" role="group" aria-label="Tu cuenta">
-            <Link
-              className="btn btn-outline-light chip-usuario"
-              to={esStaff ? '/admin/perfil' : '/mis-compras'}
-              onClick={alNavegar}
-              title={esStaff ? 'Mi perfil' : 'Mis compras'}
-            >
-              👤 {usuario.nombre}
-            </Link>
-            <button type="button" className="btn btn-outline-danger" onClick={cerrarSesion} title="Cerrar sesión">
-              Salir
-            </button>
-          </div>
-        ) : (
-          <>
-            <Link className="btn btn-outline-info btn-sm" to="/login" onClick={alNavegar}>Iniciar sesión</Link>
-            <Link className="btn btn-primary btn-sm" to="/registro" onClick={alNavegar}>Registrarse</Link>
-          </>
-        )}
-      </div>
+          <button type="button" className="btn btn-outline-danger btn-sm" onClick={cerrarSesion}>
+            Salir
+          </button>
+        </>
+      ) : (
+        <>
+          <Link className="btn btn-outline-info btn-sm" to="/login" onClick={alNavegar}>Iniciar sesión</Link>
+          <Link className="btn btn-primary btn-sm" to="/registro" onClick={alNavegar}>Registrarse</Link>
+        </>
+      )}
     </div>
   )
 }
@@ -87,6 +82,10 @@ export default function Navbar() {
     ))
   }
 
+  // Escritorio (≥ 992 px), dos filas simétricas:
+  //   fila 1: logo PixelVault ........................ buscador
+  //   fila 2: secciones ............ carrito, cuenta y Salir
+  // Móvil: logo + hamburguesa; al abrirla, secciones, buscador y botones de cuenta en columna.
   return (
     <nav className="navbar navbar-expand-lg navbar-dark navbar-steam sticky-top">
       <div className="container flex-wrap">
@@ -94,9 +93,9 @@ export default function Navbar() {
           Pixel<span>Vault</span>
         </Link>
 
-        {/* Fila 1 en escritorio */}
-        <div className="d-none d-lg-flex ms-auto">
-          <AccionesNavbar alNavegar={cerrarMenu} />
+        {/* Fila 1 en escritorio: buscador a la derecha */}
+        <div className="d-none d-lg-block ms-auto">
+          <BuscadorProductos onBuscar={cerrarMenu} />
         </div>
 
         <button
@@ -127,8 +126,16 @@ export default function Navbar() {
               </li>
             )}
           </ul>
-          <div className="d-lg-none pb-2">
-            <AccionesNavbar alNavegar={cerrarMenu} />
+
+          {/* Escritorio: botones de cuenta a la derecha de las secciones */}
+          <div className="d-none d-lg-block">
+            <BotonesCuenta alNavegar={cerrarMenu} />
+          </div>
+
+          {/* Móvil: buscador a lo ancho y botones de cuenta debajo */}
+          <div className="d-lg-none d-flex flex-column gap-2 pb-2">
+            <BuscadorProductos onBuscar={cerrarMenu} />
+            <BotonesCuenta alNavegar={cerrarMenu} />
           </div>
         </div>
       </div>
